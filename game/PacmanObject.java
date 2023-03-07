@@ -1,4 +1,9 @@
 package ija.ija2022.homework1.game;
 
-public class PacmanObject {
+import ija.ija2022.homework1.common.MazeObject;
+
+public class PacmanObject implements MazeObject {
+    public PacmanObject() {
+
+    }
 }
