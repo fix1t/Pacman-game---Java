@@ -2,13 +2,11 @@ package ija.ija2022.homework1.game;
 
 import ija.ija2022.homework1.common.Field;
 
-public class Maze implements ija.ija2022.homework1.common.Maze {
+public class PacmanMaze implements ija.ija2022.homework1.common.Maze {
     int cols;
     int rows;
     Field[][] fields;
-
-
-    public Maze(int col, int row) {
+    public PacmanMaze(int col, int row) {
         this.cols = col;
         this.rows = row;
     }
