@@ -1,6 +1,6 @@
-package ija.ija2022.homework1.game;
+package ija.ija2022.homework2.game;
 
-import ija.ija2022.homework1.common.Field;
+import ija.ija2022.homework2.common.Field;
 
 public class MazeConfigure {
     private static final int BORDER = 2;
@@ -72,7 +72,7 @@ public class MazeConfigure {
         return currentRow + 1 == this.rows && this.started && !this.errorFlag;
     }
 
-    public ija.ija2022.homework1.common.Maze createMaze() {
+    public ija.ija2022.homework2.common.Maze createMaze() {
         if (this.errorFlag)
             return null;
 

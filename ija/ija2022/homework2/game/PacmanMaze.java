@@ -1,8 +1,4 @@
-package ija.ija2022.homework1.game;
-
-import ija.ija2022.homework1.common.Field;
-
-public class PacmanMaze implements ija.ija2022.homework1.common.Maze {
+public class PacmanMaze implements ija.ija2022.homework2.common.Maze {
     int cols;
     int rows;
     Field[][] fields;

@@ -1,4 +1,4 @@
-package ija.ija2022.homework1.common;
+package ija.ija2022.homework2.common;
 
 public interface Field {
     int x = -1;

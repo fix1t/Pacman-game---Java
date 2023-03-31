@@ -1,7 +1,10 @@
 /*
 !.editorconfig
 !.gitignore
-!/game/
-!game/*
-!/common/
-!common/*
+!/ija/
+!/ija/ija2022
+!/ija/ija2022/homework2
+!/ija/ija2022/homework2/game/
+!/ija/ija2022/homework2/game/*
+!/ija/ija2022/homework2/common/
+!/ija/ija2022/homework2/common/*
