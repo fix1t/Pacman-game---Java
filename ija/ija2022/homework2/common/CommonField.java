@@ -1,6 +1,6 @@
 package ija.ija2022.homework2.common;
 
-public interface Field {
+public interface CommonField {
     int x = -1;
     int y = -1;
     int getX();
@@ -11,17 +11,17 @@ public interface Field {
 
     void setY(int x);
 
-    void setMaze(Maze maze);
+    void setMaze(CommonMaze maze);
 
-    Field nextField(Field.Direction dirs);
+    CommonField nextField(CommonField.Direction dirs);
 
-    boolean put(MazeObject object);
+    boolean put(CommonMazeObject object);
 
     boolean isEmpty();
 
-    boolean remove(MazeObject object);
+    boolean remove(CommonMazeObject object);
 
-    MazeObject get();
+    CommonMazeObject get();
 
     boolean canMove();
 

@@ -1,10 +1,10 @@
 package ija.ija2022.homework2.common;
 
-public interface Maze {
+public interface CommonMaze {
 
     int numCols();
 
     int numRows();
 
-    Field getField(int row, int col);
+    CommonField getField(int row, int col);
 }

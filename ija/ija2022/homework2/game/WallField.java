@@ -1,10 +1,10 @@
 package ija.ija2022.homework2.game;
 
-import ija.ija2022.homework2.common.Field;
-import ija.ija2022.homework2.common.Maze;
-import ija.ija2022.homework2.common.MazeObject;
+import ija.ija2022.homework2.common.CommonField;
+import ija.ija2022.homework2.common.CommonMaze;
+import ija.ija2022.homework2.common.CommonMazeObject;
 
-public class WallField implements Field {
+public class WallField implements CommonField {
     int x;
     int y;
 
@@ -34,14 +34,14 @@ public class WallField implements Field {
     }
 
     @Override
-    public void setMaze(Maze maze) {
+    public void setMaze(CommonMaze maze) {
 
     }
 
     @Override
     public boolean equals(Object obj) {
         if (this.getClass() == obj.getClass()) {
-            Field f1 = (Field) obj;
+            CommonField f1 = (CommonField) obj;
             if (f1.getX() == this.getX())
                 return f1.getY() == this.getY();
             return false;
@@ -51,12 +51,12 @@ public class WallField implements Field {
     }
 
     @Override
-    public Field nextField(Direction dirs) {
+    public CommonField nextField(Direction dirs) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean put(MazeObject object) {
+    public boolean put(CommonMazeObject object) {
         throw new UnsupportedOperationException();
     }
 
@@ -66,12 +66,12 @@ public class WallField implements Field {
     }
 
     @Override
-    public boolean remove(MazeObject object) {
+    public boolean remove(CommonMazeObject object) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public MazeObject get() {
+    public CommonMazeObject get() {
         return null;
     }
 
