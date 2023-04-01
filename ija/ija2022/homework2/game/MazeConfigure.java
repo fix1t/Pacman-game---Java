@@ -1,7 +1,7 @@
 package ija.ija2022.homework2.game;
 
-import ija.ija2022.homework2.common.CommonMaze;
-import ija.ija2022.homework2.common.CommonField;
+import ija.ija2022.homework2.tool.common.CommonMaze;
+import ija.ija2022.homework2.tool.common.CommonField;
 
 public class MazeConfigure {
   private static final int BORDER = 2;
@@ -12,6 +12,7 @@ public class MazeConfigure {
   boolean errorFlag;
   int currentRow;
   CommonField[][] fields;
+
 
   //constructor
   public MazeConfigure() {
@@ -55,9 +56,16 @@ public class MazeConfigure {
             return false;
           } else {
             this.pacmanPlaced = true;
-            fields[this.currentRow][i + 1] = new PathField(this.currentRow, i + 1);
-            fields[this.currentRow][i + 1].put(new PacmanObject(fields[this.currentRow][i + 1]));
+            PathField newPathField =  new PathField(this.currentRow, i + 1);
+            fields[this.currentRow][i + 1] = newPathField;
+            newPathField.put(new PacmanObject(fields[this.currentRow][i + 1]));
           }
+          break;
+        case 'G':
+          this.pacmanPlaced = true;
+          PathField newPathField =  new PathField(this.currentRow, i + 1);
+          fields[this.currentRow][i + 1] = newPathField;
+          newPathField.put(new GhostObject(fields[this.currentRow][i + 1]));
           break;
 
         default:
@@ -86,7 +94,6 @@ public class MazeConfigure {
         } else if (j == 0 || j == this.cols - 1) {
           this.fields[i][j] = new WallField(i, j);
         }
-        this.fields[i][j].setMaze(newMaze);
       }
     }
     newMaze.setFields(fields);

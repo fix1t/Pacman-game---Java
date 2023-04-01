@@ -1,12 +1,16 @@
 package ija.ija2022.homework2.game;
 
-import ija.ija2022.homework2.common.CommonMaze;
-import ija.ija2022.homework2.common.CommonField;
+import ija.ija2022.homework2.tool.common.CommonMaze;
+import ija.ija2022.homework2.tool.common.CommonField;
+import ija.ija2022.homework2.tool.common.CommonMazeObject;
+
+import java.util.List;
 
 public class PacmanMaze implements CommonMaze {
     int cols;
     int rows;
     CommonField[][] fields;
+
     public PacmanMaze(int col, int row) {
         this.cols = col;
         this.rows = row;
@@ -23,8 +27,8 @@ public class PacmanMaze implements CommonMaze {
 
     @Override
     public int numRows() {
-        return this.rows;
-    }
+          return this.rows;
+      }
 
     @Override
     public CommonField getField(int row, int col) {
@@ -33,5 +37,10 @@ public class PacmanMaze implements CommonMaze {
         if (col < 0 || col > this.numCols())
             return null;
         return fields[row][col];
+    }
+
+    @Override
+    public List<CommonMazeObject> ghosts() {
+      return null;
     }
 }
