@@ -4,6 +4,7 @@ import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
 import ija.ija2022.homework2.tool.common.CommonMaze;
 
+
 public class PathField implements CommonField {
     int x;
     int y;

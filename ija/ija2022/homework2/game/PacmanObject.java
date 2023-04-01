@@ -46,4 +46,14 @@ public class PacmanObject implements CommonMazeObject {
   public int getLives() {
     return this.livesRemaining;
   }
+
+  public boolean ghostCollision(){
+      this.livesRemaining = this.livesRemaining - 1;
+      if (this.livesRemaining > 0){
+        return false;
+      }else {
+        //game over
+        return true;
+      }
+  }
 }
