@@ -4,6 +4,7 @@ import ija.ija2022.homework2.tool.common.CommonMaze;
 import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PacmanMaze implements CommonMaze {
@@ -41,6 +42,16 @@ public class PacmanMaze implements CommonMaze {
 
     @Override
     public List<CommonMazeObject> ghosts() {
-      return null;
+      List<CommonMazeObject> listOfGhosts = new ArrayList<>();
+      // find all ghosts in the maze
+      for (int i = 0; i < this.rows; i++) {
+        for (int j = 0; j < this.cols; j++) {
+          // add ghost to the list
+          if (fields[i][j].get() != null && !fields[i][j].get().isPacman()){
+            listOfGhosts.add(fields[i][j].get());
+          }
+        }
+      }
+      return listOfGhosts;
     }
 }
