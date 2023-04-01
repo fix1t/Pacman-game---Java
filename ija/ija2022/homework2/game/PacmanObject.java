@@ -1,28 +1,31 @@
 package ija.ija2022.homework2.game;
 
-import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
+import ija.ija2022.homework2.game.PathField;
+
+import java.nio.file.Path;
 
 public class PacmanObject implements CommonMazeObject {
-    CommonField currentField;
-    public PacmanObject(CommonField field) {
+    PathField currentField;
+    public PacmanObject(PathField field) {
         this.currentField = field;
     }
 
     @Override
-    public boolean canMove(CommonField.Direction direction) {
+    public boolean canMove(PathField.Direction direction) {
         return this.currentField.nextField(direction).canMove();
     }
 
     @Override
-    public boolean move(CommonField.Direction direction) {
+    public boolean move(PathField.Direction direction) {
         if (this.canMove(direction)) {
             //place pacman to the next field
-            this.currentField.nextField(direction).put(this.currentField.get());
+          PathField field = (PathField) this.currentField.nextField(direction);
+            field.put(this.currentField.get());
             //remove pacman from this field
             this.currentField.remove(this.currentField.get());
             //change field
-            this.currentField = this.currentField.nextField(direction);
+            this.currentField = (PathField) this.currentField.nextField(direction);
             return true;
         } else {
             return false;
@@ -30,12 +33,10 @@ public class PacmanObject implements CommonMazeObject {
     }
 
   @Override
-  public boolean isPacman() {
-    return CommonMazeObject.super.isPacman();
-  }
+  public boolean isPacman() { return true; }
 
   @Override
-  public CommonField getField() {
+  public PathField getField() {
     return null;
   }
 

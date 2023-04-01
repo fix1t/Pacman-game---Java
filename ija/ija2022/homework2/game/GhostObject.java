@@ -8,7 +8,10 @@ public class GhostObject implements CommonMazeObject {
     public GhostObject(CommonField field) {
       this.currentField = field;
   }
-
+  @Override
+  public boolean isPacman() {
+    return false;
+  }
   @Override
   public boolean canMove(CommonField.Direction direction) {
     return false;
@@ -21,7 +24,7 @@ public class GhostObject implements CommonMazeObject {
 
   @Override
   public CommonField getField() {
-    return null;
+    return this.currentField;
   }
 
   @Override
