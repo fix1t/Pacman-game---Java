@@ -1,8 +1,8 @@
 package ija.ija2022.homework2.game;
 
-import ija.ija2022.homework2.common.CommonField;
-import ija.ija2022.homework2.common.CommonMaze;
-import ija.ija2022.homework2.common.CommonMazeObject;
+import ija.ija2022.homework2.tool.common.CommonField;
+import ija.ija2022.homework2.tool.common.CommonMaze;
+import ija.ija2022.homework2.tool.common.CommonMazeObject;
 
 public class WallField implements CommonField {
     int x;
@@ -13,41 +13,24 @@ public class WallField implements CommonField {
         this.y = y;
     }
 
-    @Override
     public int getX() {
         return this.x;
     }
 
-    @Override
     public void setX(int x) {
         this.x = x;
     }
 
-    @Override
     public int getY() {
         return this.y;
     }
 
-    @Override
     public void setY(int y) {
         this.y = y;
     }
 
-    @Override
     public void setMaze(CommonMaze maze) {
 
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this.getClass() == obj.getClass()) {
-            CommonField f1 = (CommonField) obj;
-            if (f1.getX() == this.getX())
-                return f1.getY() == this.getY();
-            return false;
-        } else {
-            return false;
-        }
     }
 
     @Override
@@ -55,7 +38,6 @@ public class WallField implements CommonField {
         throw new UnsupportedOperationException();
     }
 
-    @Override
     public boolean put(CommonMazeObject object) {
         throw new UnsupportedOperationException();
     }
@@ -65,7 +47,6 @@ public class WallField implements CommonField {
         return true;
     }
 
-    @Override
     public boolean remove(CommonMazeObject object) {
         throw new UnsupportedOperationException();
     }
@@ -79,4 +60,24 @@ public class WallField implements CommonField {
     public boolean canMove() {
         return false;
     }
+
+  @Override
+  public boolean contains(CommonMazeObject commonMazeObject) {
+    return false;
+  }
+
+  @Override
+  public void addObserver(Observer observer) {
+
+  }
+
+  @Override
+  public void removeObserver(Observer observer) {
+
+  }
+
+  @Override
+  public void notifyObservers() {
+
+  }
 }

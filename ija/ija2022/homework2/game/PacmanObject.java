@@ -1,7 +1,7 @@
 package ija.ija2022.homework2.game;
 
-import ija.ija2022.homework2.common.CommonField;
-import ija.ija2022.homework2.common.CommonMazeObject;
+import ija.ija2022.homework2.tool.common.CommonField;
+import ija.ija2022.homework2.tool.common.CommonMazeObject;
 
 public class PacmanObject implements CommonMazeObject {
     CommonField currentField;
@@ -28,4 +28,19 @@ public class PacmanObject implements CommonMazeObject {
             return false;
         }
     }
+
+  @Override
+  public boolean isPacman() {
+    return CommonMazeObject.super.isPacman();
+  }
+
+  @Override
+  public CommonField getField() {
+    return null;
+  }
+
+  @Override
+  public int getLives() {
+    return 0;
+  }
 }
