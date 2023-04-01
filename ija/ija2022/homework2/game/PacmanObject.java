@@ -7,8 +7,10 @@ import java.nio.file.Path;
 
 public class PacmanObject implements CommonMazeObject {
     PathField currentField;
+    int livesRemaining;
     public PacmanObject(PathField field) {
         this.currentField = field;
+        this.livesRemaining =3;
     }
 
     @Override
@@ -42,6 +44,6 @@ public class PacmanObject implements CommonMazeObject {
 
   @Override
   public int getLives() {
-    return 0;
+    return this.livesRemaining;
   }
 }
