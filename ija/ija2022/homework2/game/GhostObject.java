@@ -4,8 +4,8 @@ import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
 
 public class GhostObject implements CommonMazeObject {
-  CommonField currentField;
-    public GhostObject(CommonField field) {
+  PathField currentField;
+    public GhostObject(PathField field) {
       this.currentField = field;
   }
   @Override
@@ -19,7 +19,18 @@ public class GhostObject implements CommonMazeObject {
 
   @Override
   public boolean move(CommonField.Direction direction) {
-    return false;
+    if (this.canMove(direction)) {
+      //place pacman to the next field
+      PathField field = (PathField) this.currentField.nextField(direction);
+      field.put(this.currentField.get());
+      //remove pacman from this field
+      this.currentField.remove(this.currentField.get());
+      //change field
+      this.currentField = (PathField) this.currentField.nextField(direction);
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @Override

@@ -64,7 +64,7 @@ public class MazeConfigure {
         case 'G':
           PathField newPathField =  new PathField(this.currentRow, i + 1);
           fields[this.currentRow][i + 1] = newPathField;
-          newPathField.put(new GhostObject(fields[this.currentRow][i + 1]));
+          newPathField.put(new GhostObject((PathField) fields[this.currentRow][i + 1]));
           break;
 
         default:
