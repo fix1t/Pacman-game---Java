@@ -13,10 +13,10 @@ public class GhostObject implements CommonMazeObject {
     return false;
   }
   @Override
-  public boolean canMove(CommonField.Direction direction) {
-    return false;
+  public boolean canMove(PathField.Direction direction) {
+    CommonField nextField = this.currentField.nextField(direction);
+    return nextField.canMove();
   }
-
   @Override
   public boolean move(CommonField.Direction direction) {
     if (this.canMove(direction)) {

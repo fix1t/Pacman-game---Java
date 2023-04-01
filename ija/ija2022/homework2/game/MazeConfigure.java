@@ -12,6 +12,7 @@ public class MazeConfigure {
   boolean errorFlag;
   int currentRow;
   CommonField[][] fields;
+  PacmanMaze maze;
 
 
   //constructor
@@ -29,6 +30,7 @@ public class MazeConfigure {
     this.cols = cols + BORDER;
     this.started = true;
     this.fields = new CommonField[rows + BORDER][cols + BORDER];
+    this.maze = new PacmanMaze(this.cols, this.rows);
   }
 
   public boolean processLine(String line) {
@@ -45,7 +47,10 @@ public class MazeConfigure {
     for (int i = 0; i < line.length(); i++) {
       switch (line.charAt(i)) {
         case '.':
-          fields[this.currentRow][i + 1] = new PathField(this.currentRow, i + 1);
+          PathField pathField =  new PathField(this.currentRow, i + 1);
+          pathField.setMaze(this.maze);
+          fields[this.currentRow][i + 1] = pathField;
+
           break;
         case 'X':
           fields[this.currentRow][i + 1] = new WallField(this.currentRow, i + 1);
@@ -57,12 +62,14 @@ public class MazeConfigure {
           } else {
             this.pacmanPlaced = true;
             PathField newPathField =  new PathField(this.currentRow, i + 1);
+            newPathField.setMaze(this.maze);
             fields[this.currentRow][i + 1] = newPathField;
             newPathField.put(new PacmanObject((PathField) fields[this.currentRow][i + 1]));
           }
           break;
         case 'G':
           PathField newPathField =  new PathField(this.currentRow, i + 1);
+          newPathField.setMaze(this.maze);
           fields[this.currentRow][i + 1] = newPathField;
           newPathField.put(new GhostObject((PathField) fields[this.currentRow][i + 1]));
           break;
@@ -84,7 +91,6 @@ public class MazeConfigure {
     if (this.errorFlag)
       return null;
 
-    PacmanMaze newMaze = new PacmanMaze(this.cols, this.rows);
     //create border wall
     for (int i = 0; i < this.rows; i++) {
       for (int j = 0; j < this.cols; j++) {
@@ -95,7 +101,7 @@ public class MazeConfigure {
         }
       }
     }
-    newMaze.setFields(fields);
-    return newMaze;
+    this.maze.setFields(fields);
+    return this.maze;
   }
 }
