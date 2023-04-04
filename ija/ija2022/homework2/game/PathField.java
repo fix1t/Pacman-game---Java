@@ -4,12 +4,16 @@ import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
 import ija.ija2022.homework2.tool.common.CommonMaze;
 
+import java.util.HashSet;
+import java.util.Set;
+
 
 public class PathField implements CommonField {
     int x;
     int y;
     CommonMazeObject obj;
     CommonMaze maze;
+    private final Set<Observer> observers = new HashSet();
 
     public PathField(int x, int y) {
         this.x = x;
@@ -40,6 +44,7 @@ public class PathField implements CommonField {
     public boolean put(CommonMazeObject object) {
         if (this.obj == null) {
             this.obj = object;
+            this.notifyObservers();
             return true;
         }
         return false;
@@ -53,6 +58,7 @@ public class PathField implements CommonField {
         if (this.obj == null)
             return false;
         if (object.getClass() == this.obj.getClass()){
+            this.notifyObservers();
             this.obj = null;
             return true;
         }else{
@@ -90,21 +96,24 @@ public class PathField implements CommonField {
 
   @Override
   public boolean contains(CommonMazeObject commonMazeObject) {
-    return false;
+      if (this.obj == null)
+        return false;
+      else if (this.obj.isPacman() && commonMazeObject.isPacman() || !this.obj.isPacman() && !commonMazeObject.isPacman())
+        return true;
+      else
+        return false;
   }
 
   @Override
-  public void addObserver(Observer observer) {
-
-  }
+  public void addObserver(Observer observer) { this.observers.add(observer); }
 
   @Override
-  public void removeObserver(Observer observer) {
-
-  }
+  public void removeObserver(Observer observer) { this.observers.remove(observer); }
 
   @Override
   public void notifyObservers() {
-
-  }
+     this.observers.forEach((observer) -> {
+        observer.update(this);
+      });
+    }
 }
