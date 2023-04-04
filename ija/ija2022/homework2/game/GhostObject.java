@@ -34,7 +34,7 @@ public class GhostObject implements CommonMazeObject {
           //remember 2 ghosts
         }
       }
-      //remove pacman from this field
+      //remove ghost from this field
       this.currentField.remove(this.currentField.get());
       //change field
       this.currentField = (PathField) this.currentField.nextField(direction);
