@@ -4,9 +4,13 @@ import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMaze;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class WallField implements CommonField {
     int x;
     int y;
+    private final Set<Observer> observers = new HashSet();
 
     public WallField(int x, int y) {
         this.x = x;
@@ -67,17 +71,11 @@ public class WallField implements CommonField {
   }
 
   @Override
-  public void addObserver(Observer observer) {
-
-  }
+  public void addObserver(Observer observer) { }
 
   @Override
-  public void removeObserver(Observer observer) {
-
-  }
+  public void removeObserver(Observer observer) { }
 
   @Override
-  public void notifyObservers() {
-
-  }
+  public void notifyObservers() { }
 }
