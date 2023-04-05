@@ -3,6 +3,7 @@ package ija.ija2022.homework2.game;
 import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
 import ija.ija2022.homework2.tool.common.CommonMaze;
+import ija.ija2022.homework2.tool.view.FieldView;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,6 +13,7 @@ public class PathField implements CommonField {
     int x;
     int y;
     CommonMazeObject obj;
+    CommonMazeObject objCurrent;  // resolve obj conflict behaviour
     CommonMaze maze;
     private final Set<Observer> observers = new HashSet();
 
@@ -60,6 +62,7 @@ public class PathField implements CommonField {
         if (object.getClass() == this.obj.getClass()){
             this.notifyObservers();
             this.obj = null;
+            this.notifyObservers();
             return true;
         }else{
             return false;
