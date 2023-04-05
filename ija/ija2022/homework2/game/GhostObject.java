@@ -24,17 +24,17 @@ public class GhostObject implements CommonMazeObject {
       PathField field = (PathField) this.currentField.nextField(direction);
       // check if there is an object in the next field
       if(!field.put(this.currentField.get())){
-        if (field.obj.isPacman()){
-          PacmanObject pacman = (PacmanObject) field.obj;
+        if (field.getPacman() != null){
+          PacmanObject pacman = field.getPacman();
           if (pacman.ghostCollision()){
             //GAME OVER
             System.out.println("GAME OVER!");
           };
         } else {
-          //remember 2 ghosts
+          //TO-DO: remember 2 ghosts
         }
       }
-      //remove pacman from this field
+      //remove ghost from this field
       this.currentField.remove(this.currentField.get());
       //change field
       this.currentField = (PathField) this.currentField.nextField(direction);
