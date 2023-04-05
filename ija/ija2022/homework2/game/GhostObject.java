@@ -24,9 +24,8 @@ public class GhostObject implements CommonMazeObject {
       PathField field = (PathField) this.currentField.nextField(direction);
       // check if there is an object in the next field
       if(!field.put(this.currentField.get())){
-        if (field.obj.isPacman()){
-          PacmanObject pacman = (PacmanObject) field.obj;
-          if (pacman.ghostCollision()){
+        if (field.pacman != null){
+          if (field.pacman.ghostCollision()){
             //GAME OVER
             System.out.println("GAME OVER!");
           };
