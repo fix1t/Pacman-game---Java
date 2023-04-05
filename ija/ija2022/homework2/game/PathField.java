@@ -55,8 +55,14 @@ public class PathField implements CommonField {
         }
         else {
           if (this.ghost == null) {
-            this.ghost = (GhostObject) object;
-            this.notifyObservers();
+            if (this.pacman != null) {
+              this.notifyObservers();
+              this.ghost = (GhostObject) object;
+            }
+            else {
+              this.ghost = (GhostObject) object;
+              this.notifyObservers();
+            }
           }
         }
       }
