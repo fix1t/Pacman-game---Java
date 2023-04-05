@@ -12,9 +12,9 @@ import java.util.Set;
 public class PathField implements CommonField {
     int x;
     int y;
-    GhostObject ghost;
-    PacmanObject pacman;  // resolve obj conflict behaviour
-    CommonMaze maze;
+    private GhostObject ghost;
+    private PacmanObject pacman;
+    private CommonMaze maze;
     private final Set<Observer> observers = new HashSet();
 
     public PathField(int x, int y) {
@@ -129,6 +129,9 @@ public class PathField implements CommonField {
         return true;
       else
         return false;
+  }
+  public PacmanObject getPacman() {
+    return this.pacman;
   }
 
   @Override
