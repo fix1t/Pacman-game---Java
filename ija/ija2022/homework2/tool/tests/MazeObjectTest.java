@@ -1,6 +1,7 @@
 package ija.ija2022.homework2.tool.tests;
 
 import ija.ija2022.homework2.game.MazeConfigure;
+import ija.ija2022.homework2.game.PathField;
 import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMaze;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
@@ -60,14 +61,17 @@ public class MazeObjectTest {
       maze.getField(1, 3),
       pacman.getField());
 
+    CommonMazeObject key = maze.keys().get(0);
+    CommonMazeObject target = maze.target();
     // Pacman moves to the key
     Assert.assertTrue("Presun na policko se podari.", pacman.move(CommonField.Direction.L));
     // Pacman cant eat target
     Assert.assertTrue("Presun na policko se podari.", pacman.move(CommonField.Direction.D));
-    Assert.assertTrue("Target je nebyl splnen", pacman.getField().contains(maze.target()));
+    Assert.assertTrue("Target je nebyl splnen", pacman.getField().contains(target));
     // Pacman eats the key
     Assert.assertTrue("Presun na policko se podari.", pacman.move(CommonField.Direction.D));
-    Assert.assertFalse("Klic byl vyzdvihnut", pacman.getField().contains(maze.keys().get(0)));
+    Assert.assertTrue("Klic byl vymazan z listu.", maze.keys().isEmpty());
+    Assert.assertNull("Klic byl vymazan policka.", (PathField)((PathField) pacman.getField()).getKey());
     // Pacman eats the target
     Assert.assertTrue("Presun na policko se podari.", pacman.move(CommonField.Direction.U));
     Assert.assertFalse("Target je byl splnen", pacman.getField().contains(maze.target()));

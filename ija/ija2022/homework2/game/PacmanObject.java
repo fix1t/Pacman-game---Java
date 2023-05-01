@@ -37,6 +37,17 @@ public class PacmanObject implements CommonMazeObject {
       }
       //remove pacman from this field
       this.currentField.remove(this);
+
+      //take key if there is one
+      if (moveTo.getKey() != null){
+        // remove key from field and list of keys
+        this.listOfKeys.remove(moveTo.getKey());
+        moveTo.remove(moveTo.getKey());
+      } else if (moveTo.getTarget() != null && this.listOfKeys.isEmpty()) {
+        // remove target from field if all keys are taken
+        moveTo.remove(moveTo.getTarget());
+      }
+
       //change field
       moveTo.put(this);
       this.currentField = moveTo;

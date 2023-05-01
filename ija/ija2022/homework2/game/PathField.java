@@ -100,6 +100,16 @@ public class PathField implements CommonField {
         this.notifyObservers();
         return true;
       }
+      else if (object.getClass() == KeyObject.class && this.key == object){
+        this.key = null;
+        this.notifyObservers();
+        return true;
+      }
+      else if (object.getClass() == TargetObject.class && this.target == object){
+        this.target = null;
+        this.notifyObservers();
+        return true;
+      }
       // object not found
       return false;
     }
@@ -133,9 +143,11 @@ public class PathField implements CommonField {
       return this.pacman;
     }
 
-  public List<GhostObject> getGhosts() {
-    return this.ghostList;
-  }
+  public CommonMazeObject getKey() { return this.key; }
+
+  public CommonMazeObject getTarget() { return this.target; }
+
+  public List<GhostObject> getGhosts() { return this.ghostList; }
 
     @Override
     public boolean canMove() {
@@ -154,7 +166,6 @@ public class PathField implements CommonField {
   }
   @Override
   public void addObserver(Observer observer) { this.observers.add(observer); }
-
 
   @Override
   public void removeObserver(Observer observer) { this.observers.remove(observer); }
