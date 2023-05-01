@@ -29,12 +29,14 @@ public class MazeObjectTest {
   }
 
   @Test
-  public void testKey() {
-    CommonMazeObject object = maze.getField(3,2).get();
-
-    Assert.assertNotNull("There is an object", object);
+  public void getKey() {
+    Assert.assertNotNull("Maze neni null", maze);
+    CommonMazeObject object = maze.keys().get(0);
+    Assert.assertNotNull("Objekt není null", object);
     Assert.assertEquals("Objekt je na spravne pozici",
-      maze.getField(1, 3),
+      maze.getField(3, 2),
       object.getField());
   }
+
+
 }

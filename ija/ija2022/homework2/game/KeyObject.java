@@ -6,6 +6,11 @@ import ija.ija2022.homework2.tool.common.CommonMazeObject;
 import java.security.Key;
 
 public class KeyObject implements CommonMazeObject {
+  PathField currentField;
+  public KeyObject(PathField pathField) {
+    this.currentField = pathField;
+  }
+
   @Override
   public boolean canMove(CommonField.Direction var1) {
     return false;
@@ -18,7 +23,7 @@ public class KeyObject implements CommonMazeObject {
 
   @Override
   public CommonField getField() {
-    return null;
+    return this.currentField;
   }
 
   @Override

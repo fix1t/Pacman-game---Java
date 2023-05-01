@@ -94,17 +94,25 @@ public class MazeConfigure {
           pathField.setMaze(this.maze);
           fields[this.currentRow][i + 1] = pathField;
           // create key
-          KeyObject key = new KeyObject();
+          KeyObject key = new KeyObject(pathField);
           pathField.put(key);
           this.listOfKeys.add(key);
           break;
-
+        // target
+        case 'T':
+          // create path field
+          pathField =  new PathField(this.currentRow, i + 1);
+          pathField.setMaze(this.maze);
+          fields[this.currentRow][i + 1] = pathField;
+          // create target
+          TargetObject target = new TargetObject(pathField);
+          pathField.put(target);
+          break;
         default:
           this.errorFlag = true;
           return false;
       }
     }
-
     return true;
   }
 
@@ -128,6 +136,7 @@ public class MazeConfigure {
     }
     this.maze.setFields(fields);
     this.maze.setGhostList(listOfGhosts);
+    this.maze.setKeysList(listOfKeys);
     return this.maze;
   }
 }

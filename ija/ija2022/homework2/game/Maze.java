@@ -51,10 +51,15 @@ public class Maze implements CommonMaze {
       return new ArrayList<>(this.listOfGhosts);
     }
     @Override
+    // return copy of list of keys
     public  List<CommonMazeObject> keys() {
       return new ArrayList<>(this.listOfKeys);
     }
   public void setGhostList(List<CommonMazeObject> listOfGhosts) {
       this.listOfGhosts = listOfGhosts;
+  }
+
+  public void setKeysList(List<CommonMazeObject> listOfKeys) {
+      this.listOfKeys = listOfKeys;
   }
 }
