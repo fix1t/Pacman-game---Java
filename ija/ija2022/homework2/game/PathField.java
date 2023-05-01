@@ -15,6 +15,8 @@ public class PathField implements CommonField {
     int y;
     private List<GhostObject> ghostList;
     private PacmanObject pacman;
+    private KeyObject key;
+    private TargetObject target;
     private CommonMaze maze;
     private final Set<Observer> observers = new HashSet();
 
@@ -23,6 +25,8 @@ public class PathField implements CommonField {
         this.y = y;
         this.ghostList = new ArrayList<>();
         this.pacman = null;
+        this.key = null;
+        this.target = null;
     }
 
     private int getX() {
@@ -63,6 +67,11 @@ public class PathField implements CommonField {
           this.notifyObservers();
           return true;
         }
+      else if (object.getClass() == KeyObject.class){
+        this.key = (KeyObject) object;
+        this.notifyObservers();
+        return true;
+      }
       // object not found
       return false;
     }

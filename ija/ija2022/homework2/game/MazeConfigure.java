@@ -17,6 +17,7 @@ public class MazeConfigure {
   CommonField[][] fields;
   Maze maze;
   List<CommonMazeObject> listOfGhosts;
+  List<CommonMazeObject> listOfKeys;
 
   //constructor
   public MazeConfigure() {
@@ -35,6 +36,7 @@ public class MazeConfigure {
     this.fields = new CommonField[rows + BORDER][cols + BORDER];
     this.maze = new Maze(this.cols, this.rows);
     this.listOfGhosts = maze.ghosts();
+    this.listOfKeys = maze.keys();
   }
 
   public boolean processLine(String line) {
@@ -48,38 +50,53 @@ public class MazeConfigure {
       return false;
     }
     this.currentRow++;
+    PathField pathField;
     for (int i = 0; i < line.length(); i++) {
       switch (line.charAt(i)) {
         case '.':
-          PathField pathField =  new PathField(this.currentRow, i + 1);
+          pathField =  new PathField(this.currentRow, i + 1);
           pathField.setMaze(this.maze);
           fields[this.currentRow][i + 1] = pathField;
 
           break;
+        // wall
         case 'X':
           fields[this.currentRow][i + 1] = new WallField(this.currentRow, i + 1);
           break;
+        // pacman
         case 'S':
           if (this.pacmanPlaced) {
             this.errorFlag = true;
             return false;
           } else {
             this.pacmanPlaced = true;
-            PathField newPathField =  new PathField(this.currentRow, i + 1);
-            newPathField.setMaze(this.maze);
-            fields[this.currentRow][i + 1] = newPathField;
-            newPathField.put(new PacmanObject((PathField) fields[this.currentRow][i + 1]));
+            pathField =  new PathField(this.currentRow, i + 1);
+            pathField.setMaze(this.maze);
+            fields[this.currentRow][i + 1] = pathField;
+            pathField.put(new PacmanObject((PathField) fields[this.currentRow][i + 1]));
           }
           break;
+        // ghost
         case 'G':
           // create path field
-          PathField newPathField =  new PathField(this.currentRow, i + 1);
-          newPathField.setMaze(this.maze);
-          fields[this.currentRow][i + 1] = newPathField;
+          pathField =  new PathField(this.currentRow, i + 1);
+          pathField.setMaze(this.maze);
+          fields[this.currentRow][i + 1] = pathField;
           // create ghost
           GhostObject ghost = new GhostObject((PathField) fields[this.currentRow][i + 1]);
-          newPathField.put(ghost);
+          pathField.put(ghost);
           listOfGhosts.add(ghost);
+          break;
+        // key
+        case 'K':
+          // create path field
+          pathField=  new PathField(this.currentRow, i + 1);
+          pathField.setMaze(this.maze);
+          fields[this.currentRow][i + 1] = pathField;
+          // create key
+          KeyObject key = new KeyObject();
+          pathField.put(key);
+          this.listOfKeys.add(key);
           break;
 
         default:

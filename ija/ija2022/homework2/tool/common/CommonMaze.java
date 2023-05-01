@@ -10,4 +10,6 @@ public interface CommonMaze {
   int numCols();
 
   List<CommonMazeObject> ghosts();
+
+  List<CommonMazeObject> keys();
 }

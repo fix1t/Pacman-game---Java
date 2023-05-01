@@ -11,13 +11,15 @@ public class Maze implements CommonMaze {
     int cols;
     int rows;
     CommonField[][] fields;
-    List<CommonMazeObject> listOfGhosts;
+  List<CommonMazeObject> listOfGhosts;
+  List<CommonMazeObject> listOfKeys;
 
     public Maze(int col, int row) {
       this.cols = col;
       this.rows = row;
       this.fields = new CommonField[row][col];
       this.listOfGhosts = new ArrayList<>();
+      this.listOfKeys = new ArrayList<>();
     }
 
     public void setFields(CommonField[][] fields) {
@@ -47,9 +49,11 @@ public class Maze implements CommonMaze {
     // return copy of list of ghosts
     public List<CommonMazeObject> ghosts() {
       return new ArrayList<>(this.listOfGhosts);
-
     }
-
+    @Override
+    public  List<CommonMazeObject> keys() {
+      return new ArrayList<>(this.listOfKeys);
+    }
   public void setGhostList(List<CommonMazeObject> listOfGhosts) {
       this.listOfGhosts = listOfGhosts;
   }
