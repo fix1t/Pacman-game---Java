@@ -59,7 +59,6 @@ public class MazeObjectTest {
       maze.getField(1, 3),
       pacman.getField());
 
-    CommonMazeObject key = maze.getKeys().get(0);
     CommonMazeObject target = maze.getTarget();
     // Pacman moves to the key
     Assert.assertTrue("Presun na policko se podari.", pacman.move(CommonField.Direction.L));
