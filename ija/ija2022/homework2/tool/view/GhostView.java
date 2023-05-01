@@ -24,7 +24,7 @@ public class GhostView implements ComponentView {
     double x = (w - diameter) / 2.0;
     double y = (h - diameter) / 2.0;
     Ellipse2D.Double ellipse = new Ellipse2D.Double(x, y, diameter, diameter);
-    g2.setColor(Color.yellow);
+    g2.setColor(Color.magenta);
     g2.fill(ellipse);
   }
 }

@@ -82,7 +82,7 @@ public class PathField implements CommonField {
     }
 
     public boolean isEmpty() {
-        return this.pacman == null && this.ghostList.isEmpty();
+        return this.pacman == null && this.ghostList.isEmpty() && this.target == null && this.key == null;
     }
 
     public boolean remove(CommonMazeObject object) {
@@ -133,8 +133,11 @@ public class PathField implements CommonField {
       }
     }
     @Override
-  // TODO find me use case or delete me
   public CommonMazeObject get() {
+    if (this.target != null)
+      return this.target;
+    if (this.key != null)
+      return this.key;
    if (!this.ghostList.isEmpty())
      return this.ghostList.get(0);
    return this.pacman;

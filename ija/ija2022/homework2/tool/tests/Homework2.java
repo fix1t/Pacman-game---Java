@@ -30,8 +30,8 @@ public class Homework2 {
         MazeConfigure cfg = new MazeConfigure();
         cfg.startReading(4, 3);
         cfg.processLine("..G");
-        cfg.processLine(".X.");
-        cfg.processLine(".X.");
+        cfg.processLine(".XT");
+        cfg.processLine(".XK");
         cfg.processLine(".S.");
         cfg.stopReading();
 
