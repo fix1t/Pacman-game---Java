@@ -28,6 +28,7 @@ public class PacmanObject implements CommonMazeObject {
         return false;
       }
       PathField moveTo = (PathField) this.currentField.nextField(direction);
+
       // check if there is ghost in the field
       if (!moveTo.getGhosts().isEmpty()){
         //check if pacman will survive or its game over
@@ -35,26 +36,30 @@ public class PacmanObject implements CommonMazeObject {
           System.out.println("GAME OVER!");
         };
       }
-      //remove pacman from this field
-      this.currentField.remove(this);
-
-      //take key if there is one
+      // take key if there is one
       if (moveTo.getKey() != null){
         // remove key from field and list of keys
         this.listOfKeys.remove(moveTo.getKey());
         moveTo.remove(moveTo.getKey());
-      } else if (moveTo.getTarget() != null && this.listOfKeys.isEmpty()) {
+      // check if there is target in the field and if all keys are taken
+      } else if (moveTo.getTarget() != null && this.canTakeTarget()) {
         // remove target from field if all keys are taken
         moveTo.remove(moveTo.getTarget());
         // TODO RESOLVE GAME OVER
         System.out.println("GAME OVER!");
       }
 
+      //remove pacman from this field
+      this.currentField.remove(this);
       //change field
       moveTo.put(this);
       this.currentField = moveTo;
       return true;
     }
+
+  private boolean canTakeTarget() {
+    return this.listOfKeys.isEmpty();
+  }
 
   @Override
   public boolean isPacman() { return true; }
