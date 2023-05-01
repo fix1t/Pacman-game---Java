@@ -1,9 +1,7 @@
 package ija.ija2022.homework2.game;
 
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
-import ija.ija2022.homework2.game.PathField;
 
-import java.nio.file.Path;
 
 public class PacmanObject implements CommonMazeObject {
     PathField currentField;
@@ -49,11 +47,7 @@ public class PacmanObject implements CommonMazeObject {
 
   public boolean ghostCollision(){
       this.livesRemaining = this.livesRemaining - 1;
-      if (this.livesRemaining > 0){
-        return false;
-      }else {
-        //game over
-        return true;
-      }
+    //game over
+    return this.livesRemaining <= 0;
   }
 }
