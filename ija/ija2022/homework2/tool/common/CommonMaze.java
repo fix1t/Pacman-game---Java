@@ -16,4 +16,6 @@ public interface CommonMaze {
   CommonMazeObject getTarget();
 
   CommonMazeObject getPacman();
+
+  void restore();
 }

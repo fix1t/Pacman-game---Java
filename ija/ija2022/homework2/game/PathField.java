@@ -1,5 +1,6 @@
 package ija.ija2022.homework2.game;
 
+import ija.ija2022.homework2.game.resources.Coordinate;
 import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
 import ija.ija2022.homework2.tool.common.CommonMaze;
@@ -11,8 +12,7 @@ import java.util.Set;
 
 
 public class PathField implements CommonField {
-    int x;
-    int y;
+    private final Coordinate coordinate;
     private List<GhostObject> ghostList;
     private PacmanObject pacman;
     private KeyObject key;
@@ -21,32 +21,24 @@ public class PathField implements CommonField {
     private final Set<Observer> observers = new HashSet();
 
     public PathField(int x, int y) {
-        this.x = x;
-        this.y = y;
+        this.coordinate = new Coordinate(x, y);
         this.ghostList = new ArrayList<>();
         this.pacman = null;
         this.key = null;
         this.target = null;
     }
 
-    private int getX() {
-        return this.x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return this.y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
     public void setMaze(CommonMaze maze) {
         this.maze = maze;
+    }
+
+    @Override
+    public void clearField() {
+        this.pacman = null;
+        this.ghostList.clear();
+        this.key = null;
+        this.target = null;
+        this.notifyObservers();
     }
 
     public boolean put(CommonMazeObject object) {
@@ -118,16 +110,16 @@ public class PathField implements CommonField {
     public CommonField nextField(Direction dirs) {
       switch (dirs){
         case D -> {
-          return this.maze.getField(this.getX() + 1, this.getY());
+          return this.maze.getField(this.coordinate.getX() + 1, this.coordinate.getY());
         }
         case L -> {
-          return this.maze.getField(this.getX(), this.getY() - 1);
+          return this.maze.getField(this.coordinate.getX(), this.coordinate.getY() - 1);
         }
         case R -> {
-          return this.maze.getField(this.getX(), this.getY() + 1);
+          return this.maze.getField(this.coordinate.getX(), this.coordinate.getY() + 1);
         }
         case U -> {
-          return this.maze.getField(this.getX() - 1, this.getY());
+          return this.maze.getField(this.coordinate.getX() - 1, this.coordinate.getY());
         }
         default -> throw new UnsupportedOperationException("Unexpected value: " + dirs);
       }
@@ -176,4 +168,8 @@ public class PathField implements CommonField {
         observer.update(this);
       });
     }
+
+  public CommonMaze getMaze() {
+      return this.maze;
+  }
 }

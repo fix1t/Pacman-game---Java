@@ -61,6 +61,10 @@ public class PacmanObject implements CommonMazeObject {
     return this.listOfKeys.isEmpty();
   }
 
+  void resetPosition(PathField field){
+    this.currentField = field;
+    this.currentField.notifyObservers();
+  }
   @Override
   public boolean isPacman() { return true; }
 
@@ -76,7 +80,12 @@ public class PacmanObject implements CommonMazeObject {
 
   // return true if pacman has no more lives
   public boolean ghostCollision(){
+    // remove one life
     this.livesRemaining = this.livesRemaining - 1;
+    if (this.livesRemaining > 0){
+      // restore the whole maze to its initial state
+      this.currentField.getMaze().restore();
+    }
     //game over
     return this.livesRemaining <= 0;
   }

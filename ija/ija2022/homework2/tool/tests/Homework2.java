@@ -45,21 +45,21 @@ public class Homework2 {
         CommonMazeObject obj = maze.getGhosts().get(0);
 
         obj.move(CommonField.Direction.L);
-        sleep(2000);
+        sleep(200);
         obj.move(CommonField.Direction.L);
-        sleep(1000);
+        sleep(200);
         obj.move(CommonField.Direction.D);
-        sleep(1000);
+        sleep(500);
         obj.move(CommonField.Direction.D);
-        sleep(1000);
+        sleep(500);
         obj.move(CommonField.Direction.D);
-        sleep(1000);
+        sleep(500);
         obj.move(CommonField.Direction.D);
-        sleep(1000);
+        sleep(500);
         obj.move(CommonField.Direction.R);
-        sleep(1000);
+        sleep(500);
         obj.move(CommonField.Direction.L);
-        sleep(1000);
+        sleep(500);
         obj.move(CommonField.Direction.U);
     }
 

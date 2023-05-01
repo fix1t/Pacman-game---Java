@@ -1,11 +1,14 @@
 package ija.ija2022.homework2.game;
 
+import ija.ija2022.homework2.game.resources.Coordinate;
 import ija.ija2022.homework2.tool.common.CommonMaze;
 import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MazeConfigure {
   private static final int BORDER = 2;
@@ -20,14 +23,18 @@ public class MazeConfigure {
   List<CommonMazeObject> listOfKeys;
   PacmanObject pacman;
   TargetObject target;
-
-  //constructor
+  Map<Coordinate, String> initialObjectsLayout;
   public MazeConfigure() {
     this.rows = 0;
     this.cols = 0;
     this.currentRow = 0;
     this.started = false;
     this.errorFlag = false;
+    this.listOfGhosts = new ArrayList<>();
+    this.listOfKeys = new ArrayList<>();
+    this.pacman = null;
+    this.target = null;
+    this.initialObjectsLayout = new HashMap<>();
   }
 
   public void startReading(int rows, int cols) {
@@ -36,10 +43,6 @@ public class MazeConfigure {
     this.started = true;
     this.fields = new CommonField[rows + BORDER][cols + BORDER];
     this.maze = new Maze(this.cols, this.rows);
-    this.listOfGhosts = new ArrayList<>();
-    this.listOfKeys = new ArrayList<>();
-    this.pacman = null;
-    this.target = null;
   }
 
   private PathField createPathField(int row, int col) {
@@ -119,18 +122,22 @@ public class MazeConfigure {
           if (!handlePacmanCase(i)) {
             return false;
           }
+          initialObjectsLayout.put(new Coordinate(this.currentRow, i + 1), "S");
           break;
         case 'G':
           handleGhostCase(i);
+          initialObjectsLayout.put(new Coordinate(this.currentRow, i + 1), "G");
           break;
         case 'K':
           handleKeyCase(i);
+          initialObjectsLayout.put(new Coordinate(this.currentRow, i + 1), "K");
           break;
         case 'T':
           // if target is already placed, return false = error
           if (!handleTargetCase(i)){
             return false;
           }
+          initialObjectsLayout.put(new Coordinate(this.currentRow, i + 1), "T");
           break;
         default:
           this.errorFlag = true;
@@ -164,6 +171,7 @@ public class MazeConfigure {
     this.maze.setKeysList(listOfKeys);
     this.maze.setPacman(this.pacman);
     this.maze.setTarget(this.target);
+    this.maze.setInitialObjectsLayout(this.initialObjectsLayout);
     return this.maze;
   }
 }

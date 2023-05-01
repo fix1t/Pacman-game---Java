@@ -66,6 +66,11 @@ public class WallField implements CommonField {
     }
 
   @Override
+  public void clearField() {
+    return;
+  }
+
+  @Override
   public boolean contains(CommonMazeObject commonMazeObject) {
     return false;
   }
