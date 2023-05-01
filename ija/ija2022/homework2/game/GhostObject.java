@@ -19,29 +19,25 @@ public class GhostObject implements CommonMazeObject {
   }
   @Override
   public boolean move(CommonField.Direction direction) {
-      //check if it is walkable field = PathField
-      if (this.canMove(direction)) {
-      PathField field = (PathField) this.currentField.nextField(direction);
-      // check if there is an object in the next field
-      if(!field.put(this.currentField.get())){
-        if (field.getPacman() != null){
-          PacmanObject pacman = field.getPacman();
-          if (pacman.ghostCollision()){
-            //GAME OVER
-            System.out.println("GAME OVER!");
-          };
-        } else {
-          //TO-DO: remember 2 ghosts
-        }
-      }
-      //remove ghost from this field
-      this.currentField.remove(this.currentField.get());
-      //change field
-      this.currentField = (PathField) this.currentField.nextField(direction);
-      return true;
-    } else {
+    //check if it is walkable field = PathField
+    if (!this.canMove(direction)) {
       return false;
     }
+    PathField moveTo = (PathField) this.currentField.nextField(direction);
+    // check if there is pacman in the field
+    PacmanObject pacman = (PacmanObject) moveTo.getPacman();
+    if (pacman != null){
+      //check if pacman will survive or its game over
+      if (pacman.ghostCollision()){
+        System.out.println("GAME OVER!");
+      };
+    }
+    //remove ghost from this field
+    this.currentField.remove(this);
+    //change field
+    moveTo.put(this);
+    this.currentField = moveTo;
+    return true;
   }
 
   @Override

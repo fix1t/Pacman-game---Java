@@ -9,5 +9,11 @@ public interface CommonMaze {
 
   int numCols();
 
-  List<CommonMazeObject> ghosts();
+  List<CommonMazeObject> getGhosts();
+
+  List<CommonMazeObject> getKeys();
+
+  CommonMazeObject getTarget();
+
+  CommonMazeObject getPacman();
 }

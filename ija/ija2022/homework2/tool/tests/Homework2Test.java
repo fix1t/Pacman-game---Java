@@ -2,7 +2,7 @@
  * IJA 2022/23: Úloha 2
  * Testovací třída.
  */
-package ija.ija2022.homework2;
+package ija.ija2022.homework2.tool.tests;
 
 import java.util.List;
 import org.junit.Before;
@@ -50,10 +50,10 @@ public class Homework2Test {
      */
     @Test
     public void testGhosts() {
-        List<CommonMazeObject> lstGhost = maze.ghosts();
+        List<CommonMazeObject> lstGhost = maze.getGhosts();
         Assert.assertEquals("Bludiste obsahuje jednoho ducha", 1, lstGhost.size());
         CommonMazeObject obj = lstGhost.remove(0);
-        Assert.assertEquals("Bludiste obsahuje jednoho ducha", 1, maze.ghosts().size());
+        Assert.assertEquals("Bludiste obsahuje jednoho ducha", 1, maze.getGhosts().size());
         Assert.assertFalse("Objekt neni pacman", obj.isPacman());
         Assert.assertEquals("Objekt je na spravne pozici",
                 maze.getField(1, 3),
@@ -67,7 +67,7 @@ public class Homework2Test {
     @Test
     public void testGhostMoving() {
         // Ghost na pozici 1,3
-        CommonMazeObject obj = maze.ghosts().get(0);
+        CommonMazeObject obj = maze.getGhosts().get(0);
         Assert.assertTrue("Presun na policko se podari.", obj.move(CommonField.Direction.D));
         Assert.assertTrue("Presun na policko se podari.", obj.move(CommonField.Direction.D));
         Assert.assertTrue("Presun na policko se podari.", obj.move(CommonField.Direction.D));
@@ -81,7 +81,7 @@ public class Homework2Test {
     @Test
     public void testGhostMeetsPacman() {
         // Ghost na pozici 1,3
-        CommonMazeObject ghost = maze.ghosts().get(0);
+        CommonMazeObject ghost = maze.getGhosts().get(0);
 
         // Pacman na pozici 4,2
         Assert.assertFalse("Policko [4,2] neni prazdne", maze.getField(4, 2).isEmpty());
@@ -108,7 +108,7 @@ public class Homework2Test {
         MazeTester tester = new MazeTester(maze);
 
         // Ghost na pozici 1,3
-        CommonMazeObject obj = maze.ghosts().get(0);
+        CommonMazeObject obj = maze.getGhosts().get(0);
 
         /* Testy, kdy se presun podari.
          * Dve prezentace policka (view) budou notifikovana o zmene (odebrani objektu a vlozeni objektu).
