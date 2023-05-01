@@ -51,22 +51,22 @@ public class Maze implements CommonMaze {
 
     @Override
     // return copy of list of ghosts
-    public List<CommonMazeObject> ghosts() {
+    public List<CommonMazeObject> getGhosts() {
       return new ArrayList<>(this.listOfGhosts);
     }
     @Override
     // return copy of list of keys
-    public  List<CommonMazeObject> keys() {
+    public  List<CommonMazeObject> getKeys() {
       return new ArrayList<>(this.listOfKeys);
     }
 
   @Override
-  public CommonMazeObject target() {
+  public CommonMazeObject getTarget() {
     return this.target;
   }
 
   @Override
-  public CommonMazeObject pacman() {
+  public CommonMazeObject getPacman() {
     return this.pacman;
   }
 

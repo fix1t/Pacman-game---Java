@@ -9,8 +9,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.List;
-
 public class MazeObjectTest {
 
   private CommonMaze maze;
@@ -33,7 +31,7 @@ public class MazeObjectTest {
   @Test
   public void KeyPlacement() {
     Assert.assertNotNull("Maze neni null", maze);
-    CommonMazeObject object = maze.keys().get(0);
+    CommonMazeObject object = maze.getKeys().get(0);
     Assert.assertNotNull("Objekt není null", object);
     Assert.assertEquals("Objekt je na spravne pozici",
       maze.getField(3, 2),
@@ -44,7 +42,7 @@ public class MazeObjectTest {
   @Test
   public void TargetPlacement() {
     Assert.assertNotNull("Maze neni null", maze);
-    CommonMazeObject object = maze.target();
+    CommonMazeObject object = maze.getTarget();
     Assert.assertNotNull("Objekt není null", object);
     Assert.assertEquals("Objekt je na spravne pozici",
       maze.getField(2, 2),
@@ -55,14 +53,14 @@ public class MazeObjectTest {
   @Test
   public void PacmanEatsKeyAndThenTarget() {
     Assert.assertNotNull("Maze neni null", maze);
-    CommonMazeObject pacman = maze.pacman();
+    CommonMazeObject pacman = maze.getPacman();
     Assert.assertNotNull("Objekt není null", pacman);
     Assert.assertEquals("Objekt je na spravne pozici",
       maze.getField(1, 3),
       pacman.getField());
 
-    CommonMazeObject key = maze.keys().get(0);
-    CommonMazeObject target = maze.target();
+    CommonMazeObject key = maze.getKeys().get(0);
+    CommonMazeObject target = maze.getTarget();
     // Pacman moves to the key
     Assert.assertTrue("Presun na policko se podari.", pacman.move(CommonField.Direction.L));
     // Pacman cant eat target
@@ -70,7 +68,7 @@ public class MazeObjectTest {
     Assert.assertTrue("Target je nebyl splnen", pacman.getField().contains(target));
     // Pacman eats the key
     Assert.assertTrue("Presun na policko se podari.", pacman.move(CommonField.Direction.D));
-    Assert.assertTrue("Klic byl vymazan z listu.", maze.keys().isEmpty());
+    Assert.assertTrue("Klic byl vymazan z listu.", maze.getKeys().isEmpty());
     Assert.assertNull("Klic byl vymazan policka.", (PathField)((PathField) pacman.getField()).getKey());
     // Pacman eats the target
     Assert.assertTrue("Presun na policko se podari.", pacman.move(CommonField.Direction.U));
