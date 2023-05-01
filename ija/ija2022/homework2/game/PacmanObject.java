@@ -46,6 +46,8 @@ public class PacmanObject implements CommonMazeObject {
       } else if (moveTo.getTarget() != null && this.listOfKeys.isEmpty()) {
         // remove target from field if all keys are taken
         moveTo.remove(moveTo.getTarget());
+        // TODO RESOLVE GAME OVER
+        System.out.println("GAME OVER!");
       }
 
       //change field

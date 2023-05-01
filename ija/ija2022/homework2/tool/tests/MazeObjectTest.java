@@ -74,7 +74,7 @@ public class MazeObjectTest {
     Assert.assertNull("Klic byl vymazan policka.", (PathField)((PathField) pacman.getField()).getKey());
     // Pacman eats the target
     Assert.assertTrue("Presun na policko se podari.", pacman.move(CommonField.Direction.U));
-    Assert.assertFalse("Target je byl splnen", pacman.getField().contains(maze.target()));
+    Assert.assertNull("Target byl vymazan policka.", (PathField)((PathField) pacman.getField()).getTarget());
     Assert.assertTrue("Presun na policko se podari.", pacman.move(CommonField.Direction.U));
   }
 }
