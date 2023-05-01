@@ -4,6 +4,7 @@ import ija.ija2022.homework2.tool.common.CommonMaze;
 import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MazeConfigure {
@@ -35,8 +36,8 @@ public class MazeConfigure {
     this.started = true;
     this.fields = new CommonField[rows + BORDER][cols + BORDER];
     this.maze = new Maze(this.cols, this.rows);
-    this.listOfGhosts = maze.ghosts();
-    this.listOfKeys = maze.keys();
+    this.listOfGhosts = new ArrayList<>();
+    this.listOfKeys = new ArrayList<>();
     this.pacman = null;
     this.target = null;
   }
@@ -62,7 +63,7 @@ public class MazeConfigure {
       return false;
     } else {
       PathField pathField = createPathField(this.currentRow, i + 1);
-      this.pacman = new PacmanObject(pathField);
+      this.pacman = new PacmanObject(pathField, this.listOfKeys);
       pathField.put(this.pacman);
       return true;
     }
