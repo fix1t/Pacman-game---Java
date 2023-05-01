@@ -13,6 +13,8 @@ public class Maze implements CommonMaze {
     CommonField[][] fields;
   List<CommonMazeObject> listOfGhosts;
   List<CommonMazeObject> listOfKeys;
+  PacmanObject pacman;
+  TargetObject target;
 
     public Maze(int col, int row) {
       this.cols = col;
@@ -20,6 +22,8 @@ public class Maze implements CommonMaze {
       this.fields = new CommonField[row][col];
       this.listOfGhosts = new ArrayList<>();
       this.listOfKeys = new ArrayList<>();
+      this.pacman = null;
+      this.target = null;
     }
 
     public void setFields(CommonField[][] fields) {
@@ -55,11 +59,30 @@ public class Maze implements CommonMaze {
     public  List<CommonMazeObject> keys() {
       return new ArrayList<>(this.listOfKeys);
     }
+
+  @Override
+  public CommonMazeObject target() {
+    return this.target;
+  }
+
+  @Override
+  public CommonMazeObject pacman() {
+    return this.pacman;
+  }
+
   public void setGhostList(List<CommonMazeObject> listOfGhosts) {
       this.listOfGhosts = listOfGhosts;
   }
 
   public void setKeysList(List<CommonMazeObject> listOfKeys) {
       this.listOfKeys = listOfKeys;
+  }
+
+  public void setPacman(PacmanObject pacman) {
+      this.pacman = pacman;
+  }
+
+  public void setTarget(TargetObject target) {
+      this.target = target;
   }
 }

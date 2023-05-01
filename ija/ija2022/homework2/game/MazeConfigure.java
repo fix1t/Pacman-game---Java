@@ -8,7 +8,6 @@ import java.util.List;
 
 public class MazeConfigure {
   private static final int BORDER = 2;
-  boolean pacmanPlaced;
   boolean started;
   int rows;
   int cols;
@@ -18,10 +17,11 @@ public class MazeConfigure {
   Maze maze;
   List<CommonMazeObject> listOfGhosts;
   List<CommonMazeObject> listOfKeys;
+  PacmanObject pacman;
+  TargetObject target;
 
   //constructor
   public MazeConfigure() {
-    this.pacmanPlaced = false;
     this.rows = 0;
     this.cols = 0;
     this.currentRow = 0;
@@ -37,6 +37,8 @@ public class MazeConfigure {
     this.maze = new Maze(this.cols, this.rows);
     this.listOfGhosts = maze.ghosts();
     this.listOfKeys = maze.keys();
+    this.pacman = null;
+    this.target = null;
   }
 
   private PathField createPathField(int row, int col) {
@@ -55,15 +57,15 @@ public class MazeConfigure {
   }
 
   private boolean handlePacmanCase(int i) {
-    if (this.pacmanPlaced) {
-      this.errorFlag = true;
+    // if pacman is already placed, return false
+    if (this.pacman != null) {
       return false;
     } else {
-      this.pacmanPlaced = true;
       PathField pathField = createPathField(this.currentRow, i + 1);
-      pathField.put(new PacmanObject(pathField));
+      this.pacman = new PacmanObject(pathField);
+      pathField.put(this.pacman);
+      return true;
     }
-    return true;
   }
 
   private void handleGhostCase(int i) {
@@ -80,10 +82,15 @@ public class MazeConfigure {
     this.listOfKeys.add(key);
   }
 
-  private void handleTargetCase(int i) {
-    PathField pathField = createPathField(this.currentRow, i + 1);
-    TargetObject target = new TargetObject(pathField);
-    pathField.put(target);
+  private boolean handleTargetCase(int i) {
+    if (this.target != null) {
+      return false;
+    } else {
+      PathField pathField = createPathField(this.currentRow, i + 1);
+      this.target = new TargetObject(pathField);
+      pathField.put(this.target);
+      return true;
+    }
   }
 
   public boolean processLine(String line) {
@@ -107,6 +114,7 @@ public class MazeConfigure {
           handleWallCase(i);
           break;
         case 'S':
+          // if pacman is already placed, return false = error
           if (!handlePacmanCase(i)) {
             return false;
           }
@@ -118,7 +126,10 @@ public class MazeConfigure {
           handleKeyCase(i);
           break;
         case 'T':
-          handleTargetCase(i);
+          // if target is already placed, return false = error
+          if (!handleTargetCase(i)){
+            return false;
+          }
           break;
         default:
           this.errorFlag = true;
@@ -150,6 +161,8 @@ public class MazeConfigure {
     this.maze.setFields(fields);
     this.maze.setGhostList(listOfGhosts);
     this.maze.setKeysList(listOfKeys);
+    this.maze.setPacman(this.pacman);
+    this.maze.setTarget(this.target);
     return this.maze;
   }
 }

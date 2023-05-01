@@ -72,6 +72,11 @@ public class PathField implements CommonField {
         this.notifyObservers();
         return true;
       }
+      else if (object.getClass() == TargetObject.class){
+        this.target = (TargetObject) object;
+        this.notifyObservers();
+        return true;
+      }
       // object not found
       return false;
     }
@@ -139,12 +144,13 @@ public class PathField implements CommonField {
 
   @Override
   public boolean contains(CommonMazeObject object) {
-    // object is pacman
-    if (object.isPacman() && this.pacman == null) {
-      return true;
-    }
-    // object is ghost or is not found
-    else return object.getClass() == GhostObject.class && this.ghostList.contains(object);
+    if (object == null)
+      return false;
+    List<CommonMazeObject> objects = new ArrayList<>(this.ghostList);
+    objects.add(this.pacman);
+    objects.add(this.key);
+    objects.add(this.target);
+    return objects.contains(object);
   }
   @Override
   public void addObserver(Observer observer) { this.observers.add(observer); }

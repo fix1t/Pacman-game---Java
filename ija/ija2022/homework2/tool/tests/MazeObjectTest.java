@@ -1,6 +1,7 @@
 package ija.ija2022.homework2.tool.tests;
 
 import ija.ija2022.homework2.game.MazeConfigure;
+import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMaze;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
 import org.junit.Assert;
@@ -29,14 +30,25 @@ public class MazeObjectTest {
   }
 
   @Test
-  public void getKey() {
+  public void KeyPlacement() {
     Assert.assertNotNull("Maze neni null", maze);
     CommonMazeObject object = maze.keys().get(0);
     Assert.assertNotNull("Objekt není null", object);
     Assert.assertEquals("Objekt je na spravne pozici",
       maze.getField(3, 2),
       object.getField());
+    CommonField field = object.getField();
+    Assert.assertTrue("Pole ma objekt", field.contains(object));
   }
-
-
+  @Test
+  public void TargetPlacement() {
+    Assert.assertNotNull("Maze neni null", maze);
+    CommonMazeObject object = maze.target();
+    Assert.assertNotNull("Objekt není null", object);
+    Assert.assertEquals("Objekt je na spravne pozici",
+      maze.getField(2, 2),
+      object.getField());
+    CommonField field = object.getField();
+    Assert.assertTrue("Pole ma objekt", field.contains(object));
+  }
 }
