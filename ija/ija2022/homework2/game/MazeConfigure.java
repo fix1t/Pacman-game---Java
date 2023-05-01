@@ -39,6 +39,53 @@ public class MazeConfigure {
     this.listOfKeys = maze.keys();
   }
 
+  private PathField createPathField(int row, int col) {
+    PathField pathField = new PathField(row, col);
+    pathField.setMaze(this.maze);
+    fields[row][col] = pathField;
+    return pathField;
+  }
+
+  private void handleDotCase(int i) {
+    createPathField(this.currentRow, i + 1);
+  }
+
+  private void handleWallCase(int i) {
+    fields[this.currentRow][i + 1] = new WallField(this.currentRow, i + 1);
+  }
+
+  private boolean handlePacmanCase(int i) {
+    if (this.pacmanPlaced) {
+      this.errorFlag = true;
+      return false;
+    } else {
+      this.pacmanPlaced = true;
+      PathField pathField = createPathField(this.currentRow, i + 1);
+      pathField.put(new PacmanObject(pathField));
+    }
+    return true;
+  }
+
+  private void handleGhostCase(int i) {
+    PathField pathField = createPathField(this.currentRow, i + 1);
+    GhostObject ghost = new GhostObject(pathField);
+    pathField.put(ghost);
+    listOfGhosts.add(ghost);
+  }
+
+  private void handleKeyCase(int i) {
+    PathField pathField = createPathField(this.currentRow, i + 1);
+    KeyObject key = new KeyObject(pathField);
+    pathField.put(key);
+    this.listOfKeys.add(key);
+  }
+
+  private void handleTargetCase(int i) {
+    PathField pathField = createPathField(this.currentRow, i + 1);
+    TargetObject target = new TargetObject(pathField);
+    pathField.put(target);
+  }
+
   public boolean processLine(String line) {
     if (!this.started || this.cols - BORDER != line.length()) {
       this.errorFlag = true;
@@ -50,63 +97,28 @@ public class MazeConfigure {
       return false;
     }
     this.currentRow++;
-    PathField pathField;
+
     for (int i = 0; i < line.length(); i++) {
       switch (line.charAt(i)) {
         case '.':
-          pathField =  new PathField(this.currentRow, i + 1);
-          pathField.setMaze(this.maze);
-          fields[this.currentRow][i + 1] = pathField;
-
+          handleDotCase(i);
           break;
-        // wall
         case 'X':
-          fields[this.currentRow][i + 1] = new WallField(this.currentRow, i + 1);
+          handleWallCase(i);
           break;
-        // pacman
         case 'S':
-          if (this.pacmanPlaced) {
-            this.errorFlag = true;
+          if (!handlePacmanCase(i)) {
             return false;
-          } else {
-            this.pacmanPlaced = true;
-            pathField =  new PathField(this.currentRow, i + 1);
-            pathField.setMaze(this.maze);
-            fields[this.currentRow][i + 1] = pathField;
-            pathField.put(new PacmanObject((PathField) fields[this.currentRow][i + 1]));
           }
           break;
-        // ghost
         case 'G':
-          // create path field
-          pathField =  new PathField(this.currentRow, i + 1);
-          pathField.setMaze(this.maze);
-          fields[this.currentRow][i + 1] = pathField;
-          // create ghost
-          GhostObject ghost = new GhostObject((PathField) fields[this.currentRow][i + 1]);
-          pathField.put(ghost);
-          listOfGhosts.add(ghost);
+          handleGhostCase(i);
           break;
-        // key
         case 'K':
-          // create path field
-          pathField=  new PathField(this.currentRow, i + 1);
-          pathField.setMaze(this.maze);
-          fields[this.currentRow][i + 1] = pathField;
-          // create key
-          KeyObject key = new KeyObject(pathField);
-          pathField.put(key);
-          this.listOfKeys.add(key);
+          handleKeyCase(i);
           break;
-        // target
         case 'T':
-          // create path field
-          pathField =  new PathField(this.currentRow, i + 1);
-          pathField.setMaze(this.maze);
-          fields[this.currentRow][i + 1] = pathField;
-          // create target
-          TargetObject target = new TargetObject(pathField);
-          pathField.put(target);
+          handleTargetCase(i);
           break;
         default:
           this.errorFlag = true;
@@ -115,6 +127,7 @@ public class MazeConfigure {
     }
     return true;
   }
+
 
   public boolean stopReading() {
     return currentRow + 1 == this.rows && this.started && !this.errorFlag;
