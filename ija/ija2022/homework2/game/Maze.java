@@ -1,11 +1,13 @@
 package ija.ija2022.homework2.game;
 
+import ija.ija2022.homework2.game.resources.Coordinate;
 import ija.ija2022.homework2.tool.common.CommonMaze;
 import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Maze implements CommonMaze {
     int cols;
@@ -15,8 +17,9 @@ public class Maze implements CommonMaze {
   List<CommonMazeObject> listOfKeys;
   PacmanObject pacman;
   TargetObject target;
+  private Map<Coordinate, String> initialObjectsLayout;
 
-    public Maze(int col, int row) {
+  public Maze(int col, int row) {
       this.cols = col;
       this.rows = row;
       this.fields = new CommonField[row][col];
@@ -24,6 +27,7 @@ public class Maze implements CommonMaze {
       this.listOfKeys = new ArrayList<>();
       this.pacman = null;
       this.target = null;
+      this.initialObjectsLayout = null;
     }
 
     public void setFields(CommonField[][] fields) {
@@ -70,6 +74,54 @@ public class Maze implements CommonMaze {
     return this.pacman;
   }
 
+  @Override
+  public void restore() {
+    // clear all fields
+    clearAllFields();
+    // clear all lists and objects but pacman
+    this.listOfKeys.clear();
+    this.listOfGhosts.clear();
+    this.target = null;
+    // restore initial objects layout
+    for (Map.Entry<Coordinate, String> entry : this.initialObjectsLayout.entrySet()) {
+      Coordinate coordinate = entry.getKey();
+      String objectType = entry.getValue();
+      this.configureField(coordinate, objectType);
+    }
+  }
+
+  private void configureField(Coordinate coordinate, String objectType) {
+      PathField field = (PathField) this.getField(coordinate.getX(), coordinate.getY());
+      switch (objectType) {
+        case "S":
+          this.pacman.resetPosition(field);
+          break;
+        case "G":
+          GhostObject ghost = new GhostObject((PathField) field);
+          field.put(ghost);
+          this.listOfGhosts.add(ghost);
+          break;
+        case "K":
+          KeyObject key = new KeyObject((PathField) field);
+          field.put(key);
+          this.listOfKeys.add(key);
+          break;
+        case "T":
+          this.target = new TargetObject((PathField) field);
+          field.put(this.target);
+          break;
+      }
+      field.notifyObservers();
+  }
+
+  private void clearAllFields() {
+    for (int i = 0; i < this.numRows(); i++) {
+      for (int j = 0; j < this.numCols(); j++) {
+        this.fields[i][j].clearField();
+      }
+    }
+  }
+
   public void setGhostList(List<CommonMazeObject> listOfGhosts) {
       this.listOfGhosts = listOfGhosts;
   }
@@ -84,5 +136,9 @@ public class Maze implements CommonMaze {
 
   public void setTarget(TargetObject target) {
       this.target = target;
+  }
+
+  public void setInitialObjectsLayout(Map<Coordinate, String> initialObjectsLayout) {
+    this.initialObjectsLayout = initialObjectsLayout;
   }
 }
