@@ -2,7 +2,7 @@
  * IJA 2022/23: Úloha 2
  * Testovací třída.
  */
-package ija.ija2022.homework2;
+package ija.ija2022.homework2.tool.tests;
 
 import java.util.List;
 import org.junit.Before;

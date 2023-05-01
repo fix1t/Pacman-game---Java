@@ -2,6 +2,9 @@ package ija.ija2022.homework2.game;
 
 import ija.ija2022.homework2.tool.common.CommonMaze;
 import ija.ija2022.homework2.tool.common.CommonField;
+import ija.ija2022.homework2.tool.common.CommonMazeObject;
+
+import java.util.List;
 
 public class MazeConfigure {
   private static final int BORDER = 2;
@@ -12,8 +15,8 @@ public class MazeConfigure {
   boolean errorFlag;
   int currentRow;
   CommonField[][] fields;
-  PacmanMaze maze;
-
+  Maze maze;
+  List<CommonMazeObject> listOfGhosts;
 
   //constructor
   public MazeConfigure() {
@@ -30,7 +33,8 @@ public class MazeConfigure {
     this.cols = cols + BORDER;
     this.started = true;
     this.fields = new CommonField[rows + BORDER][cols + BORDER];
-    this.maze = new PacmanMaze(this.cols, this.rows);
+    this.maze = new Maze(this.cols, this.rows);
+    this.listOfGhosts = maze.ghosts();
   }
 
   public boolean processLine(String line) {
@@ -68,10 +72,14 @@ public class MazeConfigure {
           }
           break;
         case 'G':
+          // create path field
           PathField newPathField =  new PathField(this.currentRow, i + 1);
           newPathField.setMaze(this.maze);
           fields[this.currentRow][i + 1] = newPathField;
-          newPathField.put(new GhostObject((PathField) fields[this.currentRow][i + 1]));
+          // create ghost
+          GhostObject ghost = new GhostObject((PathField) fields[this.currentRow][i + 1]);
+          newPathField.put(ghost);
+          listOfGhosts.add(ghost);
           break;
 
         default:
@@ -102,6 +110,7 @@ public class MazeConfigure {
       }
     }
     this.maze.setFields(fields);
+    this.maze.setGhostList(listOfGhosts);
     return this.maze;
   }
 }
