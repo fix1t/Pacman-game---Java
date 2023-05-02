@@ -75,3 +75,4 @@ public class MazeObjectTest {
     Assert.assertTrue("Presun na policko se podari.", pacman.move(CommonField.Direction.U));
   }
 }
+

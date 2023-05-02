@@ -1,11 +1,15 @@
 package ija.ija2022.homework2.game;
 
+import ija.ija2022.homework2.game.resources.Coordinate;
 import ija.ija2022.homework2.tool.common.CommonMaze;
 import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MazeConfigure {
   private static final int BORDER = 2;
@@ -20,14 +24,18 @@ public class MazeConfigure {
   List<CommonMazeObject> listOfKeys;
   PacmanObject pacman;
   TargetObject target;
-
-  //constructor
+  Map<PathField, CommonMazeObject> initialObjectsLayout;
   public MazeConfigure() {
     this.rows = 0;
     this.cols = 0;
     this.currentRow = 0;
     this.started = false;
     this.errorFlag = false;
+    this.listOfGhosts = new ArrayList<>();
+    this.listOfKeys = new ArrayList<>();
+    this.pacman = null;
+    this.target = null;
+    this.initialObjectsLayout = new HashMap<>();
   }
 
   public void startReading(int rows, int cols) {
@@ -36,10 +44,6 @@ public class MazeConfigure {
     this.started = true;
     this.fields = new CommonField[rows + BORDER][cols + BORDER];
     this.maze = new Maze(this.cols, this.rows);
-    this.listOfGhosts = new ArrayList<>();
-    this.listOfKeys = new ArrayList<>();
-    this.pacman = null;
-    this.target = null;
   }
 
   private PathField createPathField(int row, int col) {
@@ -65,6 +69,8 @@ public class MazeConfigure {
       PathField pathField = createPathField(this.currentRow, i + 1);
       this.pacman = new PacmanObject(pathField, this.listOfKeys);
       pathField.put(this.pacman);
+      // put pacman into initialObjectsLayout
+      this.initialObjectsLayout.put(pathField, this.pacman);
       return true;
     }
   }
@@ -74,6 +80,8 @@ public class MazeConfigure {
     GhostObject ghost = new GhostObject(pathField);
     pathField.put(ghost);
     listOfGhosts.add(ghost);
+    // put ghost into initialObjectsLayout
+    this.initialObjectsLayout.put(pathField, ghost);
   }
 
   private void handleKeyCase(int i) {
@@ -81,6 +89,8 @@ public class MazeConfigure {
     KeyObject key = new KeyObject(pathField);
     pathField.put(key);
     this.listOfKeys.add(key);
+    // put key into initialObjectsLayout
+    this.initialObjectsLayout.put(pathField, key);
   }
 
   private boolean handleTargetCase(int i) {
@@ -90,6 +100,8 @@ public class MazeConfigure {
       PathField pathField = createPathField(this.currentRow, i + 1);
       this.target = new TargetObject(pathField);
       pathField.put(this.target);
+      // put target into initialObjectsLayout
+      this.initialObjectsLayout.put(pathField, this.target);
       return true;
     }
   }
@@ -164,6 +176,7 @@ public class MazeConfigure {
     this.maze.setKeysList(listOfKeys);
     this.maze.setPacman(this.pacman);
     this.maze.setTarget(this.target);
+    this.maze.setInitialObjectsLayout(this.initialObjectsLayout);
     return this.maze;
   }
 }

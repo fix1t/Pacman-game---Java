@@ -1,5 +1,7 @@
 package ija.ija2022.homework2.game;
 
+import ija.ija2022.homework2.game.resources.Coordinate;
+import ija.ija2022.homework2.game.resources.ObjectType;
 import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
 import ija.ija2022.homework2.tool.common.CommonMaze;
@@ -11,8 +13,7 @@ import java.util.Set;
 
 
 public class PathField implements CommonField {
-    int x;
-    int y;
+    private final Coordinate coordinate;
     private List<GhostObject> ghostList;
     private PacmanObject pacman;
     private KeyObject key;
@@ -21,91 +22,86 @@ public class PathField implements CommonField {
     private final Set<Observer> observers = new HashSet();
 
     public PathField(int x, int y) {
-        this.x = x;
-        this.y = y;
+        this.coordinate = new Coordinate(x, y);
         this.ghostList = new ArrayList<>();
         this.pacman = null;
         this.key = null;
         this.target = null;
     }
 
-    private int getX() {
-        return this.x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return this.y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
     public void setMaze(CommonMaze maze) {
         this.maze = maze;
     }
 
-    public boolean put(CommonMazeObject object) {
+    @Override
+    public void clearField() {
+        this.pacman = null;
+        this.ghostList.clear();
+        this.key = null;
+        this.target = null;
+        this.notifyObservers();
+    }
+
+    public void put(CommonMazeObject object) {
       if (object == null) {
-        return false;
+        return;
       }
+      // set this field to object
+      object.setField(this);
       // object is pacman
       if (object.isPacman() && this.pacman == null) {
           this.pacman = (PacmanObject) object;
           this.notifyObservers();
-          return true;
       }
       // object is ghost
-      else if (object.getClass() == GhostObject.class){
-          // if there is no pacman in the field
-          // TODO check if there is pacman in the field - resolve game over
+      else if (object.getType() == ObjectType.GHOST){
           this.ghostList.add((GhostObject) object);
           this.notifyObservers();
-          return true;
-        }
-      else if (object.getClass() == KeyObject.class){
+      }
+      // object is key
+      else if (object.getType() == ObjectType.KEY){
         this.key = (KeyObject) object;
         this.notifyObservers();
-        return true;
       }
-      else if (object.getClass() == TargetObject.class){
+      // object is target
+      else if (object.getType() == ObjectType.TARGET){
         this.target = (TargetObject) object;
         this.notifyObservers();
-        return true;
       }
-      // object not found
-      return false;
     }
 
     public boolean isEmpty() {
-        return this.pacman == null && this.ghostList.isEmpty() && this.target == null && this.key == null;
+      List<CommonMazeObject> objects = new ArrayList<>(this.ghostList);
+      objects.add(this.pacman);
+      objects.add(this.key);
+      objects.add(this.target);
+      objects.removeIf(item -> item == null);
+      return objects.isEmpty();
     }
 
     public boolean remove(CommonMazeObject object) {
       if (object == null)
         return false;
       // object is pacman
-      if (this.pacman != null && object.isPacman()) {
+      if (object.getType() == ObjectType.PACMAN) {
         this.pacman = null;
         this.notifyObservers();
         return true;
       }
       // object is ghost
-      else if (object.getClass() == GhostObject.class && this.ghostList.contains(object)){
+      else if (object.getType() == ObjectType.GHOST && this.ghostList.contains(object)){
         this.ghostList.remove(object);
         this.notifyObservers();
         return true;
       }
-      else if (object.getClass() == KeyObject.class && this.key == object){
+      // object is key
+      else if (object.getType() == ObjectType.KEY && this.key == object){
         this.key = null;
         this.notifyObservers();
         return true;
       }
-      else if (object.getClass() == TargetObject.class && this.target == object){
+      // object is target
+      else if (object.getType() == ObjectType.TARGET && this.target == object){
         this.target = null;
         this.notifyObservers();
         return true;
@@ -118,16 +114,16 @@ public class PathField implements CommonField {
     public CommonField nextField(Direction dirs) {
       switch (dirs){
         case D -> {
-          return this.maze.getField(this.getX() + 1, this.getY());
+          return this.maze.getField(this.coordinate.getX() + 1, this.coordinate.getY());
         }
         case L -> {
-          return this.maze.getField(this.getX(), this.getY() - 1);
+          return this.maze.getField(this.coordinate.getX(), this.coordinate.getY() - 1);
         }
         case R -> {
-          return this.maze.getField(this.getX(), this.getY() + 1);
+          return this.maze.getField(this.coordinate.getX(), this.coordinate.getY() + 1);
         }
         case U -> {
-          return this.maze.getField(this.getX() - 1, this.getY());
+          return this.maze.getField(this.coordinate.getX() - 1, this.coordinate.getY());
         }
         default -> throw new UnsupportedOperationException("Unexpected value: " + dirs);
       }
@@ -181,4 +177,8 @@ public class PathField implements CommonField {
         observer.update(this);
       });
     }
+
+  public CommonMaze getMaze() {
+      return this.maze;
+  }
 }

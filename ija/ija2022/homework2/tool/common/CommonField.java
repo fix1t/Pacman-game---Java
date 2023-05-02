@@ -16,6 +16,8 @@ public interface CommonField extends Observable {
 
   boolean canMove();
 
+  void clearField();
+
   boolean contains(CommonMazeObject var1);
 
   public static enum Direction {

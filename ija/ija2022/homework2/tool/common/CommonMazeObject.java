@@ -1,5 +1,7 @@
 package ija.ija2022.homework2.tool.common;
 
+import ija.ija2022.homework2.game.resources.ObjectType;
+
 public interface CommonMazeObject {
   boolean canMove(CommonField.Direction var1);
 
@@ -11,7 +13,11 @@ public interface CommonMazeObject {
 
   CommonField getField();
 
+  void setField(CommonField field);
+
   int getLives();
+
+  ObjectType getType();
 }
 //
 // Source code recreated from a .class file by IntelliJ IDEA
