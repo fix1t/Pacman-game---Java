@@ -34,7 +34,9 @@ public class GhostObject implements CommonMazeObject {
 
     if (pacman != null){
       //check if pacman will survive or its game over
-      pacman.ghostCollision();
+      if (pacman.ghostCollision()){
+        System.out.println("GAME OVER!");
+      };
     }
     return true;
   }

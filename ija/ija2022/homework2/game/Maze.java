@@ -81,6 +81,7 @@ public class Maze implements CommonMaze {
     this.listOfKeys.clear();
     this.listOfGhosts.clear();
     this.target = null;
+    this.pacman = null;
     // restore initial objects layout
     for (Map.Entry<PathField,CommonMazeObject> entry : this.initialObjectsLayout.entrySet()) {
       PathField field = entry.getKey();

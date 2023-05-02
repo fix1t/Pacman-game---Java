@@ -30,13 +30,6 @@ public class PacmanObject implements CommonMazeObject {
       }
       PathField moveTo = (PathField) this.currentField.nextField(direction);
 
-      // check if there is ghost in the field
-      if (!moveTo.getGhosts().isEmpty()){
-        //check if pacman will survive or its game over
-        if (this.ghostCollision()){
-          System.out.println("GAME OVER!");
-        };
-      }
       // take key if there is one
       if (moveTo.getKey() != null){
         // remove key from field and list of keys
@@ -54,6 +47,14 @@ public class PacmanObject implements CommonMazeObject {
       this.currentField.remove(this);
       //change field
       moveTo.put(this);
+      // check if there is ghost in the field
+      if (!moveTo.getGhosts().isEmpty()){
+        //check if pacman will survive or its game over
+        if (this.ghostCollision()){
+          System.out.println("GAME OVER!");
+        };
+        // GAME RESETS
+      }
       return true;
     }
 
