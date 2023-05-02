@@ -1,5 +1,6 @@
 package ija.ija2022.homework2.game;
 
+import ija.ija2022.homework2.game.resources.ObjectType;
 import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
 
@@ -26,17 +27,15 @@ public class GhostObject implements CommonMazeObject {
     PathField moveTo = (PathField) this.currentField.nextField(direction);
     // check if there is pacman in the field
     PacmanObject pacman = (PacmanObject) moveTo.getPacman();
-    if (pacman != null){
-      //check if pacman will survive or its game over
-      if (pacman.ghostCollision()){
-        System.out.println("GAME OVER!");
-      };
-    }
     //remove ghost from this field
     this.currentField.remove(this);
     //change field
     moveTo.put(this);
-    this.currentField = moveTo;
+
+    if (pacman != null){
+      //check if pacman will survive or its game over
+      pacman.ghostCollision();
+    }
     return true;
   }
 
@@ -46,7 +45,17 @@ public class GhostObject implements CommonMazeObject {
   }
 
   @Override
+  public void setField(CommonField field) {
+    this.currentField = (PathField) field;
+  }
+
+  @Override
   public int getLives() {
     return 0;
+  }
+
+  @Override
+  public ObjectType getType() {
+    return ObjectType.GHOST;
   }
 }

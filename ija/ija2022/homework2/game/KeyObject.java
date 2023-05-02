@@ -1,9 +1,8 @@
 package ija.ija2022.homework2.game;
 
+import ija.ija2022.homework2.game.resources.ObjectType;
 import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
-
-import java.security.Key;
 
 public class KeyObject implements CommonMazeObject {
   PathField currentField;
@@ -27,7 +26,17 @@ public class KeyObject implements CommonMazeObject {
   }
 
   @Override
+  public void setField(CommonField field) {
+    this.currentField = (PathField) field;
+  }
+
+  @Override
   public int getLives() {
     return 0;
+  }
+
+  @Override
+  public ObjectType getType() {
+    return ObjectType.KEY;
   }
 }

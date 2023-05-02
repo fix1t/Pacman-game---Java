@@ -4,6 +4,7 @@
  */
 package ija.ija2022.homework2.tool.tests;
 
+import java.nio.file.Path;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,10 +13,12 @@ import ija.ija2022.homework2.game.MazeConfigure;
 //---
 
 //--- Importy z baliku dodaneho nastroje
+import ija.ija2022.homework2.game.PathField;
 import ija.ija2022.homework2.tool.MazePresenter;
 import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMaze;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
+import org.junit.Assert;
 //---
 
 /**
@@ -45,22 +48,24 @@ public class Homework2 {
         CommonMazeObject obj = maze.getGhosts().get(0);
 
         obj.move(CommonField.Direction.L);
-        sleep(2000);
+        sleep(200);
         obj.move(CommonField.Direction.L);
-        sleep(1000);
+        sleep(200);
         obj.move(CommonField.Direction.D);
-        sleep(1000);
+        sleep(500);
         obj.move(CommonField.Direction.D);
-        sleep(1000);
+        sleep(500);
         obj.move(CommonField.Direction.D);
-        sleep(1000);
+        sleep(500);
         obj.move(CommonField.Direction.D);
-        sleep(1000);
+        sleep(500);
         obj.move(CommonField.Direction.R);
-        sleep(1000);
+        sleep(500);
+        Assert.assertNotNull(obj);
+        Assert.assertEquals(maze.getField(1,3).get(),obj);
         obj.move(CommonField.Direction.L);
-        sleep(1000);
-        obj.move(CommonField.Direction.U);
+        sleep(500);
+        Assert.assertEquals(maze.getField(1,2).get(),obj);
     }
 
     /**
