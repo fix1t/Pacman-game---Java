@@ -13,6 +13,8 @@ public interface CommonMazeObject {
 
   CommonField getField();
 
+  void setField(CommonField field);
+
   int getLives();
 
   ObjectType getType();

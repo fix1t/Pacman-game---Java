@@ -54,7 +54,6 @@ public class PacmanObject implements CommonMazeObject {
       this.currentField.remove(this);
       //change field
       moveTo.put(this);
-      this.currentField = moveTo;
       return true;
     }
 
@@ -72,6 +71,11 @@ public class PacmanObject implements CommonMazeObject {
   @Override
   public PathField getField() {
     return this.currentField;
+  }
+
+  @Override
+  public void setField(CommonField field) {
+    this.currentField = (PathField) field;
   }
 
   @Override

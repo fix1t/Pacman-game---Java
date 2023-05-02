@@ -45,6 +45,8 @@ public class PathField implements CommonField {
       if (object == null) {
         return false;
       }
+      // set this field to object
+      object.setField(this);
       // object is pacman
       if (object.isPacman() && this.pacman == null) {
           this.pacman = (PacmanObject) object;

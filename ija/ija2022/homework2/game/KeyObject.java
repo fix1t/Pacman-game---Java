@@ -26,6 +26,11 @@ public class KeyObject implements CommonMazeObject {
   }
 
   @Override
+  public void setField(CommonField field) {
+    this.currentField = (PathField) field;
+  }
+
+  @Override
   public int getLives() {
     return 0;
   }

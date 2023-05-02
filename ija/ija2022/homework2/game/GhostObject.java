@@ -31,7 +31,6 @@ public class GhostObject implements CommonMazeObject {
     this.currentField.remove(this);
     //change field
     moveTo.put(this);
-    this.currentField = moveTo;
 
     if (pacman != null){
       //check if pacman will survive or its game over
@@ -43,6 +42,11 @@ public class GhostObject implements CommonMazeObject {
   @Override
   public CommonField getField() {
     return this.currentField;
+  }
+
+  @Override
+  public void setField(CommonField field) {
+    this.currentField = (PathField) field;
   }
 
   @Override
