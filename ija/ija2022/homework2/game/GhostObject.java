@@ -16,12 +16,18 @@ public class GhostObject implements CommonMazeObject {
   public boolean isPacman() {
     return false;
   }
+
+  public void setDirection(CommonField.Direction direction) {
+    this.direction = direction;
+  }
+
   @Override
   public boolean canMove(PathField.Direction direction) {
     CommonField nextField = this.currentField.nextField(direction);
     return nextField.canMove();
   }
 
+  @Override
   public boolean move() {
     // check if pacman is moving
     if (this.direction == CommonField.Direction.STOP) {
