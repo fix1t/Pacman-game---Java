@@ -1,7 +1,10 @@
 package ija.ija2022.homework2.tool;
 
+import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMaze;
 import ija.ija2022.homework2.tool.view.FieldView;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.lang.reflect.InvocationTargetException;
@@ -30,6 +33,27 @@ public class MazePresenter {
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     frame.setSize(350, 400);
     frame.setPreferredSize(new Dimension(350, 400));
+    frame.addKeyListener(new KeyListener() {
+      @Override
+      public void keyTyped(KeyEvent e) {
+        switch (e.getKeyChar()) {
+          case 'A', 'a' -> maze.getPacman().move(CommonField.Direction.L);
+          case 'W', 'w' -> maze.getPacman().move(CommonField.Direction.U);
+          case 'D', 'd' -> maze.getPacman().move(CommonField.Direction.R);
+          case 'S', 's' -> maze.getPacman().move(CommonField.Direction.D);
+        }
+      }
+
+      @Override
+      public void keyPressed(KeyEvent e) {
+
+      }
+
+      @Override
+      public void keyReleased(KeyEvent e) {
+
+      }
+    });
     frame.setResizable(false);
     int rows = this.maze.numRows();
     int cols = this.maze.numCols();
