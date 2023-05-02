@@ -27,5 +27,7 @@ public class TargetView implements ComponentView {
     g2.setColor(Color.blue);
     g2.setStroke(new BasicStroke(5)); // set border width to 5 pixels
     g2.draw(rect);
+    g2.setColor(Color.white);
+    g2.fill(rect);
   }
 }

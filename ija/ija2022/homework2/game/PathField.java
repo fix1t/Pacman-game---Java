@@ -134,14 +134,16 @@ public class PathField implements CommonField {
     }
     @Override
   public CommonMazeObject get() {
+    if (this.pacman != null)
+      return this.pacman;
     if (this.target != null)
       return this.target;
+    if (!this.ghostList.isEmpty())
+      return this.ghostList.get(0);
     if (this.key != null)
       return this.key;
-   if (!this.ghostList.isEmpty())
-     return this.ghostList.get(0);
-   return this.pacman;
-  }
+    return null;
+    }
   public CommonMazeObject getPacman() {
       return this.pacman;
     }
