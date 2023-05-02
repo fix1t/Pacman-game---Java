@@ -1,6 +1,6 @@
 package ija.ija2022.homework2.game;
 
-import ija.ija2022.homework2.game.resources.ObjecType;
+import ija.ija2022.homework2.game.resources.ObjectType;
 import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
 
@@ -30,8 +30,8 @@ public class TargetObject implements CommonMazeObject {
   }
 
   @Override
-  public ObjecType getType() {
-    return ObjecType.TARGET;
+  public ObjectType getType() {
+    return ObjectType.TARGET;
   }
 }
 
