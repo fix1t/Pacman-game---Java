@@ -24,7 +24,8 @@ public interface CommonField extends Observable {
     L(0, -1),
     U(-1, 0),
     R(0, 1),
-    D(1, 0);
+    D(1, 0),
+    STOP(0, 0);
 
     private final int r;
     private final int c;

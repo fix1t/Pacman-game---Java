@@ -5,6 +5,8 @@ import ija.ija2022.homework2.game.resources.ObjectType;
 public interface CommonMazeObject {
   boolean canMove(CommonField.Direction var1);
 
+  boolean move();
+
   boolean move(CommonField.Direction var1);
 
   default boolean isPacman() {

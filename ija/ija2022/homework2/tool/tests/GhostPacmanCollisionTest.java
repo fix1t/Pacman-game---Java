@@ -2,6 +2,7 @@ package ija.ija2022.homework2.tool.tests;
 
 import ija.ija2022.homework2.game.GhostObject;
 import ija.ija2022.homework2.game.MazeConfigure;
+import ija.ija2022.homework2.game.PacmanObject;
 import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMaze;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
@@ -13,9 +14,6 @@ public class GhostPacmanCollisionTest {
 
   private CommonMaze maze;
 
-  /**
-   * Vytvoří bludiště, nad kterým se provádějí testy.
-   */
   @Before
   public void setUp() {
     MazeConfigure cfg = new MazeConfigure();
@@ -29,7 +27,7 @@ public class GhostPacmanCollisionTest {
   }
 
   @Test
-  public void LayoutAfterReset() {
+  public void GhostEatsPacmanLayoutAfterReset() {
     Assert.assertNotNull("Maze neni null", maze);
     GhostObject ghost = (GhostObject) maze.getGhosts().get(0);
     Assert.assertNotNull("Objekt není null", ghost);
@@ -43,5 +41,25 @@ public class GhostPacmanCollisionTest {
 
     Assert.assertEquals(1, maze.getGhosts().size());
     Assert.assertEquals(ghost.getField(), maze.getField(4, 2));
+  }
+
+  @Test
+  public void PacmanEatsGhostLayoutAfterReset() {
+    Assert.assertNotNull("Maze neni null", maze);
+    PacmanObject pacman = (PacmanObject) maze.getPacman();
+    GhostObject ghost = (GhostObject) maze.getGhosts().get(0);
+    Assert.assertNotNull("Objekt není null", pacman);
+
+    //move to pacman
+    pacman.move(CommonField.Direction.D);
+    pacman.move(CommonField.Direction.D);
+    pacman.move(CommonField.Direction.D);
+    // collision
+    pacman.move(CommonField.Direction.L);
+    // ghost gets relocated
+    Assert.assertEquals(1, maze.getGhosts().size());
+    Assert.assertEquals(ghost.getField(), maze.getField(4, 2));
+    // pacman gets relocated
+    Assert.assertEquals(pacman.getField(), maze.getField(1, 3));
   }
 }

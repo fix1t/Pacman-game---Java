@@ -11,10 +11,12 @@ public class PacmanObject implements CommonMazeObject {
     PathField currentField;
     List<CommonMazeObject> listOfKeys;
     int livesRemaining;
+    CommonField.Direction direction;
     public PacmanObject(PathField field, List<CommonMazeObject> listOfKeys) {
         this.currentField = field;
         this.livesRemaining =3;
         this.listOfKeys = listOfKeys;
+        this.direction = CommonField.Direction.STOP;
     }
 
     @Override
@@ -22,41 +24,52 @@ public class PacmanObject implements CommonMazeObject {
         return this.currentField.nextField(direction).canMove();
     }
 
-    @Override
-    public boolean move(CommonField.Direction direction) {
-      //check if it is walkable field = PathField
-      if (!this.canMove(direction)) {
-        return false;
-      }
-      PathField moveTo = (PathField) this.currentField.nextField(direction);
-
-      // check if there is ghost in the field
-      if (!moveTo.getGhosts().isEmpty()){
-        //check if pacman will survive or its game over
-        if (this.ghostCollision()){
-          System.out.println("GAME OVER!");
-        };
-      }
-      // take key if there is one
-      if (moveTo.getKey() != null){
-        // remove key from field and list of keys
-        this.listOfKeys.remove(moveTo.getKey());
-        moveTo.remove(moveTo.getKey());
-      // check if there is target in the field and if all keys are taken
-      } else if (moveTo.getTarget() != null && this.canTakeTarget()) {
-        // remove target from field if all keys are taken
-        moveTo.remove(moveTo.getTarget());
-        // TODO RESOLVE GAME OVER
-        System.out.println("GAME OVER!");
-      }
-
-      //remove pacman from this field
-      this.currentField.remove(this);
-      //change field
-      moveTo.put(this);
+  public boolean move() {
+    // check if pacman is moving
+    if (this.direction == CommonField.Direction.STOP) {
       return true;
     }
+    return move(this.direction);
+  }
 
+  @Override
+  public boolean move(CommonField.Direction direction) {
+    // check if it is walkable field = PathField
+    if (!this.canMove(direction)) {
+      return false;
+    }
+    PathField moveTo = (PathField) this.currentField.nextField(direction);
+    return performMove(moveTo);
+  }
+
+  private boolean performMove(PathField moveTo) {
+    // take key if there is one
+    if (moveTo.getKey() != null) {
+      // remove key from field and list of keys
+      this.listOfKeys.remove(moveTo.getKey());
+      moveTo.remove(moveTo.getKey());
+      // check if there is a target in the field and if all keys are taken
+    } else if (moveTo.getTarget() != null && this.canTakeTarget()) {
+      // remove target from field if all keys are taken
+      moveTo.remove(moveTo.getTarget());
+      // TODO: RESOLVE GAME OVER
+      System.out.println("GAME OVER!");
+
+    }
+    // remove pacman from this field
+    this.currentField.remove(this);
+    // change field
+    moveTo.put(this);
+
+    // check if there is a ghost in the field
+    if (!moveTo.getGhosts().isEmpty()) {
+      // check if pacman will survive or if it's game over
+      if (this.ghostCollision()) {
+        System.out.println("GAME OVER!");
+      }
+    }
+    return true;
+  }
   private boolean canTakeTarget() {
     return this.listOfKeys.isEmpty();
   }
