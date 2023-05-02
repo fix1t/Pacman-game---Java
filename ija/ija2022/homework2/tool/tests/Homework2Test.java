@@ -99,7 +99,6 @@ public class Homework2Test {
         Assert.assertEquals("Pocet zivotu pacmana", 2, pacman.getLives());
         Assert.assertNotNull("Duch je pryc", ghost);
     }
-
     /**
      * Testování notifikací při přesunu objektu (ducha).
      * 5 bodů
@@ -162,5 +161,4 @@ public class Homework2Test {
             Assert.assertTrue("Zadna notifikace.", res);
         }
     }
-
 }

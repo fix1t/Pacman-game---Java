@@ -1,5 +1,6 @@
 package ija.ija2022.homework2.game;
 
+import ija.ija2022.homework2.game.resources.ObjecType;
 import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
 
@@ -76,6 +77,11 @@ public class PacmanObject implements CommonMazeObject {
   @Override
   public int getLives() {
     return this.livesRemaining;
+  }
+
+  @Override
+  public ObjecType getType() {
+    return ObjecType.PACMAN;
   }
 
   // return true if pacman has no more lives

@@ -1,6 +1,5 @@
 package ija.ija2022.homework2.game;
 
-import ija.ija2022.homework2.game.resources.Coordinate;
 import ija.ija2022.homework2.tool.common.CommonMaze;
 import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
@@ -17,7 +16,7 @@ public class Maze implements CommonMaze {
   List<CommonMazeObject> listOfKeys;
   PacmanObject pacman;
   TargetObject target;
-  private Map<Coordinate, String> initialObjectsLayout;
+  private Map<PathField,CommonMazeObject> initialObjectsLayout;
 
   public Maze(int col, int row) {
       this.cols = col;
@@ -83,35 +82,25 @@ public class Maze implements CommonMaze {
     this.listOfGhosts.clear();
     this.target = null;
     // restore initial objects layout
-    for (Map.Entry<Coordinate, String> entry : this.initialObjectsLayout.entrySet()) {
-      Coordinate coordinate = entry.getKey();
-      String objectType = entry.getValue();
-      this.configureField(coordinate, objectType);
-    }
-  }
-
-  private void configureField(Coordinate coordinate, String objectType) {
-      PathField field = (PathField) this.getField(coordinate.getX(), coordinate.getY());
-      switch (objectType) {
-        case "S":
-          this.pacman.resetPosition(field);
+    for (Map.Entry<PathField,CommonMazeObject> entry : this.initialObjectsLayout.entrySet()) {
+      PathField field = entry.getKey();
+      CommonMazeObject object = entry.getValue();
+      field.put(object);
+      // add objects to lists
+      switch (object.getType()) {
+        case GHOST:
+          this.listOfGhosts.add(object);
           break;
-        case "G":
-          GhostObject ghost = new GhostObject((PathField) field);
-          field.put(ghost);
-          this.listOfGhosts.add(ghost);
+        case KEY:
+          this.listOfKeys.add(object);
           break;
-        case "K":
-          KeyObject key = new KeyObject((PathField) field);
-          field.put(key);
-          this.listOfKeys.add(key);
+        case TARGET:
+          this.target = (TargetObject) object;
           break;
-        case "T":
-          this.target = new TargetObject((PathField) field);
-          field.put(this.target);
+        default:
           break;
       }
-      field.notifyObservers();
+    }
   }
 
   private void clearAllFields() {
@@ -138,7 +127,7 @@ public class Maze implements CommonMaze {
       this.target = target;
   }
 
-  public void setInitialObjectsLayout(Map<Coordinate, String> initialObjectsLayout) {
+  public void setInitialObjectsLayout(Map<PathField, CommonMazeObject> initialObjectsLayout) {
     this.initialObjectsLayout = initialObjectsLayout;
   }
 }
