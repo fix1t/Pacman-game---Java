@@ -97,6 +97,9 @@ public class Maze implements CommonMaze {
         case TARGET:
           this.target = (TargetObject) object;
           break;
+        case PACMAN:
+          this.pacman = (PacmanObject) object;
+          break;
         default:
           break;
       }
