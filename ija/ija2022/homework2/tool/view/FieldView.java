@@ -51,10 +51,11 @@ public class FieldView extends JPanel implements Observable.Observer {
         this.objects.clear();
       }
     } else {
-      this.setBackground(Color.lightGray);
+      Color wallBackground = new Color(155, 93, 229);
+      this.setBackground(wallBackground);
     }
-
-    this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    Color borderColor = new Color(35, 25, 66);
+    this.setBorder(BorderFactory.createLineBorder(borderColor));
   }
 
   public final void update(Observable field) {
