@@ -1,6 +1,7 @@
 package ija.ija2022.homework2.game;
 
 import ija.ija2022.homework2.game.resources.Coordinate;
+import ija.ija2022.homework2.game.resources.ObjectType;
 import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
 import ija.ija2022.homework2.tool.common.CommonMaze;
@@ -41,9 +42,9 @@ public class PathField implements CommonField {
         this.notifyObservers();
     }
 
-    public boolean put(CommonMazeObject object) {
+    public void put(CommonMazeObject object) {
       if (object == null) {
-        return false;
+        return;
       }
       // set this field to object
       object.setField(this);
@@ -51,55 +52,56 @@ public class PathField implements CommonField {
       if (object.isPacman() && this.pacman == null) {
           this.pacman = (PacmanObject) object;
           this.notifyObservers();
-          return true;
       }
       // object is ghost
-      else if (object.getClass() == GhostObject.class){
-          // if there is no pacman in the field
-          // TODO check if there is pacman in the field - resolve game over
+      else if (object.getType() == ObjectType.GHOST){
           this.ghostList.add((GhostObject) object);
           this.notifyObservers();
-          return true;
-        }
-      else if (object.getClass() == KeyObject.class){
+      }
+      // object is key
+      else if (object.getType() == ObjectType.KEY){
         this.key = (KeyObject) object;
         this.notifyObservers();
-        return true;
       }
-      else if (object.getClass() == TargetObject.class){
+      // object is target
+      else if (object.getType() == ObjectType.TARGET){
         this.target = (TargetObject) object;
         this.notifyObservers();
-        return true;
       }
-      // object not found
-      return false;
     }
 
     public boolean isEmpty() {
-        return this.pacman == null && this.ghostList.isEmpty();
+      List<CommonMazeObject> objects = new ArrayList<>(this.ghostList);
+      objects.add(this.pacman);
+      objects.add(this.key);
+      objects.add(this.target);
+      objects.removeIf(item -> item == null);
+      return objects.isEmpty();
     }
 
     public boolean remove(CommonMazeObject object) {
       if (object == null)
         return false;
       // object is pacman
-      if (this.pacman != null && object.isPacman()) {
+      if (object.getType() == ObjectType.PACMAN) {
         this.pacman = null;
         this.notifyObservers();
         return true;
       }
       // object is ghost
-      else if (object.getClass() == GhostObject.class && this.ghostList.contains(object)){
+      else if (object.getType() == ObjectType.GHOST && this.ghostList.contains(object)){
         this.ghostList.remove(object);
         this.notifyObservers();
         return true;
       }
-      else if (object.getClass() == KeyObject.class && this.key == object){
+      // object is key
+      else if (object.getType() == ObjectType.KEY && this.key == object){
         this.key = null;
         this.notifyObservers();
         return true;
       }
-      else if (object.getClass() == TargetObject.class && this.target == object){
+      // object is target
+      else if (object.getType() == ObjectType.TARGET && this.target == object){
         this.target = null;
         this.notifyObservers();
         return true;
