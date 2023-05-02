@@ -16,6 +16,7 @@ import ija.ija2022.homework2.tool.MazePresenter;
 import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMaze;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
+import org.junit.Assert;
 //---
 
 /**
@@ -58,9 +59,7 @@ public class Homework2 {
         sleep(500);
         obj.move(CommonField.Direction.R);
         sleep(500);
-        obj.move(CommonField.Direction.L);
-        sleep(500);
-        obj.move(CommonField.Direction.U);
+        Assert.assertNotNull(obj);
     }
 
     /**

@@ -5,6 +5,7 @@ import ija.ija2022.homework2.tool.common.CommonMaze;
 import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +24,7 @@ public class MazeConfigure {
   List<CommonMazeObject> listOfKeys;
   PacmanObject pacman;
   TargetObject target;
-  Map<Coordinate, String> initialObjectsLayout;
+  Map<PathField, CommonMazeObject> initialObjectsLayout;
   public MazeConfigure() {
     this.rows = 0;
     this.cols = 0;
@@ -68,6 +69,8 @@ public class MazeConfigure {
       PathField pathField = createPathField(this.currentRow, i + 1);
       this.pacman = new PacmanObject(pathField, this.listOfKeys);
       pathField.put(this.pacman);
+      // put pacman into initialObjectsLayout
+      this.initialObjectsLayout.put(pathField, this.pacman);
       return true;
     }
   }
@@ -77,6 +80,8 @@ public class MazeConfigure {
     GhostObject ghost = new GhostObject(pathField);
     pathField.put(ghost);
     listOfGhosts.add(ghost);
+    // put ghost into initialObjectsLayout
+    this.initialObjectsLayout.put(pathField, ghost);
   }
 
   private void handleKeyCase(int i) {
@@ -84,6 +89,8 @@ public class MazeConfigure {
     KeyObject key = new KeyObject(pathField);
     pathField.put(key);
     this.listOfKeys.add(key);
+    // put key into initialObjectsLayout
+    this.initialObjectsLayout.put(pathField, key);
   }
 
   private boolean handleTargetCase(int i) {
@@ -93,6 +100,8 @@ public class MazeConfigure {
       PathField pathField = createPathField(this.currentRow, i + 1);
       this.target = new TargetObject(pathField);
       pathField.put(this.target);
+      // put target into initialObjectsLayout
+      this.initialObjectsLayout.put(pathField, this.target);
       return true;
     }
   }
@@ -122,22 +131,18 @@ public class MazeConfigure {
           if (!handlePacmanCase(i)) {
             return false;
           }
-          initialObjectsLayout.put(new Coordinate(this.currentRow, i + 1), "S");
           break;
         case 'G':
           handleGhostCase(i);
-          initialObjectsLayout.put(new Coordinate(this.currentRow, i + 1), "G");
           break;
         case 'K':
           handleKeyCase(i);
-          initialObjectsLayout.put(new Coordinate(this.currentRow, i + 1), "K");
           break;
         case 'T':
           // if target is already placed, return false = error
           if (!handleTargetCase(i)){
             return false;
           }
-          initialObjectsLayout.put(new Coordinate(this.currentRow, i + 1), "T");
           break;
         default:
           this.errorFlag = true;
