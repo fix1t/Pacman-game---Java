@@ -24,6 +24,10 @@ public class PacmanObject implements CommonMazeObject {
     this.direction = direction;
   }
 
+  public CommonField.Direction getDirection() {
+    return this.direction;
+  }
+
   @Override
     public boolean canMove(PathField.Direction direction) {
         return this.currentField.nextField(direction).canMove();

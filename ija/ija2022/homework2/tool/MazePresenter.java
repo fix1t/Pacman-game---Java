@@ -37,10 +37,10 @@ public class MazePresenter {
       @Override
       public void keyTyped(KeyEvent e) {
         switch (e.getKeyChar()) {
-          case 'A', 'a' -> maze.getPacman().setDirection(CommonField.Direction.L);
-          case 'W', 'w' -> maze.getPacman().setDirection(CommonField.Direction.U);
-          case 'D', 'd' -> maze.getPacman().setDirection(CommonField.Direction.R);
-          case 'S', 's' -> maze.getPacman().setDirection(CommonField.Direction.D);
+          case 'A', 'a' -> maze.getPacman().setDirection(CommonField.Direction.LEFT);
+          case 'W', 'w' -> maze.getPacman().setDirection(CommonField.Direction.UP);
+          case 'D', 'd' -> maze.getPacman().setDirection(CommonField.Direction.RIGHT);
+          case 'S', 's' -> maze.getPacman().setDirection(CommonField.Direction.DOWN);
         }
       }
 
