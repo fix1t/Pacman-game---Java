@@ -5,7 +5,6 @@ import ija.ija2022.homework2.game.MazeConfigure;
 import ija.ija2022.homework2.game.PacmanObject;
 import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMaze;
-import ija.ija2022.homework2.tool.common.CommonMazeObject;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,11 +32,11 @@ public class GhostPacmanCollisionTest {
     Assert.assertNotNull("Objekt není null", ghost);
 
     //move to pacman
-    ghost.move(CommonField.Direction.U);
-    ghost.move(CommonField.Direction.U);
-    ghost.move(CommonField.Direction.U);
+    ghost.move(CommonField.Direction.UP);
+    ghost.move(CommonField.Direction.UP);
+    ghost.move(CommonField.Direction.UP);
     // collision
-    ghost.move(CommonField.Direction.R);
+    ghost.move(CommonField.Direction.RIGHT);
 
     Assert.assertEquals(1, maze.getGhosts().size());
     Assert.assertEquals(ghost.getField(), maze.getField(4, 2));
@@ -51,11 +50,11 @@ public class GhostPacmanCollisionTest {
     Assert.assertNotNull("Objekt není null", pacman);
 
     //move to pacman
-    pacman.move(CommonField.Direction.D);
-    pacman.move(CommonField.Direction.D);
-    pacman.move(CommonField.Direction.D);
+    pacman.move(CommonField.Direction.DOWN);
+    pacman.move(CommonField.Direction.DOWN);
+    pacman.move(CommonField.Direction.DOWN);
     // collision
-    pacman.move(CommonField.Direction.L);
+    pacman.move(CommonField.Direction.LEFT);
     // ghost gets relocated
     Assert.assertEquals(1, maze.getGhosts().size());
     Assert.assertEquals(ghost.getField(), maze.getField(4, 2));

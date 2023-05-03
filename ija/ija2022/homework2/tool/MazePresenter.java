@@ -1,5 +1,6 @@
 package ija.ija2022.homework2.tool;
 
+import ija.ija2022.homework2.game.PacmanObject;
 import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMaze;
 import ija.ija2022.homework2.tool.view.FieldView;
@@ -51,11 +52,12 @@ public class MazePresenter {
     frame.addKeyListener(new KeyListener() {
       @Override
       public void keyTyped(KeyEvent e) {
+        PacmanObject pacman = (PacmanObject) maze.getPacman();
         switch (e.getKeyChar()) {
-          case 'A', 'a' -> maze.getPacman().setDirection(CommonField.Direction.L);
-          case 'W', 'w' -> maze.getPacman().setDirection(CommonField.Direction.U);
-          case 'D', 'd' -> maze.getPacman().setDirection(CommonField.Direction.R);
-          case 'S', 's' -> maze.getPacman().setDirection(CommonField.Direction.D);
+          case 'A', 'a' -> {if(pacman.canMove(CommonField.Direction.LEFT)){pacman.setDirection(CommonField.Direction.LEFT);}}
+          case 'W', 'w' -> {if(pacman.canMove(CommonField.Direction.UP)){pacman.setDirection(CommonField.Direction.UP);}}
+          case 'D', 'd' -> {if(pacman.canMove(CommonField.Direction.RIGHT)){pacman.setDirection(CommonField.Direction.RIGHT);}}
+          case 'S', 's' -> {if(pacman.canMove(CommonField.Direction.DOWN)){pacman.setDirection(CommonField.Direction.DOWN);}}
         }
       }
 

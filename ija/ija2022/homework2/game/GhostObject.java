@@ -4,6 +4,10 @@ import ija.ija2022.homework2.game.resources.ObjectType;
 import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class GhostObject implements CommonMazeObject {
   PathField currentField;
   private CommonField.Direction direction;
@@ -22,6 +26,10 @@ public class GhostObject implements CommonMazeObject {
     this.direction = direction;
   }
 
+  public CommonField.Direction getDirection() {
+    return direction;
+  }
+
   @Override
   public boolean canMove(PathField.Direction direction) {
     CommonField nextField = this.currentField.nextField(direction);
@@ -30,11 +38,34 @@ public class GhostObject implements CommonMazeObject {
 
   @Override
   public boolean move() {
-    // check if pacman is moving
-    if (this.direction == CommonField.Direction.STOP) {
-      return true;
-    }
+    this.chooseDirection();
     return move(this.direction);
+  }
+
+  private void chooseDirection() {
+    List<CommonField.Direction> possibleDirections = new ArrayList<>();
+    for (CommonField.Direction direction : CommonField.Direction.values()) {
+      // skip STOP and opposite direction
+      if (direction == CommonField.Direction.STOP || direction == this.direction.opposite()) {
+        continue;
+      }
+      if (this.canMove((PathField.Direction) direction)) {
+        if (this.getDirection() == direction) {
+          // let ghost go straight more often
+          possibleDirections.add(direction);
+        }
+        possibleDirections.add(direction);
+      }
+    }
+    // if there is no possible direction, ghost will go back
+    if (possibleDirections.size() == 0) {
+      this.direction = this.direction.opposite();
+    } else {
+      // choose random direction from possible directions
+      Random random = new Random();
+      int randomDirection = random.nextInt(possibleDirections.size());
+      this.direction = possibleDirections.get(randomDirection);
+    }
   }
 
   @Override

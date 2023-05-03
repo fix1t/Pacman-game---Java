@@ -5,8 +5,6 @@
 
 package ija.ija2022.homework2.tool.common;
 
-import java.util.List;
-
 public interface CommonField extends Observable {
   CommonField nextField(Direction var1);
 
@@ -21,10 +19,10 @@ public interface CommonField extends Observable {
   boolean contains(CommonMazeObject var1);
 
   public static enum Direction {
-    L(0, -1),
-    U(-1, 0),
-    R(0, 1),
-    D(1, 0),
+    LEFT(0, -1),
+    UP(-1, 0),
+    RIGHT(0, 1),
+    DOWN(1, 0),
     STOP(0, 0);
 
     private final int r;
@@ -41,6 +39,21 @@ public interface CommonField extends Observable {
 
     public int deltaCol() {
       return this.c;
+    }
+
+    public Direction opposite() {
+      switch(this) {
+        case LEFT:
+          return RIGHT;
+        case UP:
+          return DOWN;
+        case RIGHT:
+          return LEFT;
+        case DOWN:
+          return UP;
+        default:
+          return STOP;
+      }
     }
   }
 }

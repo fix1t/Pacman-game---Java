@@ -159,14 +159,21 @@ public class MazeConfigure {
   }
 
   public CommonMaze loadMaze(InputStream inputStream) {
-    try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
+    try {
+      BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
       String[] dimensions = br.readLine().split(" ");
-      int rows = Integer.parseInt(dimensions[0]);
-      int cols = Integer.parseInt(dimensions[1]);
+      try {
+        this.rows = Integer.parseInt(dimensions[0]);
+        this.cols = Integer.parseInt(dimensions[1]);
+      } catch (NumberFormatException e) {
+        System.out.println("Invalid format of maze dimensions");
+        return null;
+      }
       this.startReading(rows, cols);
       String line;
       while ((line = br.readLine()) != null) {
         if (!this.processLine(line)) {
+          System.out.println("Invalid format of this line: " + line);
           return null;
         }
       }

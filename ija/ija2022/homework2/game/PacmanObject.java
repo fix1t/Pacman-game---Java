@@ -12,16 +12,23 @@ public class PacmanObject implements CommonMazeObject {
     List<CommonMazeObject> listOfKeys;
     int livesRemaining;
     CommonField.Direction direction;
-    public PacmanObject(PathField field, List<CommonMazeObject> listOfKeys) {
+    private boolean victory;
+
+  public PacmanObject(PathField field, List<CommonMazeObject> listOfKeys) {
         this.currentField = field;
         this.livesRemaining =3;
         this.listOfKeys = listOfKeys;
         this.direction = CommonField.Direction.STOP;
+        this.victory = false;
     }
 
   @Override
   public void setDirection(CommonField.Direction direction) {
     this.direction = direction;
+  }
+
+  public CommonField.Direction getDirection() {
+    return this.direction;
   }
 
   @Override
@@ -45,7 +52,8 @@ public class PacmanObject implements CommonMazeObject {
         return false;
       }
       PathField moveTo = (PathField) this.currentField.nextField(direction);
-      return performMove(moveTo);
+      performMove(moveTo);
+      return true;
     }
 
     private boolean performMove(PathField moveTo) {
@@ -60,7 +68,7 @@ public class PacmanObject implements CommonMazeObject {
         moveTo.remove(moveTo.getTarget());
         // TODO: RESOLVE GAME OVER
         System.out.println("GAME OVER!");
-
+        this.setVictory();
       }
       // remove pacman from this field
       this.currentField.remove(this);
@@ -76,7 +84,16 @@ public class PacmanObject implements CommonMazeObject {
       }
       return true;
     }
-    private boolean canTakeTarget() {
+
+  private void setVictory() {
+      this.victory = true;
+  }
+
+  public boolean isVictorious() {
+      return this.victory;
+  }
+
+  private boolean canTakeTarget() {
       return this.listOfKeys.isEmpty();
     }
 

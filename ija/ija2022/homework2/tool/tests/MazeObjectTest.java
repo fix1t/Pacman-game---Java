@@ -61,18 +61,18 @@ public class MazeObjectTest {
 
     CommonMazeObject target = maze.getTarget();
     // Pacman moves to the key
-    Assert.assertTrue("Presun na policko se podari.", pacman.move(CommonField.Direction.L));
+    Assert.assertTrue("Presun na policko se podari.", pacman.move(CommonField.Direction.LEFT));
     // Pacman cant eat target
-    Assert.assertTrue("Presun na policko se podari.", pacman.move(CommonField.Direction.D));
+    Assert.assertTrue("Presun na policko se podari.", pacman.move(CommonField.Direction.DOWN));
     Assert.assertTrue("Target je nebyl splnen", pacman.getField().contains(target));
     // Pacman eats the key
-    Assert.assertTrue("Presun na policko se podari.", pacman.move(CommonField.Direction.D));
+    Assert.assertTrue("Presun na policko se podari.", pacman.move(CommonField.Direction.DOWN));
     Assert.assertTrue("Klic byl vymazan z listu.", maze.getKeys().isEmpty());
     Assert.assertNull("Klic byl vymazan policka.", (PathField)((PathField) pacman.getField()).getKey());
     // Pacman eats the target
-    Assert.assertTrue("Presun na policko se podari.", pacman.move(CommonField.Direction.U));
+    Assert.assertTrue("Presun na policko se podari.", pacman.move(CommonField.Direction.UP));
     Assert.assertNull("Target byl vymazan policka.", (PathField)((PathField) pacman.getField()).getTarget());
-    Assert.assertTrue("Presun na policko se podari.", pacman.move(CommonField.Direction.U));
+    Assert.assertTrue("Presun na policko se podari.", pacman.move(CommonField.Direction.UP));
   }
 }
 
