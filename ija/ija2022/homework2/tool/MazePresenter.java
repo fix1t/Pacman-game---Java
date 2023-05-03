@@ -5,8 +5,6 @@ import ija.ija2022.homework2.tool.common.CommonMaze;
 import ija.ija2022.homework2.tool.view.FieldView;
 
 import java.awt.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.lang.reflect.InvocationTargetException;
@@ -39,6 +37,7 @@ public class MazePresenter {
     JPanel textPanel = new JPanel(new BorderLayout());
     JLabel textLabel = new JLabel("Life Counter: " + this.maze.getPacman().getLives());
     textLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+    textLabel.setFont(new Font("Arial", Font.BOLD, 14));
     textPanel.add(textLabel, BorderLayout.CENTER);
     textPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 10)); // add padding to the text
     textLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -82,6 +81,12 @@ public class MazePresenter {
         content.add(field);
       }
     }
+
+    // Create a timer that updates the LifeCounter every second
+    Timer timer = new Timer(1000, e -> {
+      textLabel.setText("Life Counter: " + this.maze.getPacman().getLives());
+    });
+    timer.start();
 
     frame.getContentPane().add(content, "Center");
     frame.pack();
