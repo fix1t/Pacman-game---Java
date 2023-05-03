@@ -14,7 +14,7 @@ public class PacmanView implements ComponentView {
   public PacmanView(FieldView parent, CommonMazeObject m) {
     this.model = m;
     this.parent = parent;
-    image = new ImageIcon(getClass().getResource("Pacman.png")).getImage();
+    image = new ImageIcon(getClass().getResource("../lib/Pacman.png")).getImage();
   }
 
   public void paintComponent(Graphics g) {
