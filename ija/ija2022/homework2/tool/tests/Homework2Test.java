@@ -68,10 +68,10 @@ public class Homework2Test {
     public void testGhostMoving() {
         // Ghost na pozici 1,3
         CommonMazeObject obj = maze.getGhosts().get(0);
-        Assert.assertTrue("Presun na policko se podari.", obj.move(CommonField.Direction.D));
-        Assert.assertTrue("Presun na policko se podari.", obj.move(CommonField.Direction.D));
-        Assert.assertTrue("Presun na policko se podari.", obj.move(CommonField.Direction.D));
-        Assert.assertFalse("Presun na policko se nepodari.", obj.move(CommonField.Direction.R));
+        Assert.assertTrue("Presun na policko se podari.", obj.move(CommonField.Direction.DOWN));
+        Assert.assertTrue("Presun na policko se podari.", obj.move(CommonField.Direction.DOWN));
+        Assert.assertTrue("Presun na policko se podari.", obj.move(CommonField.Direction.DOWN));
+        Assert.assertFalse("Presun na policko se nepodari.", obj.move(CommonField.Direction.RIGHT));
     }
 
     /**
@@ -89,13 +89,13 @@ public class Homework2Test {
         Assert.assertTrue("Objekt je pacman", pacman.isPacman());
         Assert.assertEquals("Pocet zivotu pacmana", 3, pacman.getLives());
 
-        Assert.assertTrue("Presun na policko se podari.", ghost.move(CommonField.Direction.D));
+        Assert.assertTrue("Presun na policko se podari.", ghost.move(CommonField.Direction.DOWN));
         Assert.assertEquals("Pocet zivotu pacmana", 3, pacman.getLives());
-        Assert.assertTrue("Presun na policko se podari.", ghost.move(CommonField.Direction.D));
+        Assert.assertTrue("Presun na policko se podari.", ghost.move(CommonField.Direction.DOWN));
         Assert.assertEquals("Pocet zivotu pacmana", 3, pacman.getLives());
-        Assert.assertTrue("Presun na policko se podari.", ghost.move(CommonField.Direction.D));
+        Assert.assertTrue("Presun na policko se podari.", ghost.move(CommonField.Direction.DOWN));
         Assert.assertEquals("Pocet zivotu pacmana", 3, pacman.getLives());
-        Assert.assertTrue("Presun na policko se podari.", ghost.move(CommonField.Direction.L));
+        Assert.assertTrue("Presun na policko se podari.", ghost.move(CommonField.Direction.LEFT));
         Assert.assertEquals("Pocet zivotu pacmana", 2, pacman.getLives());
         Assert.assertNotNull("Duch je pryc", ghost);
     }
@@ -115,14 +115,14 @@ public class Homework2Test {
          * Kazde takove view bude notifikovano prave jednou.
          * Ostatni notifikovana nebudou.
          */
-        testNotificationGhostMoving(tester, true, obj, CommonField.Direction.L);
-        testNotificationGhostMoving(tester, true, obj, CommonField.Direction.L);
-        testNotificationGhostMoving(tester, true, obj, CommonField.Direction.D);
+        testNotificationGhostMoving(tester, true, obj, CommonField.Direction.LEFT);
+        testNotificationGhostMoving(tester, true, obj, CommonField.Direction.LEFT);
+        testNotificationGhostMoving(tester, true, obj, CommonField.Direction.DOWN);
 
         /* Testy, kdy se presun nepodari (pokus vstoupit do zdi).
          * Nikdo nebude notifikovan.
          */
-        testNotificationGhostMoving(tester, false, obj, CommonField.Direction.R);
+        testNotificationGhostMoving(tester, false, obj, CommonField.Direction.RIGHT);
     }
 
     /**

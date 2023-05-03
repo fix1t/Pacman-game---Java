@@ -113,16 +113,16 @@ public class PathField implements CommonField {
   @Override
     public CommonField nextField(Direction dirs) {
       switch (dirs){
-        case D -> {
+        case DOWN -> {
           return this.maze.getField(this.coordinate.getX() + 1, this.coordinate.getY());
         }
-        case L -> {
+        case LEFT -> {
           return this.maze.getField(this.coordinate.getX(), this.coordinate.getY() - 1);
         }
-        case R -> {
+        case RIGHT -> {
           return this.maze.getField(this.coordinate.getX(), this.coordinate.getY() + 1);
         }
-        case U -> {
+        case UP -> {
           return this.maze.getField(this.coordinate.getX() - 1, this.coordinate.getY());
         }
         default -> throw new UnsupportedOperationException("Unexpected value: " + dirs);

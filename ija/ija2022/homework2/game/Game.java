@@ -1,6 +1,7 @@
 package ija.ija2022.homework2.game;
 
 import ija.ija2022.homework2.tool.MazePresenter;
+import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMaze;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
 import ija.ija2022.homework2.tool.tests.Homework2;
@@ -16,14 +17,14 @@ import java.util.logging.Logger;
 public class Game {
   CommonMaze maze;
   //game delay in ms
-  private int gameSpeed;
+  private final int tickLength;
 
   public Game() {
-    this.gameSpeed = 250;
+    this.tickLength = 500;
   }
 
   public Game(int gameSpeed) {
-    this.gameSpeed = gameSpeed;
+    this.tickLength = gameSpeed;
   }
 
   public static void main(String[] args) {
@@ -63,7 +64,7 @@ public class Game {
     allMazeObjects.add(pacman);
     do {
       this.moveAllMazeObjects(allMazeObjects);
-      sleep(this.gameSpeed);
+      sleep(this.tickLength);
     } while (!pacman.isDead());
   }
 
