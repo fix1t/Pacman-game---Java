@@ -3,10 +3,12 @@ package ija.ija2022.homework2.tool;
 import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMaze;
 import ija.ija2022.homework2.tool.view.FieldView;
+
+import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,6 +35,20 @@ public class MazePresenter {
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     frame.setSize(350, 400);
     frame.setPreferredSize(new Dimension(350, 400));
+    // Add text LIFE COUNTER
+    JPanel textPanel = new JPanel(new BorderLayout());
+    JLabel textLabel = new JLabel("Life Counter: " + this.maze.getPacman().getLives());
+    textLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+    textPanel.add(textLabel, BorderLayout.CENTER);
+    textPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 10)); // add padding to the text
+    textLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+    // Add PADDING to the whole maze
+    frame.add(textPanel, BorderLayout.SOUTH);
+    frame.add(new JPanel(), BorderLayout.CENTER);
+    frame.add(new JPanel(), BorderLayout.WEST);
+    frame.add(new JPanel(), BorderLayout.NORTH);
+    frame.add(new JPanel(), BorderLayout.EAST);
+    // PLAYER KEYBOARD MOVEMENT
     frame.addKeyListener(new KeyListener() {
       @Override
       public void keyTyped(KeyEvent e) {
