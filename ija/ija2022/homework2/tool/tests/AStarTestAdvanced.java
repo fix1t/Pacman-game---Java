@@ -14,12 +14,17 @@ public class AStarTestAdvanced {
 
   private CommonMaze maze;
 
-  // testing maze:
-//4 3
-//..S
-//.T.
-//.K.
-//.G.
+// test maze:
+//9 21
+//  XXXXXXXXXXXXXXXXXXXXX
+//  XK..G...........G..KX
+//  X.XX.XX.XXXXX.XX.XX.X
+//  X.XX.XX.XXXXX.XX.XX.X
+//  X.........T.........X
+//  X.XX.XX.XXXXX.XX.XX.X
+//  X.XX.XX.XXXXX.XX.XX.X
+//  XK........S........KX
+//  XXXXXXXXXXXXXXXXXXXXX
   @Before
   public void setUp() {
     Game game = new Game(300, true);

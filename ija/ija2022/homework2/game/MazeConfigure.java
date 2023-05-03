@@ -23,8 +23,8 @@ public class MazeConfigure {
   List<CommonMazeObject> listOfKeys;
   PacmanObject pacman;
   TargetObject target;
-  Map<PathField, CommonMazeObject> initialObjectsLayout;
-  public MazeConfigure() {
+  boolean disableGhosts;
+  private void initiateClass(){
     this.rows = 0;
     this.cols = 0;
     this.currentRow = 0;
@@ -35,6 +35,17 @@ public class MazeConfigure {
     this.pacman = null;
     this.target = null;
     this.initialObjectsLayout = new HashMap<>();
+    this.disableGhosts = false;
+  }
+
+  Map<PathField, CommonMazeObject> initialObjectsLayout;
+  public MazeConfigure() {
+    this.initiateClass();
+  }
+
+  public MazeConfigure(boolean disableGhosts) {
+    this.initiateClass();
+    this.disableGhosts = disableGhosts;
   }
 
   public void startReading(int rows, int cols) {
@@ -132,6 +143,10 @@ public class MazeConfigure {
           }
           break;
         case 'G':
+          if (this.disableGhosts) {
+            handleDotCase(i);
+            break;
+          }
           handleGhostCase(i);
           break;
         case 'K':

@@ -15,7 +15,7 @@ public class AStarTestBasic {
 
   private CommonMaze maze;
 
-// testing maze:
+// test maze:
 //4 3
 //..S
 //.T.
