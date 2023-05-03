@@ -16,9 +16,15 @@ public class KeyObject implements CommonMazeObject {
   }
 
   @Override
+  public boolean move() { return false; }
+
+  @Override
   public boolean move(CommonField.Direction var1) {
     return false;
   }
+
+  @Override
+  public boolean isPacman() { return false; }
 
   @Override
   public CommonField getField() {
@@ -39,4 +45,10 @@ public class KeyObject implements CommonMazeObject {
   public ObjectType getType() {
     return ObjectType.KEY;
   }
+
+  @Override
+  public void setDirection(CommonField.Direction l) {
+
+  }
+
 }

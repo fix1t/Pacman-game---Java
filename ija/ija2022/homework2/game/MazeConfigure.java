@@ -1,11 +1,10 @@
 package ija.ija2022.homework2.game;
 
-import ija.ija2022.homework2.game.resources.Coordinate;
 import ija.ija2022.homework2.tool.common.CommonMaze;
 import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
 
-import java.nio.file.Path;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -154,14 +153,36 @@ public class MazeConfigure {
 
 
   public boolean stopReading() {
-    return currentRow + 1 == this.rows && this.started && !this.errorFlag;
+    // if maze is not started or errorFlag is true, return false
+    // if stopped reading before all rows/more rows were read, return false
+    return currentRow == this.rows  - BORDER && this.started && !this.errorFlag;
   }
 
-  public CommonMaze createMaze() {
-    if (this.errorFlag)
+  public CommonMaze loadMaze(InputStream inputStream) {
+    try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
+      String[] dimensions = br.readLine().split(" ");
+      int rows = Integer.parseInt(dimensions[0]);
+      int cols = Integer.parseInt(dimensions[1]);
+      this.startReading(rows, cols);
+      String line;
+      while ((line = br.readLine()) != null) {
+        if (!this.processLine(line)) {
+          return null;
+        }
+      }
+      // check if maze is finished correctly
+      if (this.stopReading()) {
+        return this.createMaze();
+      } else {
+        return null;
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
       return null;
+    }
+  }
 
-    //create border wall
+  public void addBorder(){
     for (int i = 0; i < this.rows; i++) {
       for (int j = 0; j < this.cols; j++) {
         if (i == 0 || i == this.rows - 1) {
@@ -171,6 +192,15 @@ public class MazeConfigure {
         }
       }
     }
+  }
+
+  public CommonMaze createMaze() {
+    if (this.errorFlag)
+      return null;
+
+    //create border wall
+    this.addBorder();
+    //set fields
     this.maze.setFields(fields);
     this.maze.setGhostList(listOfGhosts);
     this.maze.setKeysList(listOfKeys);

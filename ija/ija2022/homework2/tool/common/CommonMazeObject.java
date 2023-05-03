@@ -5,6 +5,8 @@ import ija.ija2022.homework2.game.resources.ObjectType;
 public interface CommonMazeObject {
   boolean canMove(CommonField.Direction var1);
 
+  boolean move();
+
   boolean move(CommonField.Direction var1);
 
   default boolean isPacman() {
@@ -18,6 +20,8 @@ public interface CommonMazeObject {
   int getLives();
 
   ObjectType getType();
+
+  void setDirection(CommonField.Direction l);
 }
 //
 // Source code recreated from a .class file by IntelliJ IDEA
