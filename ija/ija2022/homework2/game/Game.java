@@ -44,17 +44,21 @@ public class Game {
       System.out.println("Game ended with error");
   }
 
-  private boolean play(Path pathToMaze) {
+  public static CommonMaze createMaze(InputStream inputStream) {
+    MazeConfigure mazeConfigure = new MazeConfigure();
+    return mazeConfigure.loadMaze(inputStream);
+  }
+
+  public boolean play(Path pathToMaze) {
     //open stream to file & load maze
     try (InputStream inputStream = Files.newInputStream(pathToMaze)) {
-      MazeConfigure mazeConfigure = new MazeConfigure();
-      this.maze = mazeConfigure.loadMaze(inputStream);
+      this.maze = createMaze(inputStream);
     } catch (IOException e) {
       e.printStackTrace();
       return false;
     }
     //check if loaded
-    if (this.maze == null) {
+    if (maze == null) {
       System.out.println("Error while loading maze");
       return false;
     }
@@ -67,7 +71,7 @@ public class Game {
     return true;
   }
 
-  private void gameLoop() {
+  public void gameLoop() {
     this.setAllMazeObjects();
     PacmanObject pacman = this.maze.getPacman();
     do {
@@ -76,7 +80,7 @@ public class Game {
     } while (!pacman.isDead() && !pacman.isVictorious());
   }
 
-  private void setAllMazeObjects() {
+  public void setAllMazeObjects() {
     List<CommonMazeObject> allMazeObjects = this.maze.getGhosts();
     allMazeObjects.add(this.maze.getPacman());
   }
