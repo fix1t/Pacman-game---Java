@@ -1,7 +1,7 @@
 package ija.ija2022.homework2.game;
 
+import ija.ija2022.homework2.game.resources.ObjectType;
 import ija.ija2022.homework2.tool.MazePresenter;
-import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMaze;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
 import ija.ija2022.homework2.tool.tests.Homework2;
@@ -18,19 +18,22 @@ public class Game {
   CommonMaze maze;
   //game delay in ms
   private final int tickLength;
+  private final boolean pauseGhosts;
 
   public Game() {
     this.tickLength = 500;
+    this.pauseGhosts = false;
   }
 
-  public Game(int gameSpeed) {
+  public Game(int gameSpeed, boolean pauseGhosts) {
     this.tickLength = gameSpeed;
+    this.pauseGhosts = pauseGhosts;
   }
 
   public static void main(String[] args) {
     Game game = new Game();
     //TODO: load maze given in argument
-    Path pathToMaze = Path.of("ija/ija2022/homework2/tool/tests/maps/valid/valid1");
+    Path pathToMaze = Path.of("ija/ija2022/homework2/tool/tests/maps/valid/valid0");
     if( game.play(pathToMaze))
       System.out.println("Game ended successfully");
     else
@@ -48,6 +51,7 @@ public class Game {
     }
     //check if loaded
     if (this.maze == null) {
+      System.out.println("Error while loading maze");
       return false;
     }
     //create gui
@@ -78,6 +82,8 @@ public class Game {
 
   private void moveAllMazeObjects(List<CommonMazeObject> allMazeObjects) {
     for (CommonMazeObject mazeObject : allMazeObjects) {
+      if (mazeObject.getType() == ObjectType.GHOST && this.pauseGhosts)
+        continue;
       mazeObject.move();
     }
   }

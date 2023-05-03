@@ -14,16 +14,16 @@ import java.util.Set;
 
 public class PathField implements CommonField {
     private final Coordinate coordinate;
-    private List<GhostObject> ghostList;
+    private List<GhostObject> ghostOnField;
     private PacmanObject pacman;
     private KeyObject key;
     private TargetObject target;
     private CommonMaze maze;
-    private final Set<Observer> observers = new HashSet();
+    private final Set<Observer> observers = new HashSet<>();
 
     public PathField(int x, int y) {
         this.coordinate = new Coordinate(x, y);
-        this.ghostList = new ArrayList<>();
+        this.ghostOnField = new ArrayList<>();
         this.pacman = null;
         this.key = null;
         this.target = null;
@@ -36,7 +36,7 @@ public class PathField implements CommonField {
     @Override
     public void clearField() {
         this.pacman = null;
-        this.ghostList.clear();
+        this.ghostOnField.clear();
         this.key = null;
         this.target = null;
         this.notifyObservers();
@@ -55,7 +55,7 @@ public class PathField implements CommonField {
       }
       // object is ghost
       else if (object.getType() == ObjectType.GHOST){
-          this.ghostList.add((GhostObject) object);
+          this.ghostOnField.add((GhostObject) object);
           this.notifyObservers();
       }
       // object is key
@@ -71,7 +71,7 @@ public class PathField implements CommonField {
     }
 
     public boolean isEmpty() {
-      List<CommonMazeObject> objects = new ArrayList<>(this.ghostList);
+      List<CommonMazeObject> objects = new ArrayList<>(this.ghostOnField);
       objects.add(this.pacman);
       objects.add(this.key);
       objects.add(this.target);
@@ -89,8 +89,8 @@ public class PathField implements CommonField {
         return true;
       }
       // object is ghost
-      else if (object.getType() == ObjectType.GHOST && this.ghostList.contains(object)){
-        this.ghostList.remove(object);
+      else if (object.getType() == ObjectType.GHOST && this.ghostOnField.contains(object)){
+        this.ghostOnField.remove(object);
         this.notifyObservers();
         return true;
       }
@@ -125,6 +125,9 @@ public class PathField implements CommonField {
         case UP -> {
           return this.maze.getField(this.coordinate.getX() - 1, this.coordinate.getY());
         }
+        case STOP -> {
+          return this;
+        }
         default -> throw new UnsupportedOperationException("Unexpected value: " + dirs);
       }
     }
@@ -132,8 +135,8 @@ public class PathField implements CommonField {
   public CommonMazeObject get() {
     if (this.pacman != null)
       return this.pacman;
-    if (!this.ghostList.isEmpty())
-      return this.ghostList.get(0);
+    if (!this.ghostOnField.isEmpty())
+      return this.ghostOnField.get(0);
     if (this.key != null)
       return this.key;
     if (this.target != null)
@@ -148,7 +151,7 @@ public class PathField implements CommonField {
 
   public CommonMazeObject getTarget() { return this.target; }
 
-  public List<GhostObject> getGhosts() { return this.ghostList; }
+  public List<GhostObject> getGhosts() { return this.ghostOnField; }
 
     @Override
     public boolean canMove() {
@@ -159,7 +162,7 @@ public class PathField implements CommonField {
   public boolean contains(CommonMazeObject object) {
     if (object == null)
       return false;
-    List<CommonMazeObject> objects = new ArrayList<>(this.ghostList);
+    List<CommonMazeObject> objects = new ArrayList<>(this.ghostOnField);
     objects.add(this.pacman);
     objects.add(this.key);
     objects.add(this.target);

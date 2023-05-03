@@ -53,8 +53,6 @@ public class GhostObject implements CommonMazeObject {
         if (this.getDirection() == direction) {
           // let ghost go straight more often
           possibleDirections.add(direction);
-          possibleDirections.add(direction);
-          possibleDirections.add(direction);
         }
         possibleDirections.add(direction);
       }
