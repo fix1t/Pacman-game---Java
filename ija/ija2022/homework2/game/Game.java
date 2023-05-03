@@ -65,7 +65,7 @@ public class Game {
     do {
       this.moveAllMazeObjects(allMazeObjects);
       sleep(this.tickLength);
-    } while (!pacman.isDead());
+    } while (!pacman.isDead() && !pacman.isVictorious());
   }
 
   public static void sleep(int ms) {
