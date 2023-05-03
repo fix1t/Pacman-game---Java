@@ -14,7 +14,7 @@ public class GhostView implements ComponentView {
   public GhostView(FieldView parent, CommonMazeObject m) {
     this.model = m;
     this.parent = parent;
-    image = new ImageIcon(getClass().getResource("GhostRed.png")).getImage();
+    image = new ImageIcon(getClass().getResource("../lib/GhostRed.png")).getImage();
   }
 
   public void paintComponent(Graphics g) {

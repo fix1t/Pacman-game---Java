@@ -1,6 +1,7 @@
 package ija.ija2022.homework2.game;
 
 import ija.ija2022.homework2.tool.MazePresenter;
+import ija.ija2022.homework2.tool.Sound;
 import ija.ija2022.homework2.tool.common.CommonMaze;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
 import ija.ija2022.homework2.tool.tests.Homework2;
@@ -17,6 +18,7 @@ public class Game {
   CommonMaze maze;
   //game delay in ms
   private int gameSpeed;
+  Sound sound = new Sound();
 
   public Game() {
     this.gameSpeed = 250;
@@ -52,6 +54,7 @@ public class Game {
     //create gui
     MazePresenter presenter = new MazePresenter(this.maze);
     presenter.open();
+    playMusic(0);
     //start game
     this.gameLoop();
     return true;
@@ -65,6 +68,12 @@ public class Game {
       this.moveAllMazeObjects(allMazeObjects);
       sleep(this.gameSpeed);
     } while (!pacman.isDead());
+  }
+
+  public void playMusic(int songIndex) {
+    sound.setFile(songIndex);
+    sound.play();
+    sound.loop();
   }
 
   public static void sleep(int ms) {
