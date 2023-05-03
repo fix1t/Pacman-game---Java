@@ -117,4 +117,8 @@ public class PacmanObject implements CommonMazeObject {
       //game over
       return this.livesRemaining <= 0;
   }
+
+  public boolean isDead() {
+    return this.livesRemaining <= 0;
+  }
 }

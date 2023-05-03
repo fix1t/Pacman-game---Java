@@ -1,13 +1,11 @@
 package ija.ija2022.homework2.tool.tests;
 
-import ija.ija2022.homework2.game.Maze;
 import ija.ija2022.homework2.game.MazeConfigure;
 import ija.ija2022.homework2.game.PathField;
 import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMaze;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -31,7 +29,7 @@ public class ReadFromStreamTest {
     Path filePath = Paths.get(path);
     try (InputStream inputStream = Files.newInputStream(filePath)) {
       MazeConfigure mazeConfigure = new MazeConfigure();
-      maze = mazeConfigure.mazeFromStream(inputStream);
+      maze = mazeConfigure.loadMaze(inputStream);
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -40,7 +38,7 @@ public class ReadFromStreamTest {
     Path filePath = Paths.get(path);
     try (InputStream inputStream = Files.newInputStream(filePath)) {
       MazeConfigure mazeConfigure = new MazeConfigure();
-      maze = mazeConfigure.mazeFromStream(inputStream);
+      maze = mazeConfigure.loadMaze(inputStream);
     } catch (IOException e) {
       e.printStackTrace();
     }
