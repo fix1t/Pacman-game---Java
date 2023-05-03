@@ -45,4 +45,10 @@ public class KeyObject implements CommonMazeObject {
   public ObjectType getType() {
     return ObjectType.KEY;
   }
+
+  @Override
+  public void setDirection(CommonField.Direction l) {
+
+  }
+
 }

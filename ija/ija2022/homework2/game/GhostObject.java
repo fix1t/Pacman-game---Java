@@ -17,6 +17,7 @@ public class GhostObject implements CommonMazeObject {
     return false;
   }
 
+  @Override
   public void setDirection(CommonField.Direction direction) {
     this.direction = direction;
   }

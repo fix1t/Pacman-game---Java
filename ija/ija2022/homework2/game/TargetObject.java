@@ -44,5 +44,10 @@ public class TargetObject implements CommonMazeObject {
   public ObjectType getType() {
     return ObjectType.TARGET;
   }
+
+  @Override
+  public void setDirection(CommonField.Direction l) {
+
+  }
 }
 
