@@ -44,27 +44,37 @@ public class Game {
       System.out.println("Game ended with error");
   }
 
-  public static CommonMaze createMaze(InputStream inputStream) {
+  public CommonMaze createMazeFromFile (Path pathToMaze) {
+    try (InputStream inputStream = Files.newInputStream(pathToMaze)) {
+      this.maze = this.createMaze(inputStream);
+    } catch (IOException e) {
+      e.printStackTrace();
+      return null;
+    }
+    //check if loaded
+    if (this.maze == null) {
+      System.out.println("Error while loading maze");
+      return null;
+    }
+    return this.maze;
+  }
+
+  public CommonMaze createMaze(InputStream inputStream) {
     MazeConfigure mazeConfigure = new MazeConfigure();
     return mazeConfigure.loadMaze(inputStream);
   }
 
-  public boolean play(Path pathToMaze) {
-    //open stream to file & load maze
-    try (InputStream inputStream = Files.newInputStream(pathToMaze)) {
-      this.maze = createMaze(inputStream);
-    } catch (IOException e) {
-      e.printStackTrace();
-      return false;
-    }
-    //check if loaded
-    if (maze == null) {
-      System.out.println("Error while loading maze");
-      return false;
-    }
-    //create gui
+  public void createGameGUI() {
     MazePresenter presenter = new MazePresenter(this.maze);
     presenter.open();
+  }
+
+  public boolean play(Path pathToMaze) {
+    //open stream to file & load maze
+    this.maze = this.createMazeFromFile(pathToMaze);
+    //create gui
+    this.createGameGUI();
+    //play music
     playMusic(0);
     //start game
     this.gameLoop();
