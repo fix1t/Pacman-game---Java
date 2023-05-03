@@ -69,7 +69,7 @@ public class Maze implements CommonMaze {
   }
 
   @Override
-  public CommonMazeObject getPacman() {
+  public PacmanObject getPacman() {
     return this.pacman;
   }
 

@@ -22,6 +22,8 @@ public class Game {
   private final int tickLength;
   private final boolean pauseGhosts;
 
+  List<CommonMazeObject> allMazeObjects;
+
   public Game() {
     this.tickLength = 500;
     this.pauseGhosts = false;
@@ -66,13 +68,17 @@ public class Game {
   }
 
   private void gameLoop() {
-    List<CommonMazeObject> allMazeObjects = this.maze.getGhosts();
-    PacmanObject pacman = (PacmanObject) this.maze.getPacman();
-    allMazeObjects.add(pacman);
+    this.setAllMazeObjects();
+    PacmanObject pacman = this.maze.getPacman();
     do {
-      this.moveAllMazeObjects(allMazeObjects);
+      this.moveAllMazeObjects(this.allMazeObjects);
       sleep(this.tickLength);
     } while (!pacman.isDead() && !pacman.isVictorious());
+  }
+
+  private void setAllMazeObjects() {
+    List<CommonMazeObject> allMazeObjects = this.maze.getGhosts();
+    allMazeObjects.add(this.maze.getPacman());
   }
 
   public void playMusic(int songIndex) {

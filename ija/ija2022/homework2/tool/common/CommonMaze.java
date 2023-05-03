@@ -1,5 +1,7 @@
 package ija.ija2022.homework2.tool.common;
 
+import ija.ija2022.homework2.game.PacmanObject;
+
 import java.util.List;
 
 public interface CommonMaze {
@@ -15,7 +17,7 @@ public interface CommonMaze {
 
   CommonMazeObject getTarget();
 
-  CommonMazeObject getPacman();
+  PacmanObject getPacman();
 
   void restore();
 }
