@@ -20,6 +20,8 @@ public interface CommonMazeObject {
   int getLives();
 
   ObjectType getType();
+
+  void setDirection(CommonField.Direction l);
 }
 //
 // Source code recreated from a .class file by IntelliJ IDEA

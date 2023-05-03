@@ -19,6 +19,7 @@ public class PacmanObject implements CommonMazeObject {
         this.direction = CommonField.Direction.STOP;
     }
 
+  @Override
   public void setDirection(CommonField.Direction direction) {
     this.direction = direction;
   }
