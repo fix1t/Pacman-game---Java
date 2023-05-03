@@ -34,6 +34,11 @@ public class PathField implements CommonField {
     }
 
     @Override
+    public Coordinate getCoordinate() {
+        return this.coordinate;
+    }
+
+    @Override
     public void clearField() {
         this.pacman = null;
         this.ghostOnField.clear();
@@ -131,6 +136,7 @@ public class PathField implements CommonField {
         default -> throw new UnsupportedOperationException("Unexpected value: " + dirs);
       }
     }
+
     @Override
   public CommonMazeObject get() {
     if (this.pacman != null)
@@ -143,6 +149,7 @@ public class PathField implements CommonField {
       return this.target;
     return null;
     }
+
   public CommonMazeObject getPacman() {
       return this.pacman;
     }
@@ -154,7 +161,7 @@ public class PathField implements CommonField {
   public List<GhostObject> getGhosts() { return this.ghostOnField; }
 
     @Override
-    public boolean canMove() {
+  public boolean canMove() {
         return true;
     }
 

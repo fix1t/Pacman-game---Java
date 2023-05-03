@@ -5,6 +5,8 @@
 
 package ija.ija2022.homework2.tool.common;
 
+import ija.ija2022.homework2.game.resources.Coordinate;
+
 public interface CommonField extends Observable {
   CommonField nextField(Direction var1);
 
@@ -13,6 +15,8 @@ public interface CommonField extends Observable {
   CommonMazeObject get();
 
   boolean canMove();
+
+  Coordinate getCoordinate();
 
   void clearField();
 
