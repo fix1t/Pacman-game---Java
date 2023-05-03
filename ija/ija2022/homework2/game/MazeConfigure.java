@@ -158,7 +158,7 @@ public class MazeConfigure {
     return currentRow == this.rows  - BORDER && this.started && !this.errorFlag;
   }
 
-  public CommonMaze mazeFromStream(InputStream inputStream) {
+  public CommonMaze loadMaze(InputStream inputStream) {
     try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
       String[] dimensions = br.readLine().split(" ");
       int rows = Integer.parseInt(dimensions[0]);
