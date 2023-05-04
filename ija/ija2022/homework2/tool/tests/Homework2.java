@@ -45,7 +45,7 @@ public class Homework2 {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(350, 400);
         frame.setPreferredSize(new Dimension(750, 800));
-        MazePresenter presenter = new MazePresenter(maze, frame);
+        MazePresenter presenter = new MazePresenter(maze, frame, null);
         presenter.open();
 
         sleep(2000);
