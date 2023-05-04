@@ -4,5 +4,16 @@ public enum ObjectType {
   PACMAN,
   GHOST,
   KEY,
-  TARGET
+  TARGET;
+
+  @Override
+  public String toString() {
+    return switch (this) {
+      case PACMAN -> "PACMAN";
+      case GHOST -> "GHOST";
+      case KEY -> "KEY";
+      case TARGET -> "TARGET";
+      default -> "UNKNOWN";
+    };
+  }
 }

@@ -35,18 +35,22 @@ public class GameRecorder {
     }
   }
 
+
+  /**
+   * Creates a game log file.
+   * For each maze object, print its type and all fields it has been on
+   * Start -> End ordered.
+   */
   public void createGameLog(){
     try {
       PrintWriter writer = new PrintWriter(new FileWriter("game.log", true)); // 'true' parameter for appending to the file
       for (Map.Entry<CommonMazeObject, List<CommonField>> entry : stateMap.entrySet()) {
-        // For each maze object, print its type and all fields it has been on
-        // Start -> End
         CommonMazeObject mazeObject = entry.getKey();
         List<CommonField> fieldsList = entry.getValue();
         for (int i = 0; i < fieldsList.size(); i++) {
           if (i == 0){
             // Print the type of the maze object only once at the beginning
-            writer.println("NEW TYPE:" + mazeObject.getType());
+            writer.println("NEW: " + mazeObject.getType().toString());
           }
           CommonField field = fieldsList.get(i);
           writer.println("ORD: "+(i+1)+" | ("+field.getCoordinate().getX()+","+field.getCoordinate().getY()+")");
