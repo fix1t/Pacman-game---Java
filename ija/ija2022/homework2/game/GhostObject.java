@@ -11,10 +11,15 @@ import java.util.Random;
 public class GhostObject implements CommonMazeObject {
   PathField currentField;
   private CommonField.Direction direction;
+  private final int imageIndex;
 
   public GhostObject(PathField field) {
       this.currentField = field;
       this.direction = CommonField.Direction.STOP;
+
+      // initialize imageIndex to a random number between 0 and 3
+      Random rand = new Random();
+      this.imageIndex = rand.nextInt(4);
   }
   @Override
   public boolean isPacman() {
@@ -113,4 +118,6 @@ public class GhostObject implements CommonMazeObject {
   public ObjectType getType() {
     return ObjectType.GHOST;
   }
+
+  public int getImageIndex() {return this.imageIndex;}
 }

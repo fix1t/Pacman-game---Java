@@ -8,6 +8,8 @@ import ija.ija2022.homework2.tool.view.FieldView;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,9 +17,13 @@ import javax.swing.*;
 
 public class MazePresenter {
   private final CommonMaze maze;
+  JFrame frame;
+  Sound sound;
 
-  public MazePresenter(CommonMaze maze) {
+  public MazePresenter(CommonMaze maze, JFrame frame, Sound sound) {
     this.maze = maze;
+    this.frame = frame;
+    this.sound = sound;
   }
 
   public void open() {
@@ -30,20 +36,46 @@ public class MazePresenter {
   }
 
   private void initializeInterface() {
-    JFrame frame = new JFrame("Pacman Demo");
-    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    frame.setSize(350, 400);
-    frame.setPreferredSize(new Dimension(350, 400));
     // Add text LIFE COUNTER
     JPanel textPanel = new JPanel(new BorderLayout());
-    JLabel textLabel = new JLabel("Life Counter: " + this.maze.getPacman().getLives());
-    textLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+    ImageIcon heartIcon = new ImageIcon(getClass().getResource("./lib/iconHeart.png"));
+    JLabel textLabel = new JLabel("Life Counter: " + this.maze.getPacman().getLives() + "x");
+    textLabel.setHorizontalAlignment(SwingConstants.LEFT);
+    JLabel iconLabel = new JLabel(heartIcon);
     textLabel.setFont(new Font("Arial", Font.BOLD, 14));
     textPanel.add(textLabel, BorderLayout.CENTER);
+    textPanel.add(iconLabel, BorderLayout.EAST);
     textPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 10)); // add padding to the text
     textLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+
+    // Add sound icon to bottom left corner
+    final boolean[] soundOn = {true};
+    ImageIcon soundOnIcon = new ImageIcon(getClass().getResource("../tool/lib/iconSound.png"));
+    ImageIcon soundOffIcon = new ImageIcon(getClass().getResource("../tool/lib/iconNoSound.png"));
+    JLabel soundLabel = new JLabel(soundOnIcon);
+    // Add a mouse listener to the label
+    soundLabel.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        soundOn[0] = !soundOn[0];
+        // Update the music state and the icon of the sound label based on the sound state
+        if (!soundOn[0]) {
+          stopMusic();
+          soundLabel.setIcon(soundOffIcon);
+        }
+        else {
+          playMusic();
+          soundLabel.setIcon(soundOnIcon);
+        }
+      }
+    });
+    JPanel bottomPanel = new JPanel(new BorderLayout());
+    bottomPanel.add(textPanel, BorderLayout.CENTER);
+    bottomPanel.add(soundLabel, BorderLayout.WEST);
+    bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 5, 5)); // add padding for elements in bottom
+    frame.add(bottomPanel, BorderLayout.SOUTH);
+
     // Add PADDING to the whole maze
-    frame.add(textPanel, BorderLayout.SOUTH);
     frame.add(new JPanel(), BorderLayout.CENTER);
     frame.add(new JPanel(), BorderLayout.WEST);
     frame.add(new JPanel(), BorderLayout.NORTH);
@@ -58,6 +90,16 @@ public class MazePresenter {
           case 'W', 'w' -> {if(pacman.canMove(CommonField.Direction.UP)){pacman.setDirection(CommonField.Direction.UP);}}
           case 'D', 'd' -> {if(pacman.canMove(CommonField.Direction.RIGHT)){pacman.setDirection(CommonField.Direction.RIGHT);}}
           case 'S', 's' -> {if(pacman.canMove(CommonField.Direction.DOWN)){pacman.setDirection(CommonField.Direction.DOWN);}}
+          case 'M', 'm' -> { soundOn[0] = !soundOn[0];
+            // Update the music state and the icon of the sound label based on the sound state
+            if (!soundOn[0]) {
+              stopMusic();
+              soundLabel.setIcon(soundOffIcon);
+            }
+            else {
+              playMusic();
+              soundLabel.setIcon(soundOnIcon);
+            }}
         }
       }
 
@@ -86,12 +128,27 @@ public class MazePresenter {
 
     // Create a timer that updates the LifeCounter every second
     Timer timer = new Timer(1000, e -> {
-      textLabel.setText("Life Counter: " + this.maze.getPacman().getLives());
+      textLabel.setText("Life Counter: " + this.maze.getPacman().getLives() + "x");
     });
     timer.start();
 
     frame.getContentPane().add(content, "Center");
     frame.pack();
     frame.setVisible(true);
+  }
+
+  /**
+   * Starts playing music.
+   */
+  public void playMusic() {
+    sound.play();
+    sound.loop();
+  }
+
+  /**
+   * Stops playing music.
+   */
+  public void stopMusic() {
+    sound.stop();
   }
 }
