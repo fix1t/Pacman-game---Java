@@ -4,6 +4,7 @@
  */
 package ija.ija2022.homework2.tool.tests;
 
+import java.awt.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,6 +18,8 @@ import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMaze;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
 import org.junit.Assert;
+
+import javax.swing.*;
 //---
 
 /**
@@ -38,7 +41,11 @@ public class Homework2 {
 
         CommonMaze maze = cfg.createMaze();
 
-        MazePresenter presenter = new MazePresenter(maze);
+        JFrame frame = new JFrame("Pacman Demo");
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setSize(350, 400);
+        frame.setPreferredSize(new Dimension(750, 800));
+        MazePresenter presenter = new MazePresenter(maze, frame);
         presenter.open();
 
         sleep(2000);

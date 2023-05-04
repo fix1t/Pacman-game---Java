@@ -4,7 +4,6 @@ import ija.ija2022.homework2.tool.common.CommonMazeObject;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
 
 public class PacmanView implements ComponentView {
   private CommonMazeObject model;
@@ -34,8 +33,5 @@ public class PacmanView implements ComponentView {
     int x = (fieldWidth - scaledWidth) / 2;
     int y = (fieldHeight - scaledHeight) / 2;
     g2.drawImage(image, x, y, scaledWidth, scaledHeight, null);
-//    g2.setColor(Color.black);
-//    g2.setFont(new Font("Serif", 1, 20));
-//    g2.drawString("(" + this.model.getLives() + ")", (int) (x + diameter) / 2, (int) (y + diameter + 10.0) / 2 + 5);
   }
 }

@@ -7,6 +7,8 @@ import ija.ija2022.homework2.tool.common.CommonMaze;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
 import ija.ija2022.homework2.tool.tests.Homework2;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -57,7 +59,14 @@ public class Game {
       return false;
     }
     //create gui
-    MazePresenter presenter = new MazePresenter(this.maze);
+    JFrame frame = new JFrame("Pacman Demo");
+    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    frame.setSize(350, 400);
+    frame.setPreferredSize(new Dimension(750, 800));
+//    ImageIcon soundIcon = new ImageIcon(getClass().getResource("../tool/lib/iconSound.png"));
+//    JLabel iconLabel = new JLabel(soundIcon);
+//    frame.add(new JPanel(), BorderLayout.WEST);
+    MazePresenter presenter = new MazePresenter(this.maze, frame);
     presenter.open();
     playMusic(0);
     //start game
@@ -75,10 +84,22 @@ public class Game {
     } while (!pacman.isDead() && !pacman.isVictorious());
   }
 
+  /**
+   * Starts playing music.
+   *
+   * @param songIndex index of song in {@code songURL[]}.
+   */
   public void playMusic(int songIndex) {
     sound.setFile(songIndex);
     sound.play();
     sound.loop();
+  }
+
+  /**
+   * Stops playing music.
+   */
+  public void stopMusic() {
+    sound.stop();
   }
 
   public static void sleep(int ms) {
