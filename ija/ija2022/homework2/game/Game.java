@@ -30,12 +30,15 @@ public class Game {
   List<CommonMazeObject> allMazeObjects;
   JFrame frame;
 
+  GameRecorder recorder;
+
   /**
    * Creates a new game with default settings.
    */
   public Game() {
     this.tickLength = 500;
     this.pauseGhosts = false;
+    this.recorder = new GameRecorder();
   }
 
   /**
@@ -47,6 +50,7 @@ public class Game {
   public Game(int gameSpeed, boolean pauseGhosts) {
     this.tickLength = gameSpeed;
     this.pauseGhosts = pauseGhosts;
+    this.recorder = new GameRecorder();
   }
 
   /**
@@ -137,9 +141,13 @@ public class Game {
     this.setAllMazeObjects();
     PacmanObject pacman = this.maze.getPacman();
     do {
+      recorder.captureState(this.allMazeObjects,true);
       this.moveAllMazeObjects();
       sleep(this.tickLength);
     } while (!pacman.isDead() && !pacman.isVictorious());
+    this.stopMusic();
+    //TODO: save game
+    this.recorder.closeWriter();
   }
 
   /**
@@ -148,6 +156,9 @@ public class Game {
   public void setAllMazeObjects() {
     this.allMazeObjects = this.maze.getGhosts();
     this.allMazeObjects.add(this.maze.getPacman());
+    this.allMazeObjects.add(this.maze.getTarget());
+    this.allMazeObjects.addAll(this.maze.getKeys());
+    this.allMazeObjects.removeIf(item -> item == null);
   }
 
   /**

@@ -17,12 +17,14 @@ public class GameRecorder {
    */
   Map<CommonMazeObject, List<CommonField>> stateMap;
   PrintWriter writer;
+  int moveCount;
 
   /**
    * Creates a new game recorder.
    */
   public GameRecorder() {
     this.stateMap = new HashMap<>();
+    this.moveCount = 0;
     try {
       // Overwrite the file if it already exists
       this.writer = new PrintWriter(new FileWriter("game.log", false));
@@ -43,6 +45,24 @@ public class GameRecorder {
       }
       List<CommonField> fieldsList = this.stateMap.get(mazeObject);
       fieldsList.add(mazeObject.getField());
+    }
+  }
+
+  public void captureState(List<CommonMazeObject> allMazeObjects, boolean writeToFile) {
+    if (!writeToFile) {
+      this.captureState(allMazeObjects);
+      return;
+    }
+    for (int i = 0; i < allMazeObjects.size(); i++) {
+      CommonMazeObject mazeObject = allMazeObjects.get(i);
+      CommonField field = mazeObject.getField();
+      String mazeObjectType = mazeObject.getType().toString();
+      if (field == null) {
+        // If the maze object is not on any field, skip it
+        continue;
+      }
+      String message = "ORD: " + (this.moveCount) + " OBJ: " + mazeObjectType + i +  " ON: (" + field.getCoordinate().getX() + "," + field.getCoordinate().getY() + ")";
+      this.writer.println(message);
     }
   }
 
