@@ -87,9 +87,11 @@ public class PacmanObject implements CommonMazeObject {
     private void performMove(PathField moveTo) {
       // take key if there is one
       if (moveTo.getKey() != null) {
+        CommonMazeObject key = moveTo.getKey();
         // remove key from field and list of keys
-        this.listOfKeys.remove(moveTo.getKey());
-        moveTo.remove(moveTo.getKey());
+        this.listOfKeys.remove(key);
+        key.setField(null);
+        moveTo.remove(key);
         // check if there is a target in the field and if all keys are taken
       } else if (moveTo.getTarget() != null && this.canTakeTarget()) {
         // remove target from field if all keys are taken
