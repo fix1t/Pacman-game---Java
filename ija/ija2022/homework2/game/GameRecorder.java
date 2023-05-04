@@ -3,6 +3,9 @@ package ija.ija2022.homework2.game;
 import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,12 +26,35 @@ public class GameRecorder {
 
   public void captureState(List<CommonMazeObject> allMazeObjects) {
     for (CommonMazeObject mazeObject : allMazeObjects) {
-      if (!stateMap.containsKey(mazeObject)) {
+      if (!this.stateMap.containsKey(mazeObject)) {
         // If not present, create a new empty list and add it to the map
-        stateMap.put(mazeObject, new ArrayList<>());
+        this.stateMap.put(mazeObject, new ArrayList<>());
       }
-      List<CommonField> fieldsList = stateMap.get(mazeObject);
+      List<CommonField> fieldsList = this.stateMap.get(mazeObject);
       fieldsList.add(mazeObject.getField());
+    }
+  }
+
+  public void createGameLog(){
+    try {
+      PrintWriter writer = new PrintWriter(new FileWriter("game.log", true)); // 'true' parameter for appending to the file
+      for (Map.Entry<CommonMazeObject, List<CommonField>> entry : stateMap.entrySet()) {
+        // For each maze object, print its type and all fields it has been on
+        // Start -> End
+        CommonMazeObject mazeObject = entry.getKey();
+        List<CommonField> fieldsList = entry.getValue();
+        for (int i = 0; i < fieldsList.size(); i++) {
+          if (i == 0){
+            // Print the type of the maze object only once at the beginning
+            writer.println("NEW TYPE:" + mazeObject.getType());
+          }
+          CommonField field = fieldsList.get(i);
+          writer.println("ORD: "+(i+1)+" | ("+field.getCoordinate().getX()+","+field.getCoordinate().getY()+")");
+        }
+      }
+      writer.close(); // Close the file
+    } catch (IOException e) {
+      e.printStackTrace();
     }
   }
 }
