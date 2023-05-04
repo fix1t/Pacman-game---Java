@@ -95,5 +95,6 @@ public class AStarTestAdvanced {
     //check if pacman is on destination field
     Assert.assertEquals(this.maze.getPacman().getField(), destinationField);
   }
-
 }
+
+
