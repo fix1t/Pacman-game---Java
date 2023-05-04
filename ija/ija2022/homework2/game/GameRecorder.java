@@ -61,9 +61,12 @@ public class GameRecorder {
         // If the maze object is not on any field, skip it
         continue;
       }
-      String message = "ORD: " + (this.moveCount) + " OBJ: " + mazeObjectType + i +  " ON: (" + field.getCoordinate().getX() + "," + field.getCoordinate().getY() + ")";
+      // [ORD]: [moveCount] [OBJ]: [mazeObjectType] [i] [ON]: ([x],[y])
+      String message = "ORD: " + (this.moveCount) + " OBJ: " + mazeObjectType + " " + i
+        +  " ON: (" + field.getCoordinate().getX() + "," + field.getCoordinate().getY() + ")";
       this.writer.println(message);
     }
+    this.moveCount++;
   }
 
   /**

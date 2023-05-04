@@ -123,14 +123,15 @@ public class Game {
    * @return              `true` if the game ended successfully, `false` otherwise.
    */
   public boolean play(Path pathToMaze) {
-    //open stream to file & load maze
     this.maze = this.createMazeFromFile(pathToMaze);
-    //create gui
     this.createGameGUI();
-    //play music
     playMusic(0);
+
     //start game
     this.gameLoop();
+
+    this.stopMusic();
+    this.finishRecording();
     return true;
   }
 
@@ -145,12 +146,19 @@ public class Game {
       this.moveAllMazeObjects();
       sleep(this.tickLength);
     } while (!pacman.isDead() && !pacman.isVictorious());
-    this.stopMusic();
-    //TODO: save game
-    this.recorder.closeWriter();
   }
 
-  /**
+  public void gameLoop(int numberOfTicks) {
+    this.setAllMazeObjects();
+    PacmanObject pacman = this.maze.getPacman();
+    for (int i = 0; i < numberOfTicks; i++) {
+      recorder.captureState(this.allMazeObjects,true);
+      this.moveAllMazeObjects();
+      sleep(this.tickLength);
+    }
+  }
+
+    /**
    * Sets the list of all `CommonMazeObject` instances in the maze.
    */
   public void setAllMazeObjects() {
@@ -179,6 +187,14 @@ public class Game {
     sound.stop();
   }
 
+  public void finishRecording() {
+    this.recorder.closeWriter();
+  }
+
+  public void closeFrame() {
+    this.frame.dispose();
+  }
+
   /**
    * Sleeps the current thread for the specified number of milliseconds.
    *
@@ -195,7 +211,7 @@ public class Game {
   /**
    * Moves all `CommonMazeObject` instances in the maze.
    */
-  private void moveAllMazeObjects() {
+  public void moveAllMazeObjects() {
     for (CommonMazeObject mazeObject : this.allMazeObjects) {
       if (mazeObject.getType() == ObjectType.GHOST && this.pauseGhosts)
         continue;
