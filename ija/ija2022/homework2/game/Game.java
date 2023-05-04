@@ -49,6 +49,7 @@ public class Game {
       this.maze = this.createMaze(inputStream);
     } catch (IOException e) {
       e.printStackTrace();
+      System.out.println("Error opening file.");
       return null;
     }
     //check if loaded
@@ -85,14 +86,14 @@ public class Game {
     this.setAllMazeObjects();
     PacmanObject pacman = this.maze.getPacman();
     do {
-      this.moveAllMazeObjects(this.allMazeObjects);
+      this.moveAllMazeObjects();
       sleep(this.tickLength);
     } while (!pacman.isDead() && !pacman.isVictorious());
   }
 
   public void setAllMazeObjects() {
-    List<CommonMazeObject> allMazeObjects = this.maze.getGhosts();
-    allMazeObjects.add(this.maze.getPacman());
+    this.allMazeObjects = this.maze.getGhosts();
+    this.allMazeObjects.add(this.maze.getPacman());
   }
 
   public void playMusic(int songIndex) {
@@ -109,8 +110,8 @@ public class Game {
     }
   }
 
-  private void moveAllMazeObjects(List<CommonMazeObject> allMazeObjects) {
-    for (CommonMazeObject mazeObject : allMazeObjects) {
+  private void moveAllMazeObjects() {
+    for (CommonMazeObject mazeObject : this.allMazeObjects) {
       if (mazeObject.getType() == ObjectType.GHOST && this.pauseGhosts)
         continue;
       mazeObject.move();

@@ -20,11 +20,11 @@ public class AStarTestBasic {
 //..S
 //.T.
 //.K.
-//.G.
+//...
   @Before
   public void setUp() {
     Game game = new Game(300, true);
-    this.maze = game.createMazeFromFile(Path.of("ija/ija2022/homework2/tool/tests/maps/valid/valid"));
+    this.maze = game.createMazeFromFile(Path.of("ija/ija2022/homework2/tool/tests/maps/valid/valid-ng"));
     //check if loaded
     if (maze == null) {
       System.out.println("Error while loading maze");
@@ -56,7 +56,7 @@ public class AStarTestBasic {
   @Test
   public void MoveAcrossMap() {
     Assert.assertNotNull(this.maze);
-    CommonField destinationField = this.maze.getField(1, 1);
+    CommonField destinationField = this.maze.getField(4, 1);
     PacmanObject pacman = this.maze.getPacman();
     pacman.setGoToField(destinationField);
     pacman.move();
