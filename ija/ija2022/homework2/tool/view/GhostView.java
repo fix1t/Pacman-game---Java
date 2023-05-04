@@ -1,20 +1,29 @@
 package ija.ija2022.homework2.tool.view;
 
+import ija.ija2022.homework2.game.GhostObject;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
 
 public class GhostView implements ComponentView {
   private final CommonMazeObject model;
   private final FieldView parent;
-  Image image;
+  private Image[] images;
+  private int imageIndex;
 
   public GhostView(FieldView parent, CommonMazeObject m) {
     this.model = m;
     this.parent = parent;
-    image = new ImageIcon(getClass().getResource("../lib/GhostRed.png")).getImage();
+
+    images = new Image[4];
+    images[0] = new ImageIcon(getClass().getResource("../lib/GhostRed.png")).getImage();
+    images[1] = new ImageIcon(getClass().getResource("../lib/GhostPurple.png")).getImage();
+    images[2] = new ImageIcon(getClass().getResource("../lib/GhostBlue.png")).getImage();
+    images[3] = new ImageIcon(getClass().getResource("../lib/GhostOrange.png")).getImage();
+
+    GhostObject ghost = (GhostObject) this.model;
+    this.imageIndex = ghost.getImageIndex();
   }
 
   public void paintComponent(Graphics g) {
@@ -24,8 +33,8 @@ public class GhostView implements ComponentView {
     int fieldHeight = parent.getHeight();
 
     // Scale the image to fit the field size
-    double imageWidth = image.getWidth(null);
-    double imageHeight = image.getHeight(null);
+    double imageWidth = images[imageIndex].getWidth(null);
+    double imageHeight = images[imageIndex].getHeight(null);
     double scale = Math.min(fieldWidth / imageWidth, fieldHeight / imageHeight);
     int scaledWidth = (int) (imageWidth * scale);
     int scaledHeight = (int) (imageHeight * scale);
@@ -33,7 +42,7 @@ public class GhostView implements ComponentView {
     // Draw the scaled image at the center of the field
     int x = (fieldWidth - scaledWidth) / 2;
     int y = (fieldHeight - scaledHeight) / 2;
-    g2.drawImage(image, x, y, scaledWidth, scaledHeight, null);
+    g2.drawImage(images[imageIndex], x, y, scaledWidth, scaledHeight, null);
   }
 }
 

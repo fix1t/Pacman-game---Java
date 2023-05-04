@@ -15,9 +15,11 @@ import javax.swing.*;
 
 public class MazePresenter {
   private final CommonMaze maze;
+  JFrame frame;
 
-  public MazePresenter(CommonMaze maze) {
+  public MazePresenter(CommonMaze maze, JFrame frame) {
     this.maze = maze;
+    this.frame = frame;
   }
 
   public void open() {
@@ -30,16 +32,15 @@ public class MazePresenter {
   }
 
   private void initializeInterface() {
-    JFrame frame = new JFrame("Pacman Demo");
-    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    frame.setSize(350, 400);
-    frame.setPreferredSize(new Dimension(350, 400));
     // Add text LIFE COUNTER
     JPanel textPanel = new JPanel(new BorderLayout());
-    JLabel textLabel = new JLabel("Life Counter: " + this.maze.getPacman().getLives());
-    textLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+    ImageIcon heartIcon = new ImageIcon(getClass().getResource("./lib/iconHeart.png"));
+    JLabel textLabel = new JLabel("Life Counter: " + this.maze.getPacman().getLives() + "x");
+    textLabel.setHorizontalAlignment(SwingConstants.LEFT);
+    JLabel iconLabel = new JLabel(heartIcon);
     textLabel.setFont(new Font("Arial", Font.BOLD, 14));
     textPanel.add(textLabel, BorderLayout.CENTER);
+    textPanel.add(iconLabel, BorderLayout.EAST);
     textPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 10)); // add padding to the text
     textLabel.setHorizontalAlignment(SwingConstants.RIGHT);
     // Add PADDING to the whole maze
@@ -86,7 +87,7 @@ public class MazePresenter {
 
     // Create a timer that updates the LifeCounter every second
     Timer timer = new Timer(1000, e -> {
-      textLabel.setText("Life Counter: " + this.maze.getPacman().getLives());
+      textLabel.setText("Life Counter: " + this.maze.getPacman().getLives() + "x");
     });
     timer.start();
 
