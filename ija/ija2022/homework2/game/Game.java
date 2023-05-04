@@ -62,11 +62,11 @@ public class Game {
     JFrame frame = new JFrame("Pacman Demo");
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     frame.setSize(350, 400);
-    frame.setPreferredSize(new Dimension(750, 800));
+    frame.setPreferredSize(new Dimension(650, 700));
 //    ImageIcon soundIcon = new ImageIcon(getClass().getResource("../tool/lib/iconSound.png"));
 //    JLabel iconLabel = new JLabel(soundIcon);
 //    frame.add(new JPanel(), BorderLayout.WEST);
-    MazePresenter presenter = new MazePresenter(this.maze, frame);
+    MazePresenter presenter = new MazePresenter(this.maze, frame, this.sound);
     presenter.open();
     playMusic(0);
     //start game
