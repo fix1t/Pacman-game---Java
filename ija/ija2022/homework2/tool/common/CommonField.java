@@ -46,18 +46,13 @@ public interface CommonField extends Observable {
     }
 
     public Direction opposite() {
-      switch(this) {
-        case LEFT:
-          return RIGHT;
-        case UP:
-          return DOWN;
-        case RIGHT:
-          return LEFT;
-        case DOWN:
-          return UP;
-        default:
-          return STOP;
-      }
+      return switch (this) {
+        case LEFT -> RIGHT;
+        case UP -> DOWN;
+        case RIGHT -> LEFT;
+        case DOWN -> UP;
+        default -> STOP;
+      };
     }
   }
 }
