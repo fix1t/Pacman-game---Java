@@ -4,23 +4,25 @@ import ija.ija2022.homework2.game.resources.ObjectType;
 import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
 
-import java.util.List;
+import java.util.*;
 
 
 public class PacmanObject implements CommonMazeObject {
-    PathField currentField;
-    List<CommonMazeObject> listOfKeys;
-    int livesRemaining;
-    CommonField.Direction direction;
-    private boolean victory;
+  private PathField currentField;
+  private List<CommonMazeObject> listOfKeys;
+  private int livesRemaining;
+  private CommonField.Direction direction;
+  private boolean victory;
+  private CommonField goToField;
 
   public PacmanObject(PathField field, List<CommonMazeObject> listOfKeys) {
-        this.currentField = field;
-        this.livesRemaining =3;
-        this.listOfKeys = listOfKeys;
-        this.direction = CommonField.Direction.STOP;
-        this.victory = false;
-    }
+    this.currentField = field;
+    this.livesRemaining = 3;
+    this.listOfKeys = listOfKeys;
+    this.direction = CommonField.Direction.STOP;
+    this.victory = false;
+    this.goToField = null;
+  }
 
   @Override
   public void setDirection(CommonField.Direction direction) {
@@ -32,20 +34,46 @@ public class PacmanObject implements CommonMazeObject {
   }
 
   @Override
-    public boolean canMove(PathField.Direction direction) {
-        return this.currentField.nextField(direction).canMove();
-    }
+  public boolean canMove(PathField.Direction direction) {
+    return this.currentField.nextField(direction).canMove();
+  }
 
-    @Override
-    public boolean move() {
-      // check if pacman is moving
-      if (this.direction == CommonField.Direction.STOP) {
-        return true;
-      }
-      return move(this.direction);
+  @Override
+  public boolean move() {
+    // check if pacman is pointed by mouse click
+    if (this.isGoToSet()) {
+      this.direction = this.searchDirection(this.getGoToField());
+    } else if
+    (this.direction == CommonField.Direction.STOP) {
+      return true;
     }
+    // try to move to the field in the direction
+    return move(this.direction);
+  }
 
-    @Override
+  private CommonField.Direction searchDirection(CommonField goToField) {
+    // find shortest path to the field using class PathFinder
+    PathFinder pathFinder = new PathFinder();
+    return pathFinder.findShortestPathDirection(this.currentField, goToField);
+  }
+
+  private boolean isGoToSet() {
+    return this.getGoToField() != null;
+  }
+
+  public void setGoToField(CommonField goToField) {
+    this.goToField = goToField;
+  }
+
+  public CommonField getGoToField() {
+    return this.goToField;
+  }
+
+  public void unsetGoToField() {
+    this.goToField = null;
+  }
+
+  @Override
     public boolean move(CommonField.Direction direction) {
       // check if it is walkable field = PathField
       if (!this.canMove(direction)) {
@@ -56,7 +84,7 @@ public class PacmanObject implements CommonMazeObject {
       return true;
     }
 
-    private boolean performMove(PathField moveTo) {
+    private void performMove(PathField moveTo) {
       // take key if there is one
       if (moveTo.getKey() != null) {
         // remove key from field and list of keys
@@ -82,7 +110,6 @@ public class PacmanObject implements CommonMazeObject {
           System.out.println("GAME OVER!");
         }
       }
-      return true;
     }
 
   private void setVictory() {

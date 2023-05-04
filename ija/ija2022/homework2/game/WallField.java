@@ -1,5 +1,6 @@
 package ija.ija2022.homework2.game;
 
+import ija.ija2022.homework2.game.resources.Coordinate;
 import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMaze;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
@@ -8,60 +9,48 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class WallField implements CommonField {
-    int x;
-    int y;
-    private final Set<Observer> observers = new HashSet();
+  private final Coordinate coordinate;
+  private final Set<Observer> observers = new HashSet();
+  private CommonMaze maze;
 
-    public WallField(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
+  public WallField(int x, int y) {
+    this.coordinate = new Coordinate(x, y);
+  }
 
-    public int getX() {
-        return this.x;
-    }
+  @Override
+  public Coordinate getCoordinate() {
+    return this.coordinate;
+  }
 
-    public void setX(int x) {
-        this.x = x;
-    }
+  public void setMaze(CommonMaze maze) {
+    this.maze = maze;
+  }
 
-    public int getY() {
-        return this.y;
-    }
+  @Override
+  public CommonField nextField(Direction dirs) {
+      throw new UnsupportedOperationException();
+  }
 
-    public void setY(int y) {
-        this.y = y;
-    }
+  public boolean put(CommonMazeObject object) {
+      throw new UnsupportedOperationException();
+  }
 
-    public void setMaze(CommonMaze maze) {
+  @Override
+  public boolean isEmpty() {
+      return true;
+  }
 
-    }
+  public boolean remove(CommonMazeObject object) {
+      throw new UnsupportedOperationException();
+  }
 
-    @Override
-    public CommonField nextField(Direction dirs) {
-        throw new UnsupportedOperationException();
-    }
+  @Override
+  public CommonMazeObject get() {
+      return null;
+  }
 
-    public boolean put(CommonMazeObject object) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return true;
-    }
-
-    public boolean remove(CommonMazeObject object) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public CommonMazeObject get() {
-        return null;
-    }
-
-    @Override
-    public boolean canMove() {
+  @Override
+  public boolean canMove() {
         return false;
     }
 
