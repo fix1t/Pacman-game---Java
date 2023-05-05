@@ -1,6 +1,7 @@
 package ija.ija2022.homework2.game;
 
 import ija.ija2022.homework2.game.resources.ObjectType;
+import ija.ija2022.homework2.tool.MazeMenu;
 import ija.ija2022.homework2.tool.MazePresenter;
 import ija.ija2022.homework2.tool.Sound;
 import ija.ija2022.homework2.tool.common.CommonMaze;
@@ -109,9 +110,11 @@ public class Game {
     this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     this.frame.setSize(350, 400);
     this.frame.setPreferredSize(new Dimension(650, 700));
-//    ImageIcon soundIcon = new ImageIcon(getClass().getResource("../tool/lib/iconSound.png"));
-//    JLabel iconLabel = new JLabel(soundIcon);
-//    frame.add(new JPanel(), BorderLayout.WEST);
+    MazeMenu menuPresenter = new MazeMenu(this.frame, this.sound);
+    menuPresenter.open();
+    while (!menuPresenter.menuElementPressed()){
+      System.out.println("Waiting for game to start");
+    }
     MazePresenter presenter = new MazePresenter(this.maze, this.frame, this.sound);
     presenter.open();
   }
