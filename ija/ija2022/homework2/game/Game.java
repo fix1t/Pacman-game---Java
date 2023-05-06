@@ -114,6 +114,7 @@ public class Game {
     menuPresenter.open();
     while (!menuPresenter.menuElementPressed()){
       //System.out.println("Waiting for game to start");
+      sleep(500);
     }
     MazePresenter presenter = new MazePresenter(this.maze, this.frame, this.sound);
     presenter.open();
