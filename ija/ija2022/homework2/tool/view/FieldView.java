@@ -46,6 +46,7 @@ public class FieldView extends JPanel implements Observable.Observer {
           case GHOST -> v = new GhostView(this, o);
           default -> v = null;
         }
+        this.objects.clear(); // clear field from all object first to stop overlapping
         this.objects.add(v);
       } else {
         this.objects.clear();
