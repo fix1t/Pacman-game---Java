@@ -118,7 +118,6 @@ public class MazeMenu {
       public void mouseClicked(MouseEvent e) {
         // Store the flag value using the flag name
         flags.put(flagName, true);
-        System.out.println("Starting the game!");
         removeListeners();
       }
 
@@ -165,7 +164,18 @@ public class MazeMenu {
    *
    * @return all flags bool values
    */
-  public boolean menuElementPressed() { return this.flags.get("gameFlag") || this.flags.get("replayFlag") || this.flags.get("exitFlag");}
+  public boolean menuElementPressed() {return this.flags.get("gameFlag") || this.flags.get("replayFlag") || this.flags.get("exitFlag");}
+
+  /**
+   * Loop through all flags and return the one with value <code>True</code>.
+   * @return menu option (flag) that was pressed
+   */
+  public String flagEnabled() {
+    for (String flag : flags.keySet()) {
+      if (flags.get(flag)) {return flag;}
+    }
+    return null;
+  }
 
   /**
    * Starts playing music.

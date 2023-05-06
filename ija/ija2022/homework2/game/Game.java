@@ -10,6 +10,7 @@ import ija.ija2022.homework2.tool.tests.Homework2;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -116,8 +117,25 @@ public class Game {
       //System.out.println("Waiting for game to start");
       sleep(500);
     }
-    MazePresenter presenter = new MazePresenter(this.maze, this.frame, this.sound);
-    presenter.open();
+    switch (menuPresenter.flagEnabled()) {
+      case "gameFlag":
+        System.out.println("Starting the game...");
+        MazePresenter presenter = new MazePresenter(this.maze, this.frame, this.sound);
+        presenter.open();
+        break;
+      case "replayFlag":
+        break;
+      case "exitFlag":
+        System.out.println("Exiting...");
+        this.closeFrame();
+        this.stopMusic();
+        this.finishRecording();
+        return;
+      default:
+        System.out.println("Invalid option");
+        break;
+    }
+
   }
 
   /**
@@ -195,8 +213,11 @@ public class Game {
     this.recorder.closeWriter();
   }
 
+  /**
+   * Close game window.
+   */
   public void closeFrame() {
-    this.frame.dispose();
+    this.frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
   }
 
   /**
