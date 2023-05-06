@@ -58,27 +58,27 @@ public class MazePresenter {
     final boolean[] soundOn = {sound.isPlaying()};
     ImageIcon soundOnIcon = new ImageIcon(getClass().getResource("../tool/lib/iconSound.png"));
     ImageIcon soundOffIcon = new ImageIcon(getClass().getResource("../tool/lib/iconNoSound.png"));
-    JButton soundLabel = new JButton(soundOn[0] ? soundOnIcon:soundOffIcon);  // put icon depending on playback status (on/off)
+    JButton soundButton = new JButton(soundOn[0] ? soundOnIcon:soundOffIcon);  // put icon depending on playback status (on/off)
     // Add a mouse listener to the label
-    soundLabel.addMouseListener(new MouseAdapter() {
+    soundButton.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
         soundOn[0] = !soundOn[0];
-        // Update the music state and the icon of the sound label based on the sound state
+        // Update the music state and the icon of the sound button based on the sound state
         if (!soundOn[0]) {
           stopMusic();
-          soundLabel.setIcon(soundOffIcon);
+          soundButton.setIcon(soundOffIcon);
         }
         else {
           playMusic();
-          soundLabel.setIcon(soundOnIcon);
+          soundButton.setIcon(soundOnIcon);
         }
       }
     });
-    soundLabel.setFocusable(false); // fix: ghost not moving by WASD
+    soundButton.setFocusable(false); // fix: ghost not moving by WASD
     JPanel bottomPanel = new JPanel(new BorderLayout());
     bottomPanel.add(textPanel, BorderLayout.CENTER);
-    bottomPanel.add(soundLabel, BorderLayout.WEST);
+    bottomPanel.add(soundButton, BorderLayout.WEST);
     bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 5, 5)); // add padding for elements in bottom
     frame.add(bottomPanel, BorderLayout.SOUTH);
 
@@ -98,14 +98,14 @@ public class MazePresenter {
           case 'D', 'd' -> {if(pacman.canMove(CommonField.Direction.RIGHT)){pacman.setDirection(CommonField.Direction.RIGHT);}}
           case 'S', 's' -> {if(pacman.canMove(CommonField.Direction.DOWN)){pacman.setDirection(CommonField.Direction.DOWN);}}
           case 'M', 'm' -> { soundOn[0] = !soundOn[0];
-            // Update the music state and the icon of the sound label based on the sound state
+            // Update the music state and the icon of the sound button based on the sound state
             if (!soundOn[0]) {
               stopMusic();
-              soundLabel.setIcon(soundOffIcon);
+              soundButton.setIcon(soundOffIcon);
             }
             else {
               playMusic();
-              soundLabel.setIcon(soundOnIcon);
+              soundButton.setIcon(soundOnIcon);
             }}
         }
       }
