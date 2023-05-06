@@ -34,7 +34,7 @@ public class AStarTestAdvanced {
     if (maze == null) {
       System.out.println("Error while loading maze");
     }
-    this.game.createGameGUI();
+//    this.game.createGameGUI();
   }
 
   @Test
@@ -44,7 +44,7 @@ public class AStarTestAdvanced {
     PacmanObject pacman = this.maze.getPacman();
     pacman.setGoToField(destinationField);
     for (int i = 0; i < 12; i++) {
-      Game.sleep(100);
+//      Game.sleep(100);
       pacman.move();
     }
     //check if pacman is on destination field
@@ -60,21 +60,21 @@ public class AStarTestAdvanced {
     CommonField destinationField = this.maze.getField(2, 20);
     pacman.setGoToField(destinationField);
     for (int i = 0; i < 20; i++) {
-      Game.sleep(100);
+//      Game.sleep(100);
       pacman.move();
     }
     // go to bottom left corner next
     destinationField = this.maze.getField(8, 2);
     pacman.setGoToField(destinationField);
     for (int i = 0; i < 30; i++) {
-      Game.sleep(100);
+//      Game.sleep(100);
       pacman.move();
     }
     // go to top left corner next
     destinationField = this.maze.getField(2, 2);
     pacman.setGoToField(destinationField);
     for (int i = 0; i < 20; i++) {
-      Game.sleep(100);
+//      Game.sleep(100);
       pacman.move();
     }
     // go to bottom right corner next
@@ -88,7 +88,7 @@ public class AStarTestAdvanced {
     destinationField = this.maze.getField(5, 11);
     pacman.setGoToField(destinationField);
     for (int i = 0; i < 30; i++) {
-      Game.sleep(100);
+//      Game.sleep(100);
       pacman.move();
     }
     Assert.assertTrue(pacman.isVictorious());

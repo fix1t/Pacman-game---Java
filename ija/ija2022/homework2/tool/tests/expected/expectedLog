@@ -1,3 +1,9 @@
+5 3
+.X.
+.X.
+.X.
+.X.
+GXS
 ORD: 0 OBJ: GHOST 0 ON: (5,1)
 ORD: 0 OBJ: PACMAN 1 ON: (5,3)
 ORD: 1 OBJ: GHOST 0 ON: (4,1)

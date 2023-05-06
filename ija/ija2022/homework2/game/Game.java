@@ -77,6 +77,9 @@ public class Game {
    * @return              the `CommonMaze` object representing the maze.
    */
   public CommonMaze createMazeFromFile(Path pathToMaze) {
+    //record maze
+    this.recorder.recordMaze(pathToMaze);
+    //load maze
     try (InputStream inputStream = Files.newInputStream(pathToMaze)) {
       this.maze = this.createMaze(inputStream);
     } catch (IOException e) {
