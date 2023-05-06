@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,11 +20,13 @@ public class MazePresenter {
   private final CommonMaze maze;
   JFrame frame;
   Sound sound;
+  Font customFont;
 
   public MazePresenter(CommonMaze maze, JFrame frame, Sound sound) {
     this.maze = maze;
     this.frame = frame;
     this.sound = sound;
+    addFont();
   }
 
   public void open() {
@@ -35,6 +38,9 @@ public class MazePresenter {
 
   }
 
+  /**
+   * Visualize Maze
+   */
   private void initializeInterface() {
     // Add text LIFE COUNTER
     JPanel textPanel = new JPanel(new BorderLayout());
@@ -42,10 +48,10 @@ public class MazePresenter {
     JLabel textLabel = new JLabel("Life Counter: " + this.maze.getPacman().getLives() + "x");
     textLabel.setHorizontalAlignment(SwingConstants.LEFT);
     JLabel iconLabel = new JLabel(heartIcon);
-    textLabel.setFont(new Font("Arial", Font.BOLD, 14));
+    textLabel.setFont(customFont);
     textPanel.add(textLabel, BorderLayout.CENTER);
     textPanel.add(iconLabel, BorderLayout.EAST);
-    textPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 10)); // add padding to the text
+    textPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10)); // add padding to the text
     textLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 
     // Add sound icon to bottom left corner
@@ -150,5 +156,21 @@ public class MazePresenter {
    */
   public void stopMusic() {
     sound.stop();
+  }
+
+  /**
+   * Add custom font
+   */
+  public void addFont() {
+    try {
+      customFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getClassLoader().getResourceAsStream("ija/ija2022/homework2/tool/lib/RetroGaming.ttf"));
+      customFont = customFont.deriveFont(15f);
+    } catch (FontFormatException | IOException e) {
+      // Handle font loading exception
+      e.printStackTrace();
+      // Fallback to a default font
+      customFont = new Font("Arial", Font.BOLD, 15);
+      System.out.println(System.getProperty("user.dir"));
+    }
   }
 }
