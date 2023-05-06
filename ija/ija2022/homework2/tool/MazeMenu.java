@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 public class MazeMenu {
   private JFrame frame;
   private Sound sound;
+  JButton soundLabel;
   Font customFont;
   Font headerFont;
 
@@ -64,15 +65,34 @@ public class MazeMenu {
     content.add(heading);
 
     content.add(Box.createRigidArea(new Dimension(0, 20))); // add some spacing between labels
-
-
     content.add(elementBody("Start game!", "gameFlag"));
     content.add(Box.createRigidArea(new Dimension(0, 10))); // add some spacing between labels
     content.add(elementBody("Replay", "replayFlag"));
     content.add(Box.createRigidArea(new Dimension(0, 10))); // add some spacing between labels
     content.add(elementBody("Exit", "exitFlag"));
 
+    final boolean[] soundOn = {sound.isPlaying()};
+    ImageIcon soundOnIcon = new ImageIcon(getClass().getResource("../tool/lib/iconSound.png"));
+    ImageIcon soundOffIcon = new ImageIcon(getClass().getResource("../tool/lib/iconNoSound.png"));
+    soundLabel = new JButton(soundOn[0] ? soundOnIcon:soundOffIcon);  // put icon depending on playback status (on/off)
 
+    soundLabel.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        soundOn[0] = !soundOn[0];
+        if (!soundOn[0]) {
+          stopMusic();
+          soundLabel.setIcon(soundOffIcon);
+        } else {
+          playMusic();
+          soundLabel.setIcon(soundOnIcon);
+        }
+      }
+    });
+
+    content.add(Box.createRigidArea(new Dimension(0, 15))); // add some spacing between labels
+    soundLabel.setFocusable(false); // fix: ghost not moving by WASD
+    content.add(soundLabel, BorderLayout.CENTER);
     frame.getContentPane().add(content, BorderLayout.CENTER);
     frame.pack();
     frame.setVisible(true);
@@ -126,6 +146,9 @@ public class MazeMenu {
         menuElement.removeMouseListener(listener);
       }
     }
+    for (MouseListener listener : soundLabel.getMouseListeners()) {
+      soundLabel.removeMouseListener(listener);
+    }
   }
 
   /**
@@ -173,7 +196,6 @@ public class MazeMenu {
       // Fallback to a default font
       customFont = new Font("Arial", Font.BOLD, 24);
       headerFont = new Font("Arial", Font.BOLD, 54);
-      System.out.println(System.getProperty("user.dir"));
     }
   }
 }

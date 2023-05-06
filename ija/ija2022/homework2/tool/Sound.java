@@ -40,9 +40,10 @@ public class Sound {
   }
 
   /**
-   * Start audio playback.
+   * Start audio playback from start of a track.
    */
   public void play() {
+    clip.setFramePosition(0);
     clip.start();
   }
 
@@ -52,6 +53,12 @@ public class Sound {
   public void loop() {
     clip.loop(Clip.LOOP_CONTINUOUSLY);
   }
+
+  /**
+   * Shows if playback is on/off.
+   * @return <code>True</code> if music is playing, <code>False</code> if not
+   */
+  public boolean isPlaying() { return clip.isRunning();}
 
   /**
    * Stop audio playback.

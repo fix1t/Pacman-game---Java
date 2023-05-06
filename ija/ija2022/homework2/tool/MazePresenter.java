@@ -47,18 +47,18 @@ public class MazePresenter {
     ImageIcon heartIcon = new ImageIcon(getClass().getResource("./lib/iconHeart.png"));
     JLabel textLabel = new JLabel("Life Counter: " + this.maze.getPacman().getLives() + "x");
     textLabel.setHorizontalAlignment(SwingConstants.LEFT);
-    JLabel iconLabel = new JLabel(heartIcon);
     textLabel.setFont(customFont);
+    JLabel iconLabel = new JLabel(heartIcon);
     textPanel.add(textLabel, BorderLayout.CENTER);
     textPanel.add(iconLabel, BorderLayout.EAST);
     textPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10)); // add padding to the text
     textLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 
     // Add sound icon to bottom left corner
-    final boolean[] soundOn = {true};
+    final boolean[] soundOn = {sound.isPlaying()};
     ImageIcon soundOnIcon = new ImageIcon(getClass().getResource("../tool/lib/iconSound.png"));
     ImageIcon soundOffIcon = new ImageIcon(getClass().getResource("../tool/lib/iconNoSound.png"));
-    JLabel soundLabel = new JLabel(soundOnIcon);
+    JButton soundLabel = new JButton(soundOn[0] ? soundOnIcon:soundOffIcon);  // put icon depending on playback status (on/off)
     // Add a mouse listener to the label
     soundLabel.addMouseListener(new MouseAdapter() {
       @Override
@@ -75,6 +75,7 @@ public class MazePresenter {
         }
       }
     });
+    soundLabel.setFocusable(false); // fix: ghost not moving by WASD
     JPanel bottomPanel = new JPanel(new BorderLayout());
     bottomPanel.add(textPanel, BorderLayout.CENTER);
     bottomPanel.add(soundLabel, BorderLayout.WEST);
@@ -170,7 +171,6 @@ public class MazePresenter {
       e.printStackTrace();
       // Fallback to a default font
       customFont = new Font("Arial", Font.BOLD, 15);
-      System.out.println(System.getProperty("user.dir"));
     }
   }
 }

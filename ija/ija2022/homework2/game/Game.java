@@ -127,8 +127,8 @@ public class Game {
    */
   public boolean play(Path pathToMaze) {
     this.maze = this.createMazeFromFile(pathToMaze);
-    this.createGameGUI();
     playMusic(0);
+    this.createGameGUI();
 
     //start game
     this.gameLoop();
