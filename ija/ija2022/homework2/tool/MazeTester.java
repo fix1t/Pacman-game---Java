@@ -25,7 +25,7 @@ public class MazeTester {
 
     for(int i = 0; i < rows; ++i) {
       for(int j = 0; j < cols; ++j) {
-        FieldView field = new FieldView(maze.getField(i, j));
+        FieldView field = new FieldView(maze.getField(i, j), this.maze);
         this.fields.add(field);
       }
     }

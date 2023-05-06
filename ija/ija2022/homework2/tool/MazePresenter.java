@@ -93,10 +93,22 @@ public class MazePresenter {
       public void keyTyped(KeyEvent e) {
         PacmanObject pacman = (PacmanObject) maze.getPacman();
         switch (e.getKeyChar()) {
-          case 'A', 'a' -> {if(pacman.canMove(CommonField.Direction.LEFT)){pacman.setDirection(CommonField.Direction.LEFT);}}
-          case 'W', 'w' -> {if(pacman.canMove(CommonField.Direction.UP)){pacman.setDirection(CommonField.Direction.UP);}}
-          case 'D', 'd' -> {if(pacman.canMove(CommonField.Direction.RIGHT)){pacman.setDirection(CommonField.Direction.RIGHT);}}
-          case 'S', 's' -> {if(pacman.canMove(CommonField.Direction.DOWN)){pacman.setDirection(CommonField.Direction.DOWN);}}
+          case 'A', 'a' -> {if(pacman.canMove(CommonField.Direction.LEFT)){
+            pacman.unsetGoToField();
+            pacman.setDirection(CommonField.Direction.LEFT);}
+          }
+          case 'W', 'w' -> {if(pacman.canMove(CommonField.Direction.UP)){
+            pacman.unsetGoToField();
+            pacman.setDirection(CommonField.Direction.UP);}
+          }
+          case 'D', 'd' -> {if(pacman.canMove(CommonField.Direction.RIGHT)){
+            pacman.unsetGoToField();
+            pacman.setDirection(CommonField.Direction.RIGHT);}
+          }
+          case 'S', 's' -> {if(pacman.canMove(CommonField.Direction.DOWN)){
+            pacman.unsetGoToField();
+            pacman.setDirection(CommonField.Direction.DOWN);}
+          }
           case 'M', 'm' -> { soundOn[0] = !soundOn[0];
             // Update the music state and the icon of the sound button based on the sound state
             if (!soundOn[0]) {
@@ -128,7 +140,7 @@ public class MazePresenter {
 
     for(int i = 0; i < rows; ++i) {
       for(int j = 0; j < cols; ++j) {
-        FieldView field = new FieldView(this.maze.getField(i, j));
+        FieldView field = new FieldView(this.maze.getField(i, j), this.maze);
         content.add(field);
       }
     }
