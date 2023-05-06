@@ -22,7 +22,7 @@ public class MazeMenu {
    */
   public Map<String, Boolean> flags = new HashMap<>();
 
-  List<JLabel> menuElements = new ArrayList<>();
+  List<JButton> menuElements = new ArrayList<>();
 
   public MazeMenu(JFrame frame, Sound sound) {
     this.frame = frame;
@@ -41,15 +41,16 @@ public class MazeMenu {
 
   public void initializeInterface() {
     JPanel content = new JPanel();
-    content.setBackground(Color.blue);
+    content.setBackground(new Color(67, 91, 251));
     content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS)); // set vertical BoxLayout
 
     // Add padding from top
     content.setBorder(BorderFactory.createEmptyBorder(200, 0, 0, 0));
 
     JLabel heading = new JLabel("PACMAN");
+    heading.setForeground(new Color(251,227,67)); // change color to red when mouse enters
     heading.setAlignmentX(Component.CENTER_ALIGNMENT); // center horizontally
-    heading.setFont(new Font("Arial", Font.BOLD, 42));
+    heading.setFont(new Font("Arial", Font.BOLD, 54));
     content.add(heading);
 
     content.add(Box.createRigidArea(new Dimension(0, 20))); // add some spacing between labels
@@ -58,6 +59,8 @@ public class MazeMenu {
     content.add(elementBody("Start game!", "gameFlag"));
     content.add(Box.createRigidArea(new Dimension(0, 10))); // add some spacing between labels
     content.add(elementBody("Replay", "replayFlag"));
+    content.add(Box.createRigidArea(new Dimension(0, 10))); // add some spacing between labels
+    content.add(elementBody("Exit", "exitFlag"));
 
 
     frame.getContentPane().add(content, BorderLayout.CENTER);
@@ -65,10 +68,14 @@ public class MazeMenu {
     frame.setVisible(true);
   }
 
-  private JLabel elementBody(String text, String flagName) {
-    JLabel menuElement = new JLabel(text);
+  private JButton elementBody(String text, String flagName) {
+    JButton menuElement = new JButton(text);
     menuElement.setAlignmentX(Component.CENTER_ALIGNMENT); // center horizontally
-    menuElement.setFont(new Font("Arial", Font.BOLD, 18));
+    menuElement.setFont(new Font("Arial", Font.BOLD, 24));
+    menuElement.setForeground(Color.BLACK);
+    menuElement.setMaximumSize(new Dimension(200, 42)); // Set maximum width for all buttons
+    menuElement.setFocusable(false); // fix: ghost not moving by WASD
+
     MouseListener mouseListener = new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
@@ -76,7 +83,6 @@ public class MazeMenu {
         flags.put(flagName, true);
         System.out.println("Starting the game!");
         removeListeners();
-        menuElement.removeMouseListener(this);
       }
 
       @Override
@@ -95,7 +101,7 @@ public class MazeMenu {
   }
 
   private void removeListeners() {
-    for (JLabel menuElement : menuElements) {
+    for (JButton menuElement : menuElements) {
       for (MouseListener listener : menuElement.getMouseListeners()) {
         menuElement.removeMouseListener(listener);
       }
@@ -105,13 +111,14 @@ public class MazeMenu {
   private void initFlags() {
     this.flags.put("gameFlag", false);
     this.flags.put("replayFlag", false);
+    this.flags.put("exitFlag", false);
   }
 
   /**
    *
    * @return if game can be started or not
    */
-  public boolean menuElementPressed() { return this.flags.get("gameFlag") || this.flags.get("replayFlag");}
+  public boolean menuElementPressed() { return this.flags.get("gameFlag") || this.flags.get("replayFlag") || this.flags.get("exitFlag");}
 
   /**
    * Starts playing music.
