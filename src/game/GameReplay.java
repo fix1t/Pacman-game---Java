@@ -251,12 +251,12 @@ public class GameReplay implements Runnable {
   }
 
   public void continueForward() {
-    this.continueForward(400);
+    this.continueForward(500);
   }
 
 
     public void continueForward(int gameSpeed) {
-    while(!this.paused && currentState + 1 < totalStates && currentState >= 0) {
+    while(!this.paused && currentState < totalStates && currentState >= 0) {
       currentState++;
       presentState(currentState);
       sleep(gameSpeed);

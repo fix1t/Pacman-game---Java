@@ -152,6 +152,7 @@ public class ReplayTest {
     Assert.assertEquals(this.maze.getField(5,3),pacman.getField());
     Assert.assertEquals(this.maze.getField(5,1),ghost.getField());
 
+    this.replay.resume();
     this.replay.continueForward(0);
     Assert.assertEquals(this.maze.getField(2,3),pacman.getField());
     Assert.assertEquals(this.maze.getField(2,1),ghost.getField());
@@ -172,6 +173,7 @@ public class ReplayTest {
     Assert.assertEquals(this.maze.getField(2,3),pacman.getField());
     Assert.assertEquals(this.maze.getField(2,1),ghost.getField());
 
+    this.replay.resume();
     this.replay.continueBackward(0);
     Assert.assertEquals(this.maze.getField(5,3),pacman.getField());
     Assert.assertEquals(this.maze.getField(5,1),ghost.getField());

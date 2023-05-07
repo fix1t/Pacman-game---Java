@@ -96,22 +96,13 @@ public class PacmanObject implements CommonMazeObject {
       } else if (moveTo.getTarget() != null && this.canTakeTarget()) {
         // remove target from field if all keys are taken
         moveTo.remove(moveTo.getTarget());
-        // TODO: RESOLVE GAME OVER
-        System.out.println("GAME OVER!");
+        System.out.println("YOU WIN!");
         this.setVictory();
       }
       // remove pacman from this field
       this.currentField.remove(this);
       // change field
       moveTo.put(this);
-
-      // check if there is a ghost in the field
-      if (!moveTo.getGhosts().isEmpty()) {
-        // check if pacman will survive or if it's game over
-        if (this.ghostCollision()) {
-          System.out.println("GAME OVER!");
-        }
-      }
     }
 
   private void setVictory() {
@@ -159,15 +150,15 @@ public class PacmanObject implements CommonMazeObject {
     }
 
     // return true if pacman has no more lives
-    public boolean ghostCollision(){
+    public void ghostCollision(){
       // remove one life
       this.livesRemaining = this.livesRemaining - 1;
-      if (this.livesRemaining > 0){
-        // restore the whole maze to its initial state
-        this.currentField.getMaze().restore();
-      }
-      //game over
-      return this.livesRemaining <= 0;
+      // restore the whole maze to its initial state
+      this.currentField.getMaze().restore();
+    }
+
+  public boolean isCaughtByGhost() {
+    return !this.getField().getGhosts().isEmpty();
   }
 
   public boolean isDead() {

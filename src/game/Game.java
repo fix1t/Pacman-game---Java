@@ -217,13 +217,10 @@ public class Game {
 
     //Run game loop
     do {
-      this.recorder.captureState(this.allMazeObjects, true);
       this.moveAllMazeObjects();
+      this.recorder.captureState(this.allMazeObjects, true);
       sleep(this.tickLength);
     } while (!pacman.isDead() && !pacman.isVictorious());
-
-    //Capture final state
-    this.recorder.captureState(this.allMazeObjects, true);
 
     if (pacman.isVictorious())
       this.gameResult = GameState.WIN;
@@ -317,10 +314,19 @@ public class Game {
    * Moves all `CommonMazeObject` instances in the maze.
    */
   public void moveAllMazeObjects() {
+    PacmanObject pacman = this.maze.getPacman();
     for (CommonMazeObject mazeObject : this.allMazeObjects) {
       if (mazeObject.getType() == ObjectType.GHOST && this.pauseGhosts)
         continue;
       mazeObject.move();
+      if (pacman.isCaughtByGhost()) {
+        sleep(1000);
+        this.recorder.captureState(this.allMazeObjects, true);
+        pacman.ghostCollision();
+        if (pacman.isDead())
+          break;
+        sleep(1000);
+      }
     }
   }
 }

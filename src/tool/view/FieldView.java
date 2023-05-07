@@ -28,9 +28,23 @@ public class FieldView extends JPanel implements Observable.Observer {
 
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
-    this.objects.forEach((v) -> {
-      v.paintComponent(g);
-    });
+    PacmanView pacman = null;
+    GhostView ghost = null;
+    for (ComponentView o : this.objects) {
+      o.paintComponent(g);
+      if(o instanceof PacmanView){
+        pacman = (PacmanView) o;
+      } else if (o instanceof GhostView) {
+        ghost = (GhostView) o;
+      }
+    }
+    // draw ghost and pacman last to be on top of everything
+    if (ghost != null) {
+      ghost.paintComponent(g);
+    }
+    if(pacman != null){
+      pacman.paintComponent(g);
+    }
   }
 
   private void privUpdate() {
