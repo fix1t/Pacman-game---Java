@@ -106,7 +106,7 @@ public class Game {
   /**
    * Creates the graphical user interface for the game.
    */
-  public void createGameGUI(String gameStatus) {
+  public boolean createGameGUI(String gameStatus) {
     this.createFrame(gameStatus);
     MazeMenu menuPresenter = new MazeMenu(this.frame, this.sound, gameStatus);
     menuPresenter.open();
@@ -126,15 +126,12 @@ public class Game {
         break;
       case "exitFlag":
         System.out.println("Exiting...");
-        this.closeFrame();
-        this.stopMusic();
-        this.finishRecording();
-        return;
+        return true;
       default:
         System.out.println("Invalid option");
         break;
     }
-
+    return false;
   }
 
   /**
@@ -146,22 +143,30 @@ public class Game {
   public boolean play(Path pathToMaze) {
     this.maze = this.createMazeFromFile(pathToMaze);
     playMusic(0);
-    this.createGameGUI("PACMAN");
+    boolean gameExit = this.createGameGUI("PACMAN");
+    if(gameExit){
+      this.stopMusic();
+      this.closeFrame();
+      return true;
+    }
 
     //start game
     boolean result = this.gameLoop();
     this.finishRecording();
     this.frame.dispose();
 
-    // trigger WON/LOSE screen depending on game result
-    if (result) this.createGameGUI("YOU WON!");
-    else this.createGameGUI("GAME OVER");
+    while(!gameExit) {
+      // trigger WON/LOSE screen depending on game result
+      if (result) gameExit = this.createGameGUI("YOU WON!");
+      else gameExit = this.createGameGUI("GAME OVER");
 
-    result = this.gameLoop();
-    this.finishRecording();
-    this.frame.dispose();
+      result = this.gameLoop();
+      this.finishRecording();
+      this.frame.dispose();
+    }
 
     this.stopMusic();
+    this.closeFrame();
     return true;
   }
 
