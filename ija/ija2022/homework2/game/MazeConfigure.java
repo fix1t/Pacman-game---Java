@@ -118,7 +118,6 @@ public class MazeConfigure {
 
   public boolean processLine(String line) {
     if (!this.started || this.cols - BORDER != line.length()) {
-      this.errorFlag = true;
       return false;
     }
 
