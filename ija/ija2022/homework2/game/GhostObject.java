@@ -125,24 +125,16 @@ public class GhostObject implements CommonMazeObject {
   }
 
   /**
-   * Moves the ghost to the specified field and checks for a possible collision with a pacman.
+   * Moves the object to the given field.
    *
-   * @param moveTo the field the ghost is moving to
-   * @return true if the move was successful, false otherwise
+   * @param moveTo the field to move the object to
+   * @return true if the object has moved, false otherwise
    */
   private boolean performMove(PathField moveTo) {
-// remove ghost from this field
+    // remove ghost from this field
     this.currentField.remove(this);
-// change field
+    // change field
     moveTo.put(this);
-
-// check if there is a pacman in the field
-    if (moveTo.getPacman() != null) {
-// check if pacman will survive or if it's game over
-      if (((PacmanObject) moveTo.getPacman()).ghostCollision()) {
-        System.out.println("GAME OVER!");
-      }
-    }
     return true;
   }
 
