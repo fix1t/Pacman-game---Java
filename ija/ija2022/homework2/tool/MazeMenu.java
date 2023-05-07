@@ -67,13 +67,13 @@ public class MazeMenu {
     if(this.gameStatus == GameState.TBD){
       content.add(Box.createRigidArea(new Dimension(0, 20))); // add some spacing between labels
       content.add(elementBody("Start game!", "gameFlag"));
-      content.add(Box.createRigidArea(new Dimension(0, 20))); // add some spacing between labels
+      content.add(Box.createRigidArea(new Dimension(0, 10))); // add some spacing between labels
       content.add(elementBody("Choose a map!", "mapFlag"));
     }
     else {
       content.add(Box.createRigidArea(new Dimension(0, 20))); // add some spacing between labels
       content.add(elementBody("Play again!", "gameFlag"));
-      content.add(Box.createRigidArea(new Dimension(0, 20))); // add some spacing between labels
+      content.add(Box.createRigidArea(new Dimension(0, 10))); // add some spacing between labels
       content.add(elementBody("Choose a map!", "mapFlag"));
       content.add(Box.createRigidArea(new Dimension(0, 10))); // add some spacing between labels
       content.add(elementBody("Replay", "replayFlag"));
@@ -154,7 +154,7 @@ public class MazeMenu {
     menuElement.setAlignmentX(Component.CENTER_ALIGNMENT); // center horizontally
     menuElement.setFont(this.customFont);
     menuElement.setForeground(Color.BLACK);
-    menuElement.setMaximumSize(new Dimension(225, 45)); // Set maximum width for all buttons
+    menuElement.setMaximumSize(new Dimension(250, 45)); // Set maximum width for all buttons
     menuElement.setFocusable(false); // fix: ghost not moving by WASD
 
     MouseListener mouseListener = new MouseAdapter() {
