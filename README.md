@@ -9,12 +9,14 @@ The project was built using [Maven](https://maven.apache.org/).
 To run the game, execute the following command:
 
 ```bash
-java -jar pacman.jar
+mvn clean package
+cd target/
+java -jar but-ija-pacman-1.0.jar
 ```
 
 ## Authors
 
-The Pacman Game was developed by a team of talented individuals:
+The Pacman Game was developed by a team of two individuals:
 
 - Gabriel Biel (xbielg00)
 - Jakub Mikyšek (xmikys03)
