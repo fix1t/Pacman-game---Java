@@ -16,4 +16,13 @@ public enum ObjectType {
       default -> "UNKNOWN";
     };
   }
+  public static ObjectType toType( String type ) {
+    return switch (type) {
+      case "PACMAN" -> PACMAN;
+      case "GHOST" -> GHOST;
+      case "KEY" -> KEY;
+      case "TARGET" -> TARGET;
+      default -> null;
+    };
+  }
 }
