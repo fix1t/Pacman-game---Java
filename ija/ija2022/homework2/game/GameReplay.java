@@ -1,15 +1,22 @@
 package ija.ija2022.homework2.game;
+import ija.ija2022.homework2.game.resources.Coordinate;
+import ija.ija2022.homework2.game.resources.ObjectType;
 import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMaze;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class GameReplay {
   int currentState;
@@ -53,12 +60,10 @@ public class GameReplay {
 
   public boolean loadGameFromFile(Path pathToMaze) {
     boolean success = false;
-    InputStream inputStream = null;
 
     // Loading maze from file
-    try {
-        inputStream = Files.newInputStream(pathToMaze);
-        success =  this.loadMazeFromFile(inputStream);
+    try (InputStream inputStream = Files.newInputStream(pathToMaze)) {
+      success =  this.loadMazeFromFile(inputStream);
     } catch (IOException e) {
       e.printStackTrace();
       return false;
@@ -67,13 +72,91 @@ public class GameReplay {
     if (!success) {
       return false;
     }
+
     // Loading steps from file
-    success = this.loadStepsToMapFromFile(inputStream);
+    try (InputStream inputStream = Files.newInputStream(pathToMaze)) {
+      success = this.loadStepsToMapFromFile(inputStream);
+    } catch (IOException e) {
+      e.printStackTrace();
+      return false;
+    }
+
     return success;
   }
 
   private boolean loadStepsToMapFromFile(InputStream inputStream) {
-    return true;
+    //Map<CommonMazeObject, List<CommonField>> stateMap; this.stateMap = new HashMap<>();
+      try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
+        String line;
+        Pattern pattern = Pattern.compile("\\s*ORD:\\s*(\\d+)\\s*OBJ:\\s*(\\w+)\\s*(\\d+)\\s*ON:\\s*\\((\\d+),(\\d+)\\)\\s*");
+
+        this.stateMap = new HashMap<>();
+
+        int ghostIndex = 0;
+        int keyIndex = 0;
+        int currentStep = 0;
+        // read line by line
+        while ((line = br.readLine()) != null) {
+          Matcher matcher = pattern.matcher(line);
+
+          if (matcher.matches()) {
+            // [ORD]
+            int step = Integer.parseInt(matcher.group(1));
+            // reset ghost index if step changes
+            if (step != currentStep) {
+              currentStep = step;
+              ghostIndex = 0;
+              keyIndex = 0;
+            }
+            // [OBJ]
+            String objectInString = matcher.group(2);
+            int objectId = Integer.parseInt(matcher.group(3));
+            ObjectType objectType = ObjectType.toType(objectInString);
+            CommonMazeObject mazeObject = null;
+            switch (objectType){
+              case PACMAN:
+                mazeObject = maze.getPacman();
+                break;
+              case GHOST:
+                mazeObject = maze.getGhosts().get(ghostIndex);
+                ghostIndex++;
+                break;
+              case KEY:
+                mazeObject = maze.getKeys().get(keyIndex);
+                keyIndex++;
+                break;
+              case TARGET:
+                mazeObject = maze.getTarget();
+                break;
+              default:
+                System.out.println("Invalid object type in log file.");
+                // return false;
+            }
+
+            // [ON]
+            int x = Integer.parseInt(matcher.group(4));
+            int y = Integer.parseInt(matcher.group(5));
+            CommonField field = this.maze.getField(x,y);
+
+            // add to map
+            if (!this.stateMap.containsKey(mazeObject)) {
+              this.stateMap.put(mazeObject, new ArrayList<>());
+            }
+
+            List<CommonField> fieldsList = this.stateMap.get(mazeObject);
+            fieldsList.add(field);
+          }
+          else {
+            System.out.println("Skipping line: " + line);
+            //return false;
+          }
+        }
+        this.totalStates = this.stateMap.values().stream().mapToInt(List::size).max().orElse(0);
+        return true;
+      } catch (IOException e) {
+        e.printStackTrace();
+        return false;
+      }
   }
 
   public boolean loadMazeFromFile(InputStream inputStream){
