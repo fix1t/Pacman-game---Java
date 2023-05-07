@@ -23,6 +23,7 @@ public class GameReplay {
     this.stateMap = new HashMap<>();
     this.currentState = 0;
     this.totalStates = 0;
+    this.maze = null;
   }
 
   public GameReplay(GameRecorder gameRecorder) {
@@ -30,6 +31,14 @@ public class GameReplay {
     this.stateMap = gameRecorder.stateMap;
     this.currentState = 0;
     this.totalStates = stateMap.values().stream().mapToInt(List::size).max().orElse(0);
+  }
+
+  public CommonMaze getMaze() {
+    return maze;
+  }
+
+  public void setMaze(CommonMaze maze) {
+    this.maze = maze;
   }
 
   public void ReplayGameFromStart() {
@@ -42,8 +51,7 @@ public class GameReplay {
     presentState(currentState);
   }
 
-  public boolean loadGameFromFile(String fileName) {
-    Path pathToMaze = Path.of(fileName);
+  public boolean loadGameFromFile(Path pathToMaze) {
     boolean success = false;
     InputStream inputStream = null;
 
@@ -81,7 +89,7 @@ public class GameReplay {
 
   }
 
-  public boolean loadGameFromGameRecorder(GameRecorder gameRecorder) {
+  public boolean loadGameFromRecorder(GameRecorder gameRecorder) {
     this.gameRecorder = gameRecorder;
     this.stateMap = gameRecorder.stateMap;
     this.totalStates = stateMap.values().stream().mapToInt(List::size).max().orElse(0);
@@ -120,5 +128,11 @@ public class GameReplay {
     } else {
       System.out.println("Already at the first state.");
     }
+  }
+
+  public void continueForward() {
+  }
+
+  public void continueBackward() {
   }
 }
