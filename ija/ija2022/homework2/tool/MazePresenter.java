@@ -145,8 +145,14 @@ public class MazePresenter {
       }
     }
 
+    final int[] pacmanLives = {3}; // when Pacman loses life, reset movement
     // Create a timer that updates the LifeCounter every second
     Timer timer = new Timer(1000, e -> {
+      if (pacmanLives[0] != this.maze.getPacman().getLives()) {
+        pacmanLives[0] = this.maze.getPacman().getLives();
+        System.out.println(pacmanLives[0]);
+        maze.getPacman().unsetGoToField();
+      }
       textLabel.setText("Life Counter: " + this.maze.getPacman().getLives() + "x");
     });
     timer.start();
