@@ -20,7 +20,7 @@ public class ReplayTest {
   @Before
   public void setUp() {
     this.replay = new GameReplay();
-    Path pathToMaze = Path.of("ija/ija2022/homework2/tool/tests/expected/expectedLog");
+    Path pathToMaze = Path.of("ija/ija2022/homework2/tool/tests/replays/expectedLog");
     boolean result = replay.loadGameFromFile(pathToMaze);
     this.maze = replay.getMaze();
     Assert.assertNotNull(this.maze);
@@ -178,6 +178,5 @@ public class ReplayTest {
     Assert.assertTrue(pacman.getField().contains(pacman));
     Assert.assertTrue(ghost.getField().contains(ghost));
   }
-
-
 }
+
