@@ -20,6 +20,7 @@ public class MazeMenu {
   JButton soundButton;
   Font customFont;
   Font headerFont;
+  String gameStatus;
 
   /**
    * Hash Table to store option Menu Flags to invoke GUI structure later
@@ -31,9 +32,10 @@ public class MazeMenu {
    */
   List<JButton> menuElements = new ArrayList<>();
 
-  public MazeMenu(JFrame frame, Sound sound) {
+  public MazeMenu(JFrame frame, Sound sound, String gameStatus) {
     this.frame = frame;
     this.sound = sound;
+    this.gameStatus = gameStatus;
     initFlags();
     addFont();
   }
@@ -58,7 +60,7 @@ public class MazeMenu {
     // Add padding from top
     content.setBorder(BorderFactory.createEmptyBorder(200, 0, 0, 0));
 
-    JLabel heading = new JLabel("PACMAN");
+    JLabel heading = new JLabel(this.gameStatus);
     heading.setForeground(new Color(251, 227, 67)); // change color to red when mouse enters
     heading.setAlignmentX(Component.CENTER_ALIGNMENT); // center horizontally
     heading.setFont(headerFont);

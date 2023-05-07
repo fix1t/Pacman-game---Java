@@ -58,7 +58,7 @@ public class AStarTestHard {
     if (maze == null) {
       System.out.println("Error while loading maze");
     }
-    game.createGameGUI();
+    game.createGameGUI("PACMAN");
   }
 
   @Test

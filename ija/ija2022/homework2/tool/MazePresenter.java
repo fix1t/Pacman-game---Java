@@ -26,6 +26,7 @@ public class MazePresenter {
     this.maze = maze;
     this.frame = frame;
     this.sound = sound;
+    this.maze.restoreGame();
     addFont();
   }
 
@@ -150,7 +151,6 @@ public class MazePresenter {
     Timer timer = new Timer(1000, e -> {
       if (pacmanLives[0] != this.maze.getPacman().getLives()) {
         pacmanLives[0] = this.maze.getPacman().getLives();
-        System.out.println(pacmanLives[0]);
         maze.getPacman().unsetGoToField();
       }
       textLabel.setText("Life Counter: " + this.maze.getPacman().getLives() + "x");

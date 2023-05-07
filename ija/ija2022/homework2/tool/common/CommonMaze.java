@@ -20,4 +20,6 @@ public interface CommonMaze {
   PacmanObject getPacman();
 
   void restore();
+
+  void restoreGame();
 }
