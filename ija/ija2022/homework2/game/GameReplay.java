@@ -1,5 +1,4 @@
 package ija.ija2022.homework2.game;
-import ija.ija2022.homework2.game.resources.Coordinate;
 import ija.ija2022.homework2.game.resources.ObjectType;
 import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMaze;
@@ -184,15 +183,19 @@ public class GameReplay {
       System.out.println("Invalid state.");
       return;
     }
+    Map<PathField,CommonMazeObject> objectsLayout = this.createObjectsLayout(state);
+    this.maze.setObjectLayoutTo(objectsLayout);
+  }
 
+  private Map<PathField, CommonMazeObject> createObjectsLayout(int state) {
+    Map<PathField,CommonMazeObject> objectsLayout = new HashMap<>();
     for (Map.Entry<CommonMazeObject, List<CommonField>> entry : stateMap.entrySet()) {
       CommonMazeObject mazeObject = entry.getKey();
-      List<CommonField> fieldsList = entry.getValue();
-      if (state < fieldsList.size()) {
-        CommonField field = fieldsList.get(state);
-        System.out.println("Maze Object: " + mazeObject.getType() + " at Position: " + field.getCoordinate());
-      }
+      List<CommonField> fields = entry.getValue();
+      PathField field = (PathField) fields.get(state);
+      objectsLayout.put(field, mazeObject);
     }
+    return objectsLayout;
   }
 
   public void presentNextState() {

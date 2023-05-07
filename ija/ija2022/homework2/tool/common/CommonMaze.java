@@ -1,8 +1,10 @@
 package ija.ija2022.homework2.tool.common;
 
 import ija.ija2022.homework2.game.PacmanObject;
+import ija.ija2022.homework2.game.PathField;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CommonMaze {
   CommonField getField(int var1, int var2);
@@ -20,4 +22,6 @@ public interface CommonMaze {
   PacmanObject getPacman();
 
   void restore();
+
+  void setObjectLayoutTo(Map<PathField,CommonMazeObject> objectsLayout);
 }
