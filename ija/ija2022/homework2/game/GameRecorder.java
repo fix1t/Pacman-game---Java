@@ -15,7 +15,7 @@ public class GameRecorder {
   /**
    * Captures the game state for each maze object.
    */
-  Map<CommonMazeObject, List<CommonField>> stateMap;
+  public Map<CommonMazeObject, List<CommonField>> stateMap;
   PrintWriter writer;
   int moveCount;
 
