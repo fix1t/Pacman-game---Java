@@ -97,10 +97,8 @@ public class Game {
     MapMenu mapMenuPresenter = this.createMapMenuPresenter();
     while (mapMenuPresenter.mapSelected() == 0){
       sleep(500);
-      System.out.println("Waiting for map selection...");
     }
-    System.out.println("GOT OUT...");
-
+    this.setMazeFile(mapMenuPresenter.mapSelected()-1);
   }
 
   private MapMenu createMapMenuPresenter() {
