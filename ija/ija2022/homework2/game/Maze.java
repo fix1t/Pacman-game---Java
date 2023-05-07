@@ -158,7 +158,7 @@ public class Maze implements CommonMaze {
   @Override
   public void restoreGame() {
     this.restore();
-    this.pacman.resetLives();
+    this.pacman.reset();
   }
 
   /**

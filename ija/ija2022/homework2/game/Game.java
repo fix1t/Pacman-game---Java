@@ -143,6 +143,8 @@ public class Game {
         while (!replayPresenter.replayEnded()){
           sleep(500);
         }
+
+        //stop replay thread
         replay.stop();
         break;
       case "exitFlag":
@@ -173,16 +175,14 @@ public class Game {
 
     //start game
     boolean result = this.gameLoop();
-    this.finishRecording();
     this.frame.dispose();
 
     while(!gameExit) {
       // trigger WON/LOSE screen depending on game result
       if (result) gameExit = this.createGameGUI("YOU WON!");
       else gameExit = this.createGameGUI("GAME OVER");
-
+      this.recorder = new GameRecorder();
       result = this.gameLoop();
-      this.finishRecording();
       this.frame.dispose();
     }
 
@@ -195,22 +195,25 @@ public class Game {
    * Runs the main game loop until Pacman wins or dies.
    */
   public boolean gameLoop() {
+    this.recorder = new GameRecorder();
     this.setAllMazeObjects();
     PacmanObject pacman = this.maze.getPacman();
     do {
-      recorder.captureState(this.allMazeObjects,true);
+      this.recorder.captureState(this.allMazeObjects,true);
       this.moveAllMazeObjects();
       sleep(this.tickLength);
     } while (!pacman.isDead() && !pacman.isVictorious());
+    this.recorder.stopRecording();
     if (pacman.isDead()) return false;
     return pacman.isVictorious();
+
   }
 
   public void gameLoop(int numberOfTicks) {
     this.setAllMazeObjects();
     PacmanObject pacman = this.maze.getPacman();
     for (int i = 0; i < numberOfTicks; i++) {
-      recorder.captureState(this.allMazeObjects,true);
+      this.recorder.captureState(this.allMazeObjects,true);
       this.moveAllMazeObjects();
       sleep(this.tickLength);
     }
@@ -246,7 +249,7 @@ public class Game {
   }
 
   public void finishRecording() {
-    this.recorder.closeWriter();
+    this.recorder.stopRecording();
   }
 
   public void createFrame(String gameStatus) {
