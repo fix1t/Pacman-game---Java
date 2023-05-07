@@ -64,7 +64,7 @@ public class Game {
   public static void main(String[] args) {
     Game game = new Game();
     //TODO: load maze given in argument
-    Path pathToMaze = Path.of("ija/ija2022/homework2/tool/tests/maps/valid/valid0");
+    Path pathToMaze = Path.of("ija/ija2022/homework2/tool/tests/maps/valid/valid");
     if (game.play(pathToMaze))
       System.out.println("Game ended successfully");
     else
@@ -127,9 +127,16 @@ public class Game {
         presenter.open();
         break;
       case "replayFlag":
-        System.out.println("Starting replay...");
-        MazeReplay replayPresenter = new MazeReplay(this.maze, this.frame, this.sound);
+        GameReplay replay = new GameReplay();
+        Path pathToReplay = Path.of("game.log");
+        replay.loadGameFromFile(pathToReplay);
+        CommonMaze replayMaze = replay.getMaze();
+        MazeReplay replayPresenter = new MazeReplay(replayMaze, this.frame, this.sound, replay);
+        replay.ReplayGameFromStart();
         replayPresenter.open();
+        while (!replayPresenter.replayEnded()){
+          sleep(500);
+        }
         break;
       case "exitFlag":
         System.out.println("Exiting...");

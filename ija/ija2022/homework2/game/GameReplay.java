@@ -50,6 +50,13 @@ public class GameReplay {
     this.maze = maze;
   }
 
+  public void togglePause() {
+    if (isPaused) {
+      play();
+    } else {
+      pause();
+    }
+  }
   public void pause() {
     isPaused = true;
   }

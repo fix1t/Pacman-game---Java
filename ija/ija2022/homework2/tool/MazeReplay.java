@@ -1,5 +1,6 @@
 package ija.ija2022.homework2.tool;
 
+import ija.ija2022.homework2.game.GameReplay;
 import ija.ija2022.homework2.game.PacmanObject;
 import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMaze;
@@ -21,12 +22,16 @@ public class MazeReplay {
   JFrame frame;
   Sound sound;
   Font customFont;
+  GameReplay replay;
+  private boolean finished;
 
-  public MazeReplay(CommonMaze maze, JFrame frame, Sound sound) {
+  public MazeReplay(CommonMaze maze, JFrame frame, Sound sound, GameReplay replay) {
     this.maze = maze;
     this.frame = frame;
     this.sound = sound;
     this.maze.restoreGame();
+    this.replay = replay;
+    this.finished = false;
     addFont();
     PacmanObject pacman = maze.getPacman();
     pacman.unsetGoToField();
@@ -61,32 +66,34 @@ public class MazeReplay {
     playButton.setFont(customFont);
     exitButton.setFont(customFont);
 
+    GameReplay mouseReplay = replay;
     // Add mouse listeners to buttons
     startButton.addMouseListener(new MouseAdapter() {
+
       @Override
       public void mouseClicked(MouseEvent e) {
-        // Handle Start button click
+        mouseReplay.ReplayGameFromStart();
       }
     });
 
     endButton.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
-        // Handle End button click
+        mouseReplay.ReplayGameFromEnd();
       }
     });
 
     nextButton.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
-        // Handle Next button click
+        mouseReplay.presentNextState();
       }
     });
 
     previousButton.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
-        // Handle Previous button click
+        mouseReplay.presentPreviousState();
       }
     });
 
@@ -96,9 +103,11 @@ public class MazeReplay {
         if (playButton.getText().equals("Play")) {
           // Handle Play button click
           playButton.setText("Pause");
+          mouseReplay.play();
         } else {
           // Handle Pause button click
           playButton.setText("Play");
+          mouseReplay.pause();
         }
       }
     });
@@ -106,7 +115,7 @@ public class MazeReplay {
     exitButton.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
-        // Handle Previous button click
+        finished = true;
       }
     });
 
@@ -239,5 +248,9 @@ public class MazeReplay {
       // Fallback to a default font
       customFont = new Font("Arial", Font.BOLD, 15);
     }
+  }
+
+  public boolean replayEnded() {
+    return this.finished;
   }
 }

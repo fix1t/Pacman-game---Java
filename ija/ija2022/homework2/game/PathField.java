@@ -56,23 +56,20 @@ public class PathField implements CommonField {
       // object is pacman
       if (object.isPacman() && this.pacman == null) {
           this.pacman = (PacmanObject) object;
-          this.notifyObservers();
       }
       // object is ghost
       else if (object.getType() == ObjectType.GHOST){
           this.ghostOnField.add((GhostObject) object);
-          this.notifyObservers();
       }
       // object is key
       else if (object.getType() == ObjectType.KEY){
         this.key = (KeyObject) object;
-        this.notifyObservers();
       }
       // object is target
       else if (object.getType() == ObjectType.TARGET){
         this.target = (TargetObject) object;
-        this.notifyObservers();
       }
+      this.notifyObservers();
     }
 
     public boolean isEmpty() {
