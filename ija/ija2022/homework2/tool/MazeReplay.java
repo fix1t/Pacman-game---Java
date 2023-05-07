@@ -142,31 +142,30 @@ public class MazeReplay {
     });
     soundButton.setFocusable(false); // fix: ghost not moving by WASD
 
-// Create top row panel
+    // Create top row panel
     JPanel topRowPanel = new JPanel();
     topRowPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
     topRowPanel.add(previousButton);
     topRowPanel.add(nextButton);
 
-// Create bottom row panel
+    // Create bottom row panel
     JPanel bottomRowPanel = new JPanel();
     bottomRowPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+    bottomRowPanel.add(soundButton);
+    bottomRowPanel.add(Box.createHorizontalStrut(100)); // Add horizontal space/margin
     bottomRowPanel.add(startButton);
     bottomRowPanel.add(endButton);
     bottomRowPanel.add(playButton);
+    bottomRowPanel.add(Box.createHorizontalStrut(60)); // Add horizontal space/margin
+    bottomRowPanel.add(exitButton);
 
-// Add top and bottom row panels to button panel
+    // Add top and bottom row panels to button panel
     JPanel buttonPanel = new JPanel();
     buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
     buttonPanel.add(topRowPanel);
     buttonPanel.add(bottomRowPanel);
 
-    JPanel bottomPanel = new JPanel(new BorderLayout());
-    bottomPanel.add(buttonPanel, BorderLayout.CENTER);
-    bottomPanel.add(soundButton, BorderLayout.WEST);
-    bottomPanel.add(exitButton, BorderLayout.EAST);
-    bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 5, 10)); // add padding for elements in bottom
-    frame.add(bottomPanel, BorderLayout.SOUTH);
+    frame.add(buttonPanel, BorderLayout.SOUTH);
 
     // Add PADDING to the whole maze
     frame.add(new JPanel(), BorderLayout.CENTER);

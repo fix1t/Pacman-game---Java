@@ -148,7 +148,7 @@ public class MazeMenu {
     menuElement.setAlignmentX(Component.CENTER_ALIGNMENT); // center horizontally
     menuElement.setFont(this.customFont);
     menuElement.setForeground(Color.BLACK);
-    menuElement.setMaximumSize(new Dimension(200, 45)); // Set maximum width for all buttons
+    menuElement.setMaximumSize(new Dimension(225, 45)); // Set maximum width for all buttons
     menuElement.setFocusable(false); // fix: ghost not moving by WASD
 
     MouseListener mouseListener = new MouseAdapter() {
