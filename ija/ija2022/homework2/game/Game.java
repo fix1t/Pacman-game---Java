@@ -68,6 +68,7 @@ public class Game {
   public static void main(String[] args) {
     Game game = new Game();
     game.goToMenu();
+    game.closeFrame();
   }
 
   private void goToMenu() {
@@ -77,7 +78,7 @@ public class Game {
     while (!menuPresenter.menuElementPressed()){
       sleep(500);
     }
-    this.closeFrame();
+    this.frame.dispose();
 
     switch (menuPresenter.flagEnabled()) {
       case "gameFlag" -> this.play();
@@ -86,8 +87,7 @@ public class Game {
       case "exitFlag" -> System.exit(0);
       default -> System.out.println("Unknown flag");
     }
-    this.closeFrame();
-
+    this.frame.dispose();
     // show menu again
     goToMenu();
   }
@@ -95,14 +95,19 @@ public class Game {
   private void mapMenu() {
     //MAP MENU
     MapMenu mapMenuPresenter = this.createMapMenuPresenter();
-    while (mapMenuPresenter.mapSelected() != 0){
+    while (mapMenuPresenter.mapSelected() == 0){
       sleep(500);
+      System.out.println("Waiting for map selection...");
     }
+    System.out.println("GOT OUT...");
+
   }
 
   private MapMenu createMapMenuPresenter() {
     this.createFrame();
-    return new MapMenu(this.frame, this.sound);
+    MapMenu mapMenuPresenter = new MapMenu(this.frame, this.sound);
+    mapMenuPresenter.open();
+    return mapMenuPresenter;
   }
 
   private void prepareMaze() {

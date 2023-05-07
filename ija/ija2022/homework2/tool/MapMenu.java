@@ -31,7 +31,6 @@ public class MapMenu {
     } catch (InvocationTargetException | InterruptedException var2) {
       Logger.getLogger(MapMenu.class.getName()).log(Level.SEVERE, (String) null, var2);
     }
-
   }
   /**
    * Visualize Menu
