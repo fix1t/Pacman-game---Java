@@ -2,9 +2,7 @@ package ija.ija2022.homework2.tool;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -94,6 +92,34 @@ public class MazeMenu {
           playMusic();
           soundButton.setIcon(soundOnIcon);
         }
+      }
+    });
+
+    frame.addKeyListener(new KeyListener() {
+      @Override
+      public void keyTyped(KeyEvent e) {
+        switch (e.getKeyChar()) {
+          case 'M', 'm' -> { soundOn[0] = !soundOn[0];
+            // Update the music state and the icon of the sound button based on the sound state
+            if (!soundOn[0]) {
+              stopMusic();
+              soundButton.setIcon(soundOffIcon);
+            }
+            else {
+              playMusic();
+              soundButton.setIcon(soundOnIcon);
+            }}
+        }
+      }
+
+      @Override
+      public void keyPressed(KeyEvent e) {
+
+      }
+
+      @Override
+      public void keyReleased(KeyEvent e) {
+
       }
     });
 

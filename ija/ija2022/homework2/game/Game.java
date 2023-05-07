@@ -3,6 +3,7 @@ package ija.ija2022.homework2.game;
 import ija.ija2022.homework2.game.resources.ObjectType;
 import ija.ija2022.homework2.tool.MazeMenu;
 import ija.ija2022.homework2.tool.MazePresenter;
+import ija.ija2022.homework2.tool.MazeReplay;
 import ija.ija2022.homework2.tool.Sound;
 import ija.ija2022.homework2.tool.common.CommonMaze;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
@@ -126,6 +127,9 @@ public class Game {
         presenter.open();
         break;
       case "replayFlag":
+        System.out.println("Starting replay...");
+        MazeReplay replayPresenter = new MazeReplay(this.maze, this.frame, this.sound);
+        replayPresenter.open();
         break;
       case "exitFlag":
         System.out.println("Exiting...");
