@@ -127,6 +127,11 @@ public class Maze implements CommonMaze {
    */
   @Override
   public void restore() {
+    setObjectLayoutTo(this.initialObjectsLayout);
+  }
+
+  @Override
+  public void setObjectLayoutTo(Map<PathField,CommonMazeObject> objectsLayout) {
     // clear all fields
     clearAllFields();
     // clear all lists and objects but pacman
@@ -134,7 +139,7 @@ public class Maze implements CommonMaze {
     this.listOfGhosts.clear();
     this.target = null;
     // restore initial objects layout
-    for (Map.Entry<PathField,CommonMazeObject> entry : this.initialObjectsLayout.entrySet()) {
+    for (Map.Entry<PathField,CommonMazeObject> entry : objectsLayout.entrySet()) {
       PathField field = entry.getKey();
       CommonMazeObject object = entry.getValue();
       field.put(object);
