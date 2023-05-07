@@ -23,7 +23,7 @@ public class ReplayCompleteLogTest {
   @Before
   public void setUp() {
     this.replay = new GameReplay();
-    Path pathToMaze = Path.of("ija/ija2022/homework2/tool/tests/replays/expectedLog");
+    Path pathToMaze = Path.of("ija/ija2022/homework2/tool/tests/replays/expectedLogComplete");
     boolean result = replay.loadGameFromFile(pathToMaze);
     this.maze = replay.getMaze();
     Assert.assertNotNull(this.maze);
@@ -44,11 +44,42 @@ public class ReplayCompleteLogTest {
 
     Assert.assertEquals(this.maze.getField(5, 3), this.pacman.getField());
     Assert.assertEquals(this.maze.getField(5, 1), this.ghost.getField());
-    Assert.assertEquals(this.maze.getField(5, 3), this.keys.get(0).getField());
-    Assert.assertEquals(this.maze.getField(5, 3), this.keys.get(0).getField());
-    Assert.assertEquals(this.maze.getField(5, 1), this.target.getField());
+    Assert.assertEquals(this.maze.getField(3, 3), this.keys.get(1).getField());
+    Assert.assertEquals(this.maze.getField(3, 1), this.keys.get(0).getField());
+    Assert.assertEquals(this.maze.getField(1, 3), this.target.getField());
 
-    Assert.assertTrue(pacman.getField().contains(pacman));
-    Assert.assertTrue(ghost.getField().contains(ghost));
+    Assert.assertTrue(this.pacman.getField().contains(this.pacman));
+    Assert.assertTrue(this.ghost.getField().contains(this.ghost));
+    Assert.assertTrue(this.keys.get(0).getField().contains(this.keys.get(0)));
+    Assert.assertTrue(this.keys.get(1).getField().contains(this.keys.get(1)));
+    Assert.assertTrue(this.target.getField().contains(this.target));
+  }
+
+  @Test
+  public void PacmanEatsKeyAndTarget() {
+    Assert.assertNotNull(this.maze);
+    Assert.assertNotNull(this.pacman);
+    Assert.assertNotNull(this.ghost);
+    Assert.assertNotNull(this.keys);
+    Assert.assertNotNull(this.target);
+
+    replay.ReplayGameFromStart();
+    replay.continueForward(200);
+    Assert.assertTrue(this.maze.getField(3, 1).contains(this.keys.get(0)));
+    Assert.assertFalse(this.maze.getField(3, 3).contains(this.keys.get(1)));
+    Assert.assertFalse(this.maze.getField(1, 3).contains(this.target));
+
+    replay.continueBackward(200);
+    Assert.assertEquals(this.maze.getField(5, 3), this.pacman.getField());
+    Assert.assertEquals(this.maze.getField(5, 1), this.ghost.getField());
+    Assert.assertEquals(this.maze.getField(3, 3), this.keys.get(1).getField());
+    Assert.assertEquals(this.maze.getField(3, 1), this.keys.get(0).getField());
+    Assert.assertEquals(this.maze.getField(1, 3), this.target.getField());
+
+    Assert.assertTrue(this.pacman.getField().contains(this.pacman));
+    Assert.assertTrue(this.ghost.getField().contains(this.ghost));
+    Assert.assertTrue(this.keys.get(0).getField().contains(this.keys.get(0)));
+    Assert.assertTrue(this.keys.get(1).getField().contains(this.keys.get(1)));
+    Assert.assertTrue(this.target.getField().contains(this.target));
   }
 }
