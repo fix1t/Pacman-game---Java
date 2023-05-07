@@ -148,7 +148,10 @@ public class PacmanObject implements CommonMazeObject {
       return this.livesRemaining;
     }
 
-    public void resetLives() {this.livesRemaining = 3;}
+    public void reset() {
+      this.livesRemaining = 3;
+      this.victory = false;
+  }
 
     @Override
     public ObjectType getType() {

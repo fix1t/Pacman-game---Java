@@ -33,7 +33,7 @@ public class GameRecorder {
     }
   }
 
-  public void closeWriter() {
+  public void stopRecording() {
     this.writer.close();
   }
 
