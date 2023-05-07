@@ -67,13 +67,13 @@ public class Game {
    */
   public static void main(String[] args) {
     Game game = new Game();
+    game.playMusic(0);
     game.goToMenu();
     game.closeFrame();
   }
 
   private void goToMenu() {
     //MAIN MENU
-    playMusic(0);
     MazeMenu menuPresenter = this.createMenuPresenter();
     while (!menuPresenter.menuElementPressed()){
       sleep(500);
