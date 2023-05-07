@@ -3,9 +3,9 @@ package ija.ija2022.homework2.game;
 import ija.ija2022.homework2.tool.common.CommonField;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +15,7 @@ public class GameRecorder {
   /**
    * Captures the game state for each maze object.
    */
-  Map<CommonMazeObject, List<CommonField>> stateMap;
+  public Map<CommonMazeObject, List<CommonField>> stateMap;
   PrintWriter writer;
   int moveCount;
 
@@ -88,4 +88,18 @@ public class GameRecorder {
       }
     }
   }
+
+  public void recordMaze(Path pathToMaze) {
+    try (InputStream inputStream = Files.newInputStream(pathToMaze)) {
+      // Read the maze from the input stream and write it to the file
+      BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+      String line;
+      while ((line = br.readLine()) != null) {
+        this.writer.println(line);
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 }
+

@@ -118,7 +118,6 @@ public class MazeConfigure {
 
   public boolean processLine(String line) {
     if (!this.started || this.cols - BORDER != line.length()) {
-      this.errorFlag = true;
       return false;
     }
 
@@ -189,7 +188,12 @@ public class MazeConfigure {
       while ((line = br.readLine()) != null) {
         if (!this.processLine(line)) {
           System.out.println("Invalid format of this line: " + line);
-          return null;
+          // if maze is complete but there are other data return maze - replay use-case
+          if (this.stopReading()) {
+            return this.createMaze();
+          } else {
+            return null;
+          }
         }
       }
       // check if maze is finished correctly
