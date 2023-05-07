@@ -203,6 +203,10 @@ public class GameReplay {
     for (Map.Entry<CommonMazeObject, List<CommonField>> entry : stateMap.entrySet()) {
       CommonMazeObject mazeObject = entry.getKey();
       List<CommonField> fields = entry.getValue();
+      // if state is out of range, skip - this object is not present in this state
+      if (state >= fields.size()) {
+        continue;
+      }
       PathField field = (PathField) fields.get(state);
       objectsLayout.put(field, mazeObject);
     }
