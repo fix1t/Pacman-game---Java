@@ -103,11 +103,11 @@ public class MazeReplay {
         if (playButton.getText().equals("Play")) {
           // Handle Play button click
           playButton.setText("Pause");
-          mouseReplay.play();
+          mouseReplay.resume();
         } else {
           // Handle Pause button click
-          playButton.setText("Play");
           mouseReplay.pause();
+          playButton.setText("Play");
         }
       }
     });

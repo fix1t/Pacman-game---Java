@@ -128,15 +128,22 @@ public class Game {
         break;
       case "replayFlag":
         GameReplay replay = new GameReplay();
+        //start replay thread
+        Thread myThread = new Thread(replay);
+        myThread.start();
+
+        //load game
         Path pathToReplay = Path.of("game.log");
         replay.loadGameFromFile(pathToReplay);
-        CommonMaze replayMaze = replay.getMaze();
-        MazeReplay replayPresenter = new MazeReplay(replayMaze, this.frame, this.sound, replay);
+        MazeReplay replayPresenter = new MazeReplay(replay.getMaze(), this.frame, this.sound, replay);
         replay.ReplayGameFromStart();
         replayPresenter.open();
+
+        //wait for replay to end
         while (!replayPresenter.replayEnded()){
           sleep(500);
         }
+        replay.stop();
         break;
       case "exitFlag":
         System.out.println("Exiting...");

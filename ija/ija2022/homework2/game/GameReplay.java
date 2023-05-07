@@ -14,18 +14,26 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static ija.ija2022.homework2.game.Game.sleep;
 
-public class GameReplay {
+public class GameReplay implements Runnable {
   int currentState;
   int totalStates;
   GameRecorder gameRecorder;
   CommonMaze maze;
   Map<CommonMazeObject, List<CommonField>> stateMap;
-  private boolean isPaused = false;
+  // Add a lock and a condition
+  private final ReentrantLock lock = new ReentrantLock();
+  private final Condition condition = lock.newCondition();
+
+  // Add a flag to control the loop
+  private volatile boolean running = true;
+  private volatile boolean paused = true;
 
   public GameReplay() {
     this.gameRecorder = null;
@@ -50,21 +58,25 @@ public class GameReplay {
     this.maze = maze;
   }
 
-  public void togglePause() {
-    if (isPaused) {
-      play();
-    } else {
-      pause();
+
+
+  public void pause() {
+    paused = true;
+  }
+
+  public void resume() {
+    lock.lock();
+    try {
+      paused = false;
+      condition.signalAll();
+    } finally {
+      lock.unlock();
     }
   }
-  public void pause() {
-    isPaused = true;
-  }
 
-  public void play() {
-    isPaused = false;
+  public void stop() {
+    running = false;
   }
-
   public void ReplayGameFromStart() {
     currentState = 0;
     presentState(currentState);
@@ -238,19 +250,45 @@ public class GameReplay {
     }
   }
 
-  public void continueForward(int gameSpeed) {
-    while(!this.isPaused && currentState + 1 < totalStates && currentState >= 0) {
+  public void continueForward() {
+    this.continueForward(400);
+  }
+
+
+    public void continueForward(int gameSpeed) {
+    while(!this.paused && currentState + 1 < totalStates && currentState >= 0) {
       currentState++;
       presentState(currentState);
       sleep(gameSpeed);
     }
   }
 
+  public void continueBackward() {
+    this.continueBackward(400);
+  }
+
   public void continueBackward(int gameSpeed) {
-    while(!this.isPaused && currentState < totalStates && currentState > 0) {
+    while(!this.paused && currentState < totalStates && currentState > 0) {
       currentState--;
       presentState(currentState);
       sleep(gameSpeed);
+    }
+  }
+
+  @Override
+  public void run() {
+    while (running) {
+      lock.lock();
+      try {
+        while (paused) {
+          condition.await();
+        }
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      } finally {
+        lock.unlock();
+      }
+      continueForward();
     }
   }
 }
