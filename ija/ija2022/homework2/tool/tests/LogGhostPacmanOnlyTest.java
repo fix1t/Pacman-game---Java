@@ -3,7 +3,6 @@ package ija.ija2022.homework2.tool.tests;
 import ija.ija2022.homework2.game.Game;
 import ija.ija2022.homework2.game.PacmanObject;
 import ija.ija2022.homework2.tool.common.CommonMaze;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,12 +15,12 @@ import java.util.Arrays;
 
 import static ija.ija2022.homework2.tool.common.CommonField.Direction.UP;
 
-public class LogTest {
+public class LogGhostPacmanOnlyTest {
 
   private CommonMaze maze;
   private Game game;
 
-// test maze:
+  // test maze:
 //5 3
 //.X.
 //.X.
@@ -43,12 +42,12 @@ public class LogTest {
     pacman.setDirection(UP);
     game.gameLoop(4);
     this.game.finishRecording();
-    boolean isEqual = areFilesEqual("game.log", "ija/ija2022/homework2/tool/tests/expected/expectedLog");
+    boolean isEqual = areFilesEqual("game.log", "ija/ija2022/homework2/tool/tests/replays/expectedLog");
     Assert.assertTrue(isEqual);
   }
 
   // compare log file with expected log file
-  public static boolean areFilesEqual(String file1, String file2)  {
+  public static boolean areFilesEqual(String file1, String file2) {
     try {
       Path file1Path = Paths.get(file1);
       Path file2Path = Paths.get(file2);
