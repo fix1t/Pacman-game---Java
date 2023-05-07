@@ -1,7 +1,5 @@
 package ija.ija2022.homework2.tool;
 
-import ija.ija2022.homework2.tool.common.CommonMaze;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -12,18 +10,16 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class MapPresenter {
-  private final CommonMaze maze;
+public class MapMenu {
   private JFrame frame;
   private Sound sound;
   JButton soundButton;
   Font customFont;
   List<JButton> menuElements = new ArrayList<>();
 
-  boolean mapFlag = false;
+  int mapIndex = 0;
 
-  public MapPresenter(CommonMaze maze, JFrame frame, Sound sound) {
-    this.maze = maze;
+  public MapMenu( JFrame frame, Sound sound) {
     this.frame = frame;
     this.sound = sound;
     addFont();
@@ -33,7 +29,7 @@ public class MapPresenter {
     try {
       SwingUtilities.invokeAndWait(this::initializeInterface);
     } catch (InvocationTargetException | InterruptedException var2) {
-      Logger.getLogger(MapPresenter.class.getName()).log(Level.SEVERE, (String) null, var2);
+      Logger.getLogger(MapMenu.class.getName()).log(Level.SEVERE, (String) null, var2);
     }
 
   }
@@ -49,15 +45,15 @@ public class MapPresenter {
     content.setBorder(BorderFactory.createEmptyBorder(200, 0, 0, 0));
 
     content.add(Box.createRigidArea(new Dimension(0, 20))); // add some spacing between labels
-    content.add(elementBody("Map 01", "gameFlag"));
+    content.add(elementBody("Map 01", 1));
     content.add(Box.createRigidArea(new Dimension(0, 10))); // add some spacing between labels
-    content.add(elementBody("Map 02", "replayFlag"));
+    content.add(elementBody("Map 02", 2));
     content.add(Box.createRigidArea(new Dimension(0, 10))); // add some spacing between labels
-    content.add(elementBody("Map 03", "exitFlag"));
+    content.add(elementBody("Map 03", 3));
     content.add(Box.createRigidArea(new Dimension(0, 10))); // add some spacing between labels
-    content.add(elementBody("Map 04", "exitFlag"));
+    content.add(elementBody("Map 04", 4));
     content.add(Box.createRigidArea(new Dimension(0, 10))); // add some spacing between labels
-    content.add(elementBody("Map 05", "exitFlag"));
+    content.add(elementBody("Map 05", 5));
 
     final boolean[] soundOn = {sound.isPlaying()};
     ImageIcon soundOnIcon = new ImageIcon(getClass().getResource("../tool/lib/iconSound.png"));
@@ -124,10 +120,9 @@ public class MapPresenter {
    * Creates new menu option (button).
    *
    * @param text     text in button
-   * @param mapPath flag to switch
    * @return filled JButton Element for adding to frame
    */
-  private JButton elementBody(String text, String mapPath) {
+  private JButton elementBody(String text, int mapIndex) {
     JButton menuElement = new JButton(text);
     menuElement.setAlignmentX(Component.CENTER_ALIGNMENT); // center horizontally
     menuElement.setFont(this.customFont);
@@ -138,7 +133,7 @@ public class MapPresenter {
     MouseListener mouseListener = new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
-        mapFlag = true;
+        MapMenu.this.mapIndex = mapIndex;
         removeListeners();
       }
 
@@ -161,8 +156,8 @@ public class MapPresenter {
    * Map was selected.
    * @return flag that indicates, map was selected and the game can start
    */
-  public boolean mapSelected() {
-    return mapFlag;
+  public int mapSelected() {
+    return mapIndex;
   }
 
   /**

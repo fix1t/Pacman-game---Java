@@ -1,10 +1,8 @@
 package ija.ija2022.homework2.game;
 
+import ija.ija2022.homework2.game.resources.GameState;
 import ija.ija2022.homework2.game.resources.ObjectType;
-import ija.ija2022.homework2.tool.MazeMenu;
-import ija.ija2022.homework2.tool.MazePresenter;
-import ija.ija2022.homework2.tool.MazeReplay;
-import ija.ija2022.homework2.tool.Sound;
+import ija.ija2022.homework2.tool.*;
 import ija.ija2022.homework2.tool.common.CommonMaze;
 import ija.ija2022.homework2.tool.common.CommonMazeObject;
 import ija.ija2022.homework2.tool.tests.Homework2;
@@ -17,6 +15,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,6 +33,8 @@ public class Game {
   JFrame frame;
 
   GameRecorder recorder;
+  private Path mazeFile;
+  private GameState gameResult = GameState.TBD;
 
   /**
    * Creates a new game with default settings.
@@ -41,7 +42,9 @@ public class Game {
   public Game() {
     this.tickLength = 500;
     this.pauseGhosts = false;
-    this.recorder = new GameRecorder();
+    this.recorder = null;
+
+    this.mazeFile = Path.of("ija/ija2022/homework2/game/resources/maps/maze0");
   }
 
   /**
@@ -53,7 +56,8 @@ public class Game {
   public Game(int gameSpeed, boolean pauseGhosts) {
     this.tickLength = gameSpeed;
     this.pauseGhosts = pauseGhosts;
-    this.recorder = new GameRecorder();
+    this.recorder = null;
+    this.mazeFile = Path.of("ija/ija2022/homework2/game/resources/maps/maze0");
   }
 
   /**
@@ -63,12 +67,92 @@ public class Game {
    */
   public static void main(String[] args) {
     Game game = new Game();
-    //TODO: load maze given in argument
-    Path pathToMaze = Path.of("ija/ija2022/homework2/tool/tests/maps/valid/valid");
-    if (game.play(pathToMaze))
-      System.out.println("Game ended successfully");
-    else
-      System.out.println("Game ended with error");
+    game.goToMenu();
+  }
+
+  private void goToMenu() {
+    //MAIN MENU
+    playMusic(0);
+    MazeMenu menuPresenter = this.createMenuPresenter();
+    while (!menuPresenter.menuElementPressed()){
+      sleep(500);
+    }
+    this.closeFrame();
+
+    switch (menuPresenter.flagEnabled()) {
+      case "gameFlag" -> this.play();
+      case "mapFlag" -> this.mapMenu();
+      case "replayFlag" -> this.runReplay();
+      case "exitFlag" -> System.exit(0);
+      default -> System.out.println("Unknown flag");
+    }
+    this.closeFrame();
+
+    // show menu again
+    goToMenu();
+  }
+
+  private void mapMenu() {
+    //MAP MENU
+    MapMenu mapMenuPresenter = this.createMapMenuPresenter();
+    while (mapMenuPresenter.mapSelected() != 0){
+      sleep(500);
+    }
+  }
+
+  private MapMenu createMapMenuPresenter() {
+    this.createFrame();
+    return new MapMenu(this.frame, this.sound);
+  }
+
+  private void prepareMaze() {
+    this.maze = this.createMazeFromFile(this.mazeFile);
+  }
+
+  private MazeMenu createMenuPresenter() {
+    this.createFrame();
+    System.out.println("Presenting menu...");
+    MazeMenu menuPresenter = new MazeMenu(this.frame, this.sound, this.gameResult);
+    menuPresenter.open();
+    return menuPresenter;
+  }
+
+  private void createGamePresenter() {
+    this.createFrame();
+    System.out.println("Starting the game...");
+    MazePresenter presenter = new MazePresenter(this.maze, this.frame, this.sound);
+    presenter.open();
+  }
+
+  private MazeReplay createReplayPresenter(GameReplay replay) {
+    this.createFrame();
+    System.out.println("Replaying the game...");
+    MazeReplay replayPresenter = new MazeReplay(replay.getMaze(), this.frame, this.sound, replay);
+    replayPresenter.open();
+    return replayPresenter;
+  }
+
+  private void runReplay() {
+    //start replay thread
+    GameReplay replay = new GameReplay();
+    Thread myThread = new Thread(replay);
+    myThread.start();
+
+    //load game
+    Path pathToReplay = Path.of("game.log");
+    replay.loadGameFromFile(pathToReplay);
+    replay.ReplayGameFromStart();
+
+    //create replay presenter
+    MazeReplay replayPresenter = this.createReplayPresenter(replay);
+
+    //wait for replay to end
+    while (!replayPresenter.replayEnded()) {
+      sleep(500);
+    }
+
+    //stop replay thread
+    replay.stop();
   }
 
   /**
@@ -108,105 +192,39 @@ public class Game {
   }
 
   /**
-   * Creates the graphical user interface for the game.
-   */
-  public boolean createGameGUI(String gameStatus) {
-    this.createFrame(gameStatus);
-    MazeMenu menuPresenter = new MazeMenu(this.frame, this.sound, gameStatus);
-    menuPresenter.open();
-    while (!menuPresenter.menuElementPressed()){
-      //System.out.println("Waiting for game to start");
-      sleep(500);
-    }
-    this.frame.dispose();
-    this.createFrame("Pacman");
-    switch (menuPresenter.flagEnabled()) {
-      case "gameFlag":
-        System.out.println("Starting the game...");
-        MazePresenter presenter = new MazePresenter(this.maze, this.frame, this.sound);
-        presenter.open();
-        break;
-      case "replayFlag":
-        GameReplay replay = new GameReplay();
-        //start replay thread
-        Thread myThread = new Thread(replay);
-        myThread.start();
-
-        //load game
-        Path pathToReplay = Path.of("game.log");
-        replay.loadGameFromFile(pathToReplay);
-        MazeReplay replayPresenter = new MazeReplay(replay.getMaze(), this.frame, this.sound, replay);
-        replay.ReplayGameFromStart();
-        replayPresenter.open();
-
-        //wait for replay to end
-        while (!replayPresenter.replayEnded()){
-          sleep(500);
-        }
-
-        //stop replay thread
-        replay.stop();
-        break;
-      case "exitFlag":
-        System.out.println("Exiting...");
-        return true;
-      default:
-        System.out.println("Invalid option");
-        break;
-    }
-    return false;
-  }
-
-  /**
    * Plays the game with the specified maze file.
-   *
-   * @param pathToMaze    the path to the maze file.
-   * @return              `true` if the game ended successfully, `false` otherwise.
    */
-  public boolean play(Path pathToMaze) {
-    this.maze = this.createMazeFromFile(pathToMaze);
-    playMusic(0);
-    boolean gameExit = this.createGameGUI("PACMAN");
-    if(gameExit){
-      this.stopMusic();
-      this.closeFrame();
-      return true;
-    }
+  public void play() {
+    this.recorder = new GameRecorder();
 
-    //start game
-    boolean result = this.gameLoop();
-    this.frame.dispose();
-
-    while(!gameExit) {
-      // trigger WON/LOSE screen depending on game result
-      if (result) gameExit = this.createGameGUI("YOU WON!");
-      else gameExit = this.createGameGUI("GAME OVER");
-      this.recorder = new GameRecorder();
-      result = this.gameLoop();
-      this.frame.dispose();
-    }
-
-    this.stopMusic();
-    this.closeFrame();
-    return true;
+    this.prepareMaze();
+    this.createGamePresenter();
+    this.gameLoop();
   }
 
   /**
    * Runs the main game loop until Pacman wins or dies.
    */
-  public boolean gameLoop() {
-    this.recorder = new GameRecorder();
+  public void gameLoop() {
     this.setAllMazeObjects();
+    //Capture initial state
+    this.recorder.captureState(this.allMazeObjects, true);
     PacmanObject pacman = this.maze.getPacman();
+
+    //Run game loop
     do {
-      this.recorder.captureState(this.allMazeObjects,true);
+      this.recorder.captureState(this.allMazeObjects, true);
       this.moveAllMazeObjects();
       sleep(this.tickLength);
     } while (!pacman.isDead() && !pacman.isVictorious());
-    this.recorder.stopRecording();
-    if (pacman.isDead()) return false;
-    return pacman.isVictorious();
 
+    //Capture final state
+    this.recorder.captureState(this.allMazeObjects, true);
+
+    if (pacman.isVictorious())
+      this.gameResult = GameState.WIN;
+    else
+      this.gameResult = GameState.LOSE;
   }
 
   public void gameLoop(int numberOfTicks) {
@@ -227,7 +245,7 @@ public class Game {
     this.allMazeObjects.add(this.maze.getPacman());
     this.allMazeObjects.add(this.maze.getTarget());
     this.allMazeObjects.addAll(this.maze.getKeys());
-    this.allMazeObjects.removeIf(item -> item == null);
+    this.allMazeObjects.removeIf(Objects::isNull);
   }
 
   /**
@@ -251,13 +269,21 @@ public class Game {
   public void finishRecording() {
     this.recorder.stopRecording();
   }
-
-  public void createFrame(String gameStatus) {
-    this.frame = new JFrame(gameStatus);
+  public void createFrame() {
+    this.frame = new JFrame("PAC-HAM");
     this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     this.frame.setSize(350, 400);
     this.frame.setPreferredSize(new Dimension(650, 700));
   }
+
+  public void setMazeFile(int index) {
+    if (index < 0 || index > 5) {
+      System.out.println("Invalid maze index");
+      index = 0;
+    }
+    String path = "ija/ija2022/homework2/game/resources/maps/maze" + index;
+    this.mazeFile = Path.of(path);
+    }
 
   /**
    * Close game window.

@@ -1,5 +1,7 @@
 package ija.ija2022.homework2.tool;
 
+import ija.ija2022.homework2.game.resources.GameState;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -16,7 +18,7 @@ public class MazeMenu {
   JButton soundButton;
   Font customFont;
   Font headerFont;
-  String gameStatus;
+  GameState gameStatus;
 
   /**
    * Hash Table to store option Menu Flags to invoke GUI structure later
@@ -28,7 +30,7 @@ public class MazeMenu {
    */
   List<JButton> menuElements = new ArrayList<>();
 
-  public MazeMenu(JFrame frame, Sound sound, String gameStatus) {
+  public MazeMenu(JFrame frame, Sound sound, GameState gameStatus) {
     this.frame = frame;
     this.sound = sound;
     this.gameStatus = gameStatus;
@@ -56,19 +58,23 @@ public class MazeMenu {
     // Add padding from top
     content.setBorder(BorderFactory.createEmptyBorder(200, 0, 0, 0));
 
-    JLabel heading = new JLabel(this.gameStatus);
+    JLabel heading = new JLabel(this.gameStatus.message());
     heading.setForeground(new Color(251, 227, 67)); // change color to red when mouse enters
     heading.setAlignmentX(Component.CENTER_ALIGNMENT); // center horizontally
     heading.setFont(headerFont);
     content.add(heading);
 
-    if(Objects.equals(this.gameStatus, "PACMAN")){
+    if(this.gameStatus == GameState.TBD){
       content.add(Box.createRigidArea(new Dimension(0, 20))); // add some spacing between labels
       content.add(elementBody("Start game!", "gameFlag"));
+      content.add(Box.createRigidArea(new Dimension(0, 20))); // add some spacing between labels
+      content.add(elementBody("Choose a map!", "mapFlag"));
     }
     else {
       content.add(Box.createRigidArea(new Dimension(0, 20))); // add some spacing between labels
       content.add(elementBody("Play again!", "gameFlag"));
+      content.add(Box.createRigidArea(new Dimension(0, 20))); // add some spacing between labels
+      content.add(elementBody("Choose a map!", "mapFlag"));
       content.add(Box.createRigidArea(new Dimension(0, 10))); // add some spacing between labels
       content.add(elementBody("Replay", "replayFlag"));
     }
