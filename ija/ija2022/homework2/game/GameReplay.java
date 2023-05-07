@@ -17,12 +17,15 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static ija.ija2022.homework2.game.Game.sleep;
+
 public class GameReplay {
   int currentState;
   int totalStates;
   GameRecorder gameRecorder;
   CommonMaze maze;
   Map<CommonMazeObject, List<CommonField>> stateMap;
+  private boolean isPaused = false;
 
   public GameReplay() {
     this.gameRecorder = null;
@@ -45,6 +48,14 @@ public class GameReplay {
 
   public void setMaze(CommonMaze maze) {
     this.maze = maze;
+  }
+
+  public void pause() {
+    isPaused = true;
+  }
+
+  public void play() {
+    isPaused = false;
   }
 
   public void ReplayGameFromStart() {
@@ -216,9 +227,19 @@ public class GameReplay {
     }
   }
 
-  public void continueForward() {
+  public void continueForward(int gameSpeed) {
+    while(!this.isPaused && currentState + 1 < totalStates && currentState >= 0) {
+      currentState++;
+      presentState(currentState);
+      sleep(gameSpeed);
+    }
   }
 
-  public void continueBackward() {
+  public void continueBackward(int gameSpeed) {
+    while(!this.isPaused && currentState < totalStates && currentState > 0) {
+      currentState--;
+      presentState(currentState);
+      sleep(gameSpeed);
+    }
   }
 }

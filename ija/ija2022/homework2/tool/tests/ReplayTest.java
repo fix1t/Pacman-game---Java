@@ -152,7 +152,7 @@ public class ReplayTest {
     Assert.assertEquals(this.maze.getField(5,3),pacman.getField());
     Assert.assertEquals(this.maze.getField(5,1),ghost.getField());
 
-    this.replay.continueForward();
+    this.replay.continueForward(0);
     Assert.assertEquals(this.maze.getField(2,3),pacman.getField());
     Assert.assertEquals(this.maze.getField(2,1),ghost.getField());
     Assert.assertTrue(pacman.getField().contains(pacman));
@@ -161,7 +161,7 @@ public class ReplayTest {
 
   @Test
   public void GetRightPositionFromEnd_Continuous() {
-    this.replay.ReplayGameFromStart();
+    this.replay.ReplayGameFromEnd();
     this.maze = this.replay.getMaze();
 
     PacmanObject pacman = this.maze.getPacman();
@@ -172,7 +172,7 @@ public class ReplayTest {
     Assert.assertEquals(this.maze.getField(2,3),pacman.getField());
     Assert.assertEquals(this.maze.getField(2,1),ghost.getField());
 
-    this.replay.continueBackward();
+    this.replay.continueBackward(0);
     Assert.assertEquals(this.maze.getField(5,3),pacman.getField());
     Assert.assertEquals(this.maze.getField(5,1),ghost.getField());
     Assert.assertTrue(pacman.getField().contains(pacman));
