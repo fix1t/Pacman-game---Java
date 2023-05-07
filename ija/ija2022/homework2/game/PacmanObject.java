@@ -52,7 +52,7 @@ public class PacmanObject implements CommonMazeObject {
   }
 
   private CommonField.Direction searchDirection(CommonField goToField) {
-    // find shortest path to the field using class PathFinder
+    // find the shortest path to the field using class PathFinder
     PathFinder pathFinder = new PathFinder();
     return pathFinder.findShortestPathDirection(this.currentField, goToField);
   }
@@ -147,6 +147,8 @@ public class PacmanObject implements CommonMazeObject {
     public int getLives() {
       return this.livesRemaining;
     }
+
+    public void resetLives() {this.livesRemaining = 3;}
 
     @Override
     public ObjectType getType() {

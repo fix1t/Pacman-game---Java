@@ -145,22 +145,20 @@ public class Maze implements CommonMaze {
       field.put(object);
       // add objects to lists
       switch (object.getType()) {
-        case GHOST:
-          this.listOfGhosts.add(object);
-          break;
-        case KEY:
-          this.listOfKeys.add(object);
-          break;
-        case TARGET:
-          this.target = (TargetObject) object;
-          break;
-        case PACMAN:
-          this.pacman = (PacmanObject) object;
-          break;
-        default:
-          break;
+        case GHOST -> this.listOfGhosts.add(object);
+        case KEY -> this.listOfKeys.add(object);
+        case TARGET -> this.target = (TargetObject) object;
+        case PACMAN -> this.pacman = (PacmanObject) object;
+        default -> {
+        }
       }
     }
+  }
+
+  @Override
+  public void restoreGame() {
+    this.restore();
+    this.pacman.resetLives();
   }
 
   /**

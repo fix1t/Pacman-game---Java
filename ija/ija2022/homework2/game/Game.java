@@ -109,17 +109,16 @@ public class Game {
   /**
    * Creates the graphical user interface for the game.
    */
-  public void createGameGUI() {
-    this.frame = new JFrame("Pacman Demo");
-    this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    this.frame.setSize(350, 400);
-    this.frame.setPreferredSize(new Dimension(650, 700));
-    MazeMenu menuPresenter = new MazeMenu(this.frame, this.sound);
+  public boolean createGameGUI(String gameStatus) {
+    this.createFrame(gameStatus);
+    MazeMenu menuPresenter = new MazeMenu(this.frame, this.sound, gameStatus);
     menuPresenter.open();
     while (!menuPresenter.menuElementPressed()){
       //System.out.println("Waiting for game to start");
       sleep(500);
     }
+    this.frame.dispose();
+    this.createFrame("Pacman");
     switch (menuPresenter.flagEnabled()) {
       case "gameFlag":
         System.out.println("Starting the game...");
@@ -130,15 +129,12 @@ public class Game {
         break;
       case "exitFlag":
         System.out.println("Exiting...");
-        this.closeFrame();
-        this.stopMusic();
-        this.finishRecording();
-        return;
+        return true;
       default:
         System.out.println("Invalid option");
         break;
     }
-
+    return false;
   }
 
   /**
@@ -150,20 +146,37 @@ public class Game {
   public boolean play(Path pathToMaze) {
     this.maze = this.createMazeFromFile(pathToMaze);
     playMusic(0);
-    this.createGameGUI();
+    boolean gameExit = this.createGameGUI("PACMAN");
+    if(gameExit){
+      this.stopMusic();
+      this.closeFrame();
+      return true;
+    }
 
     //start game
-    this.gameLoop();
+    boolean result = this.gameLoop();
+    this.finishRecording();
+    this.frame.dispose();
+
+    while(!gameExit) {
+      // trigger WON/LOSE screen depending on game result
+      if (result) gameExit = this.createGameGUI("YOU WON!");
+      else gameExit = this.createGameGUI("GAME OVER");
+
+      result = this.gameLoop();
+      this.finishRecording();
+      this.frame.dispose();
+    }
 
     this.stopMusic();
-    this.finishRecording();
+    this.closeFrame();
     return true;
   }
 
   /**
    * Runs the main game loop until Pacman wins or dies.
    */
-  public void gameLoop() {
+  public boolean gameLoop() {
     this.setAllMazeObjects();
     PacmanObject pacman = this.maze.getPacman();
     do {
@@ -171,6 +184,8 @@ public class Game {
       this.moveAllMazeObjects();
       sleep(this.tickLength);
     } while (!pacman.isDead() && !pacman.isVictorious());
+    if (pacman.isDead()) return false;
+    return pacman.isVictorious();
   }
 
   public void gameLoop(int numberOfTicks) {
@@ -214,6 +229,13 @@ public class Game {
 
   public void finishRecording() {
     this.recorder.closeWriter();
+  }
+
+  public void createFrame(String gameStatus) {
+    this.frame = new JFrame(gameStatus);
+    this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    this.frame.setSize(350, 400);
+    this.frame.setPreferredSize(new Dimension(650, 700));
   }
 
   /**

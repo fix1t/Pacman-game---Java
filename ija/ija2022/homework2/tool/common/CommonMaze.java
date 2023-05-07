@@ -23,5 +23,7 @@ public interface CommonMaze {
 
   void restore();
 
+  void restoreGame();
+  
   void setObjectLayoutTo(Map<PathField,CommonMazeObject> objectsLayout);
 }
