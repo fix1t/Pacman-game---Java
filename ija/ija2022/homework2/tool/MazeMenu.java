@@ -201,6 +201,7 @@ public class MazeMenu {
     this.flags.put("gameFlag", false);
     this.flags.put("replayFlag", false);
     this.flags.put("exitFlag", false);
+    this.flags.put("mapFlag", false);
   }
 
   /**
@@ -209,7 +210,7 @@ public class MazeMenu {
    * @return all flags bool values
    */
   public boolean menuElementPressed() {
-    return this.flags.get("gameFlag") || this.flags.get("replayFlag") || this.flags.get("exitFlag");
+    return this.flags.get("mapFlag") || this.flags.get("gameFlag") || this.flags.get("replayFlag") || this.flags.get("exitFlag");
   }
 
   /**
