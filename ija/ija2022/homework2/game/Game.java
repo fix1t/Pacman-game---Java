@@ -81,8 +81,8 @@ public class Game {
     this.frame.dispose();
 
     switch (menuPresenter.flagEnabled()) {
-      case "gameFlag" -> this.play();
-      case "mapFlag" -> this.mapMenu();
+      case "gameFlag" -> this.playGame();
+      case "mapFlag" -> this.goToMapMenu();
       case "replayFlag" -> this.runReplay();
       case "exitFlag" -> System.exit(0);
       default -> System.out.println("Unknown flag");
@@ -92,7 +92,7 @@ public class Game {
     goToMenu();
   }
 
-  private void mapMenu() {
+  private void goToMapMenu() {
     //MAP MENU
     MapMenu mapMenuPresenter = this.createMapMenuPresenter();
     while (mapMenuPresenter.mapSelected() == 0){
@@ -197,13 +197,14 @@ public class Game {
   /**
    * Plays the game with the specified maze file.
    */
-  public void play() {
-    this.recorder = new GameRecorder();
-
+  public void playGame() {
+    this.startRecording();
     this.prepareMaze();
     this.createGamePresenter();
     this.gameLoop();
+    this.finishRecording();
   }
+
 
   /**
    * Runs the main game loop until Pacman wins or dies.
@@ -293,6 +294,10 @@ public class Game {
    */
   public void closeFrame() {
     this.frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+  }
+
+  private void startRecording() {
+    recorder = new GameRecorder();
   }
 
   /**
