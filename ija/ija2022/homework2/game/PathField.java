@@ -11,7 +11,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-
+/**
+ * Represents a path field in the game maze.
+ */
 public class PathField implements CommonField {
     private final Coordinate coordinate;
     private List<GhostObject> ghostOnField;
@@ -21,6 +23,12 @@ public class PathField implements CommonField {
     private CommonMaze maze;
     private final Set<Observer> observers = new HashSet<>();
 
+    /**
+     * Creates a new path field at the specified coordinates.
+     *
+     * @param x The x-coordinate of the field.
+     * @param y The y-coordinate of the field.
+     */
     public PathField(int x, int y) {
         this.coordinate = new Coordinate(x, y);
         this.ghostOnField = new ArrayList<>();
@@ -29,6 +37,11 @@ public class PathField implements CommonField {
         this.target = null;
     }
 
+    /**
+     * Sets the maze associated with this field.
+     *
+     * @param maze The maze to set.
+     */
     public void setMaze(CommonMaze maze) {
         this.maze = maze;
     }
@@ -47,6 +60,11 @@ public class PathField implements CommonField {
         this.notifyObservers();
     }
 
+    /**
+     * Puts a maze object on the field.
+     *
+     * @param object The maze object to put.
+     */
     public void put(CommonMazeObject object) {
       if (object == null) {
         return;
@@ -72,6 +90,11 @@ public class PathField implements CommonField {
       this.notifyObservers();
     }
 
+    /**
+     * Checks if the field is empty.
+     *
+     * @return True if the field is empty, false otherwise.
+     */
     public boolean isEmpty() {
       List<CommonMazeObject> objects = new ArrayList<>(this.ghostOnField);
       objects.add(this.pacman);
@@ -81,7 +104,13 @@ public class PathField implements CommonField {
       return objects.isEmpty();
     }
 
-    public boolean remove(CommonMazeObject object) {
+  /**
+   * Removes a maze object from the field.
+   *
+   * @param object The maze object to remove.
+   * @return True if the object was successfully removed, false otherwise.
+   */
+  public boolean remove(CommonMazeObject object) {
       if (object == null)
         return false;
       // object is pacman
@@ -147,14 +176,34 @@ public class PathField implements CommonField {
     return null;
     }
 
+  /**
+   * Returns the Pacman object on the field, if present.
+   *
+   * @return The Pacman object, or null if there is no Pacman on the field.
+   */
   public CommonMazeObject getPacman() {
       return this.pacman;
     }
 
+  /**
+   * Returns the Key object on the field, if present.
+   *
+   * @return The Key object, or null if there is no Key on the field.
+   */
   public CommonMazeObject getKey() { return this.key; }
 
+  /**
+   * Returns the Target object on the field, if present.
+   *
+   * @return The Target object, or null if there is no Target on the field.
+   */
   public CommonMazeObject getTarget() { return this.target; }
 
+  /**
+   * Returns a list of Ghost objects on the field.
+   *
+   * @return The list of Ghost objects.
+   */
   public List<GhostObject> getGhosts() { return this.ghostOnField; }
 
     @Override
@@ -185,6 +234,11 @@ public class PathField implements CommonField {
       });
     }
 
+  /**
+   * Returns the maze associated with the field.
+   *
+   * @return The maze associated with the field.
+   */
   public CommonMaze getMaze() {
       return this.maze;
   }
