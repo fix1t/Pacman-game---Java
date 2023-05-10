@@ -38,12 +38,18 @@ public class LogGhostPacmanOnlyTest {
 
   @Test
   public void testLog() {
+    this.game.startRecording();
+    this.maze = this.game.createMazeFromFile(Path.of("src/tool/tests/maps/valid/twoLinesWithObjects"));
+    Assert.assertNotNull("Maze neni null", maze);
     PacmanObject pacman = maze.getPacman();
+    Assert.assertNotNull("Objekt není null", pacman);
     pacman.setDirection(UP);
-    game.gameLoop(4);
+    Assert.assertEquals(UP, pacman.getDirection());
+    this.game.gameLoop(5);
+    Assert.assertEquals(1, pacman.getField().getCoordinate().getX());
     this.game.finishRecording();
-    boolean isEqual = areFilesEqual("game.log", "src/tool/tests/replays/expectedLog");
-    Assert.assertTrue(isEqual);
+    boolean areEqual = areFilesEqual("game.log", "src/tool/tests/replays/expectedLog");
+    Assert.assertTrue(areEqual);
   }
 
   // compare log file with expected log file
