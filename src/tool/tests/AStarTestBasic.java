@@ -24,7 +24,7 @@ public class AStarTestBasic {
   @Before
   public void setUp() {
     Game game = new Game(300, true);
-    this.maze = game.createMazeFromFile(Path.of("ija/ija2022/homework2/tool/tests/maps/valid/valid-ng"));
+    this.maze = game.createMazeFromFile(Path.of("src/tool/tests/maps/valid/valid-ng"));
     //check if loaded
     if (maze == null) {
       System.out.println("Error while loading maze");

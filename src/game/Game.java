@@ -166,7 +166,8 @@ public class Game {
    */
   public CommonMaze createMazeFromFile(Path pathToMaze) {
     //record maze
-    this.recorder.recordMaze(pathToMaze);
+    if (this.recorder != null)
+      this.recorder.recordMaze(pathToMaze);
     //load maze
     try (InputStream inputStream = Files.newInputStream(pathToMaze)) {
       this.maze = this.createMaze(inputStream);
