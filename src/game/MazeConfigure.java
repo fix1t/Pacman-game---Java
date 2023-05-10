@@ -24,6 +24,8 @@ public class MazeConfigure {
   PacmanObject pacman;
   TargetObject target;
   boolean disableGhosts;
+  Map<CommonMazeObject, PathField> initialObjectsLayout;
+
   private void initiateClass(){
     this.rows = 0;
     this.cols = 0;
@@ -38,7 +40,6 @@ public class MazeConfigure {
     this.disableGhosts = false;
   }
 
-  Map<PathField, CommonMazeObject> initialObjectsLayout;
   public MazeConfigure() {
     this.initiateClass();
   }
@@ -80,7 +81,7 @@ public class MazeConfigure {
       this.pacman = new PacmanObject(pathField, this.listOfKeys);
       pathField.put(this.pacman);
       // put pacman into initialObjectsLayout
-      this.initialObjectsLayout.put(pathField, this.pacman);
+      this.initialObjectsLayout.put(this.pacman,pathField);
       return true;
     }
   }
@@ -91,7 +92,7 @@ public class MazeConfigure {
     pathField.put(ghost);
     listOfGhosts.add(ghost);
     // put ghost into initialObjectsLayout
-    this.initialObjectsLayout.put(pathField, ghost);
+    this.initialObjectsLayout.put(ghost,pathField);
   }
 
   private void handleKeyCase(int i) {
@@ -100,7 +101,7 @@ public class MazeConfigure {
     pathField.put(key);
     this.listOfKeys.add(key);
     // put key into initialObjectsLayout
-    this.initialObjectsLayout.put(pathField, key);
+    this.initialObjectsLayout.put(key,pathField);
   }
 
   private boolean handleTargetCase(int i) {
@@ -111,7 +112,7 @@ public class MazeConfigure {
       this.target = new TargetObject(pathField);
       pathField.put(this.target);
       // put target into initialObjectsLayout
-      this.initialObjectsLayout.put(pathField, this.target);
+      this.initialObjectsLayout.put(this.target,pathField);
       return true;
     }
   }

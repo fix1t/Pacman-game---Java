@@ -27,19 +27,11 @@ public class LogGhostPacmanOnlyTest {
 //.X.
 //.X.
 //GXS
-  @Before
-  public void setUp() {
-    this.game = new Game(100, false);
-    this.maze = this.game.createMazeFromFile(Path.of("src/tool/tests/maps/valid/twoLines"));
-    if (maze == null) {
-      System.out.println("Error while loading maze");
-    }
-  }
-
   @Test
   public void testLog() {
+    this.game = new Game(100, false);
     this.game.startRecording();
-    this.maze = this.game.createMazeFromFile(Path.of("src/tool/tests/maps/valid/twoLinesWithObjects"));
+    this.maze = this.game.createMazeFromFile(Path.of("src/tool/tests/maps/valid/twoLines"));
     Assert.assertNotNull("Maze neni null", maze);
     PacmanObject pacman = maze.getPacman();
     Assert.assertNotNull("Objekt není null", pacman);
