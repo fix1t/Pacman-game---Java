@@ -53,7 +53,7 @@ public class AStarTestHard {
   @Before
   public void setUp() {
     Game game = new Game(300, true);
-    this.maze = game.createMazeFromFile(Path.of("ija/ija2022/homework2/tool/tests/maps/maze/hard"));
+    this.maze = game.createMazeFromFile(Path.of("src/tool/tests/maps/maze/hard"));
     //check if loaded
     if (maze == null) {
       System.out.println("Error while loading maze");

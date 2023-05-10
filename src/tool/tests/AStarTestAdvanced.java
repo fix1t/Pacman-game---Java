@@ -29,7 +29,7 @@ public class AStarTestAdvanced {
   @Before
   public void setUp() {
     this.game = new Game(300, true);
-    this.maze = this.game.createMazeFromFile(Path.of("ija/ija2022/homework2/tool/tests/maps/valid/valid0-ng"));
+    this.maze = this.game.createMazeFromFile(Path.of("src/tool/tests/maps/valid/valid0-ng"));
     //check if loaded
     if (maze == null) {
       System.out.println("Error while loading maze");
