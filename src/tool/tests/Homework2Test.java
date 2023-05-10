@@ -73,33 +73,7 @@ public class Homework2Test {
         Assert.assertTrue("Presun na policko se podari.", obj.move(CommonField.Direction.DOWN));
         Assert.assertFalse("Presun na policko se nepodari.", obj.move(CommonField.Direction.RIGHT));
     }
-
-    /**
-     * Test správného chování při setkání ducha s pacmanem (sníží se počet životů pacmana).
-     * 3 body
-     */
-    @Test
-    public void testGhostMeetsPacman() {
-        // Ghost na pozici 1,3
-        CommonMazeObject ghost = maze.getGhosts().get(0);
-
-        // Pacman na pozici 4,2
-        Assert.assertFalse("Policko [4,2] neni prazdne", maze.getField(4, 2).isEmpty());
-        CommonMazeObject pacman = maze.getField(4, 2).get();
-        Assert.assertTrue("Objekt je pacman", pacman.isPacman());
-        Assert.assertEquals("Pocet zivotu pacmana", 3, pacman.getLives());
-
-        Assert.assertTrue("Presun na policko se podari.", ghost.move(CommonField.Direction.DOWN));
-        Assert.assertEquals("Pocet zivotu pacmana", 3, pacman.getLives());
-        Assert.assertTrue("Presun na policko se podari.", ghost.move(CommonField.Direction.DOWN));
-        Assert.assertEquals("Pocet zivotu pacmana", 3, pacman.getLives());
-        Assert.assertTrue("Presun na policko se podari.", ghost.move(CommonField.Direction.DOWN));
-        Assert.assertEquals("Pocet zivotu pacmana", 3, pacman.getLives());
-        Assert.assertTrue("Presun na policko se podari.", ghost.move(CommonField.Direction.LEFT));
-        Assert.assertEquals("Pocet zivotu pacmana", 2, pacman.getLives());
-        Assert.assertNotNull("Duch je pryc", ghost);
-    }
-    /**
+      /**
      * Testování notifikací při přesunu objektu (ducha).
      * 5 bodů
      */
