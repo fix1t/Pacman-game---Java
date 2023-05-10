@@ -36,6 +36,7 @@ public class Game {
   GameRecorder recorder;
   private Path mazeFile;
   private GameState gameResult = GameState.TBD;
+  private boolean resetFlag;
 
   /**
    * Creates a new game with default settings.
@@ -44,6 +45,7 @@ public class Game {
     this.tickLength = 500;
     this.pauseGhosts = false;
     this.recorder = null;
+    this.resetFlag = false;
 
     this.mazeFile = Path.of("data/maze0");
   }
@@ -58,6 +60,7 @@ public class Game {
     this.tickLength = gameSpeed;
     this.pauseGhosts = pauseGhosts;
     this.recorder = null;
+    this.resetFlag = false;
     this.mazeFile = Path.of("data/maze0");
   }
 
@@ -199,6 +202,7 @@ public class Game {
    * Plays the game with the specified maze file.
    */
   public void playGame() {
+    this.gameResult = GameState.TBD;
     this.startRecording();
     this.prepareMaze();
     this.createGamePresenter();
@@ -216,22 +220,34 @@ public class Game {
     this.recorder.captureState(this.allMazeObjects, true);
     PacmanObject pacman = this.maze.getPacman();
 
-    //Wait for user to start
-    while (pacman.getDirection() == CommonField.Direction.STOP) {
-      sleep(500);
-    }
-
     //Run game loop
+    do{
+      //Wait for user to start
+      while (pacman.getDirection() == CommonField.Direction.STOP) {
+        sleep(500);
+      }
+
+      this.playRound();
+
+      if (pacman.isVictorious()){
+        this.gameResult = GameState.WIN;
+      }
+      else{
+        pacman.ghostCollision();
+        this.resetFlag = false;
+        if (pacman.isDead())
+          this.gameResult = GameState.LOSE;
+      }
+    }while (this.gameResult == GameState.TBD);
+  }
+
+  private void playRound() {
+    PacmanObject pacman = this.maze.getPacman();
     do {
       this.moveAllMazeObjects();
       this.recorder.captureState(this.allMazeObjects, true);
       sleep(this.tickLength);
-    } while (!pacman.isDead() && !pacman.isVictorious());
-
-    if (pacman.isVictorious())
-      this.gameResult = GameState.WIN;
-    else
-      this.gameResult = GameState.LOSE;
+    } while (!this.resetFlag && !pacman.isVictorious());
   }
 
   public void gameLoop(int numberOfTicks) {
@@ -327,11 +343,8 @@ public class Game {
       mazeObject.move();
       if (pacman.isCaughtByGhost()) {
         sleep(1000);
-        this.recorder.captureState(this.allMazeObjects, true);
-        pacman.ghostCollision();
-        if (pacman.isDead())
-          break;
-        sleep(1000);
+        this.resetFlag = true;
+        break;
       }
     }
   }

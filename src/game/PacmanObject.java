@@ -153,6 +153,8 @@ public class PacmanObject implements CommonMazeObject {
     public void ghostCollision(){
       // remove one life
       this.livesRemaining = this.livesRemaining - 1;
+      // set direction to stop
+      this.direction = CommonField.Direction.STOP;
       // restore the whole maze to its initial state
       this.currentField.getMaze().restore();
     }
