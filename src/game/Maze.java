@@ -16,7 +16,7 @@ public class Maze implements CommonMaze {
   List<CommonMazeObject> listOfKeys;
   PacmanObject pacman;
   TargetObject target;
-  private Map<PathField,CommonMazeObject> initialObjectsLayout;
+  private Map<CommonMazeObject, PathField> initialObjectsLayout;
 
   /**
    * Constructs a new Maze with the specified number of columns and rows.
@@ -131,7 +131,7 @@ public class Maze implements CommonMaze {
   }
 
   @Override
-  public void setObjectLayoutTo(Map<PathField,CommonMazeObject> objectsLayout) {
+  public void setObjectLayoutTo(Map<CommonMazeObject, PathField> objectsLayout) {
     // clear all fields
     clearAllFields();
     // clear all lists and objects but pacman
@@ -139,9 +139,9 @@ public class Maze implements CommonMaze {
     this.listOfGhosts.clear();
     this.target = null;
     // restore initial objects layout
-    for (Map.Entry<PathField,CommonMazeObject> entry : objectsLayout.entrySet()) {
-      PathField field = entry.getKey();
-      CommonMazeObject object = entry.getValue();
+    for (Map.Entry<CommonMazeObject, PathField> entry : objectsLayout.entrySet()) {
+      PathField field = entry.getValue();
+      CommonMazeObject object = entry.getKey();
       field.put(object);
       // add objects to lists
       switch (object.getType()) {
@@ -213,7 +213,7 @@ public class Maze implements CommonMaze {
    *
    * @param initialObjectsLayout  the initial objects layout of the Maze.
    */
-  public void setInitialObjectsLayout(Map<PathField, CommonMazeObject> initialObjectsLayout) {
+  public void setInitialObjectsLayout(Map<CommonMazeObject,PathField> initialObjectsLayout) {
     this.initialObjectsLayout = initialObjectsLayout;
   }
 }

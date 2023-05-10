@@ -213,12 +213,13 @@ public class GameReplay implements Runnable {
       System.out.println("Invalid state.");
       return;
     }
-    Map<PathField,CommonMazeObject> objectsLayout = this.createObjectsLayout(state);
+    Map<CommonMazeObject, PathField> objectsLayout = this.createObjectsLayout(state);
     this.maze.setObjectLayoutTo(objectsLayout);
   }
 
-  private Map<PathField, CommonMazeObject> createObjectsLayout(int state) {
-    Map<PathField,CommonMazeObject> objectsLayout = new HashMap<>();
+  private Map<CommonMazeObject, PathField> createObjectsLayout(int state) {
+    Map<CommonMazeObject, PathField> objectsLayout = new HashMap<>();
+    // iterate over all objects
     for (Map.Entry<CommonMazeObject, List<CommonField>> entry : stateMap.entrySet()) {
       CommonMazeObject mazeObject = entry.getKey();
       List<CommonField> fields = entry.getValue();
@@ -227,7 +228,7 @@ public class GameReplay implements Runnable {
         continue;
       }
       PathField field = (PathField) fields.get(state);
-      objectsLayout.put(field, mazeObject);
+      objectsLayout.put(mazeObject,field);
     }
     return objectsLayout;
   }
@@ -268,7 +269,7 @@ public class GameReplay implements Runnable {
   }
 
   public void continueBackward(int gameSpeed) {
-    while(!this.paused && currentState < totalStates && currentState > 0) {
+    while(!this.paused && currentState <= totalStates && currentState > 0) {
       currentState--;
       presentState(currentState);
       sleep(gameSpeed);

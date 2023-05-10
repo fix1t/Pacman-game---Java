@@ -126,7 +126,7 @@ public class Game {
     presenter.open();
   }
 
-  private MazeReplay createReplayPresenter(GameReplay replay) {
+  public MazeReplay createReplayPresenter(GameReplay replay) {
     this.createFrame();
     System.out.println("Replaying the game...");
     MazeReplay replayPresenter = new MazeReplay(replay.getMaze(), this.frame, this.sound, replay);

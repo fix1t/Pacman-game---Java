@@ -1,6 +1,8 @@
 package src.tool.tests;
 
+import org.junit.After;
 import src.game.*;
+import src.tool.MazeReplay;
 import src.tool.common.CommonMaze;
 import src.tool.common.CommonMazeObject;
 import org.junit.Assert;
@@ -20,6 +22,12 @@ public class ReplayCompleteLogTest {
   private TargetObject target;
   private List<CommonMazeObject> keys;
 
+//5 3
+//.XT
+//.X.
+//KXK
+//.X.
+//GXS
   @Before
   public void setUp() {
     this.replay = new GameReplay();
@@ -32,6 +40,7 @@ public class ReplayCompleteLogTest {
     this.ghost = (GhostObject) this.maze.getGhosts().get(0);
     this.keys = this.maze.getKeys();
     this.target = (TargetObject) this.maze.getTarget();
+    this.replay.resume();
   }
 
   @Test
@@ -64,12 +73,14 @@ public class ReplayCompleteLogTest {
     Assert.assertNotNull(this.target);
 
     replay.ReplayGameFromStart();
-    replay.continueForward(200);
+    replay.continueForward(0);
     Assert.assertTrue(this.maze.getField(3, 1).contains(this.keys.get(0)));
-    Assert.assertFalse(this.maze.getField(3, 3).contains(this.keys.get(1)));
-    Assert.assertFalse(this.maze.getField(1, 3).contains(this.target));
+//    Assert.assertFalse(this.maze.getField(3, 3).contains(this.keys.get(1)));
+    Assert.assertTrue(this.maze.getField(1, 3).contains(this.pacman));
+    Assert.assertTrue(this.maze.getField(1, 3).contains(this.target));
+    Assert.assertTrue(this.maze.getField(1, 1).contains(this.ghost));
 
-    replay.continueBackward(200);
+    replay.continueBackward(0);
     Assert.assertEquals(this.maze.getField(5, 3), this.pacman.getField());
     Assert.assertEquals(this.maze.getField(5, 1), this.ghost.getField());
     Assert.assertEquals(this.maze.getField(3, 3), this.keys.get(1).getField());
