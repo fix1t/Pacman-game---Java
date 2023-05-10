@@ -27,17 +27,19 @@ public class LogCompleteTest {
   @Before
   public void setUp() {
     this.game = new Game(100, false);
-    this.maze = this.game.createMazeFromFile(Path.of("src/tool/tests/maps/valid/twoLinesWithObjects"));
-    if (maze == null) {
-      System.out.println("Error while loading maze");
-    }
-    this.pacman = maze.getPacman();
   }
 
   @Test
   public void testLog() {
+    this.game.startRecording();
+    this.maze = this.game.createMazeFromFile(Path.of("src/tool/tests/maps/valid/twoLinesWithObjects"));
+    Assert.assertNotNull("Maze neni null", this.maze);
+    this.pacman = maze.getPacman();
+    Assert.assertNotNull("Objekt není null", this.pacman);
     this.pacman.setDirection(UP);
+    Assert.assertEquals(UP, this.pacman.getDirection());
     this.game.gameLoop(5);
+    Assert.assertEquals(1, this.pacman.getField().getCoordinate().getX());
     this.game.finishRecording();
     boolean areEqual = areFilesEqual("game.log", "src/tool/tests/replays/expectedLogComplete");
     Assert.assertTrue(areEqual);

@@ -5,7 +5,6 @@ import src.game.resources.ObjectType;
 import src.tool.*;
 import src.tool.common.CommonMaze;
 import src.tool.common.CommonMazeObject;
-import src.tool.tests.Homework2;
 
 import javax.swing.*;
 import java.awt.*;
@@ -213,13 +212,15 @@ public class Game {
   public void gameLoop() {
     this.setAllMazeObjects();
     //Capture initial state
-    this.recorder.captureState(this.allMazeObjects, true);
+    if (this.recorder != null)
+      this.recorder.captureState(this.allMazeObjects, true);
     PacmanObject pacman = this.maze.getPacman();
 
     //Run game loop
     do {
       this.moveAllMazeObjects();
-      this.recorder.captureState(this.allMazeObjects, true);
+      if (this.recorder != null)
+        this.recorder.captureState(this.allMazeObjects, true);
       sleep(this.tickLength);
     } while (!pacman.isDead() && !pacman.isVictorious());
 
@@ -233,10 +234,17 @@ public class Game {
     this.setAllMazeObjects();
     PacmanObject pacman = this.maze.getPacman();
     for (int i = 0; i < numberOfTicks; i++) {
-      this.recorder.captureState(this.allMazeObjects,true);
+      if(this.recorder != null)
+        this.recorder.captureState(this.allMazeObjects,true);
       this.moveAllMazeObjects();
       sleep(this.tickLength);
+      if (pacman.isDead() || pacman.isVictorious())
+        break;
     }
+    if (pacman.isVictorious())
+      this.gameResult = GameState.WIN;
+    else
+      this.gameResult = GameState.LOSE;
   }
 
     /**
@@ -294,7 +302,7 @@ public class Game {
     this.frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
   }
 
-  private void startRecording() {
+  public void startRecording() {
     recorder = new GameRecorder();
   }
 
@@ -307,7 +315,7 @@ public class Game {
     try {
       Thread.sleep(ms);
     } catch (InterruptedException ex) {
-      Logger.getLogger(Homework2.class.getName()).log(Level.SEVERE, null, ex);
+      Thread.currentThread().interrupt();
     }
   }
 
