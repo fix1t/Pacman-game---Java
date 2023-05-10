@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -273,8 +274,9 @@ public class Game {
    * Sets the list of all `CommonMazeObject` instances in the maze.
    */
   public void setAllMazeObjects() {
-    this.allMazeObjects = this.maze.getGhosts();
+    this.allMazeObjects = new ArrayList<>();
     this.allMazeObjects.add(this.maze.getPacman());
+    this.allMazeObjects.addAll(this.maze.getGhosts());
     this.allMazeObjects.add(this.maze.getTarget());
     this.allMazeObjects.addAll(this.maze.getKeys());
     this.allMazeObjects.removeIf(Objects::isNull);
