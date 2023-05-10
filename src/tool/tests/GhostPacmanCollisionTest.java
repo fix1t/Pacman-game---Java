@@ -20,7 +20,7 @@ public class GhostPacmanCollisionTest {
     cfg.processLine("..S");
     cfg.processLine(".T.");
     cfg.processLine(".K.");
-    cfg.processLine(".G.");
+    cfg.processLine("..G");
     cfg.stopReading();
     maze = cfg.createMaze();
   }
@@ -29,17 +29,21 @@ public class GhostPacmanCollisionTest {
   public void GhostEatsPacmanLayoutAfterReset() {
     Assert.assertNotNull("Maze neni null", maze);
     GhostObject ghost = (GhostObject) maze.getGhosts().get(0);
+    PacmanObject pacman = maze.getPacman();
     Assert.assertNotNull("Objekt není null", ghost);
-
+    Assert.assertNotNull("Objekt není null", pacman);
     //move to pacman
     ghost.move(CommonField.Direction.UP);
     ghost.move(CommonField.Direction.UP);
-    ghost.move(CommonField.Direction.UP);
     // collision
-    ghost.move(CommonField.Direction.RIGHT);
+    ghost.move(CommonField.Direction.UP);
 
+    Assert.assertTrue(pacman.isCaughtByGhost());
+    pacman.ghostCollision();
+    // ghost gets relocated
     Assert.assertEquals(1, maze.getGhosts().size());
-    Assert.assertEquals(ghost.getField(), maze.getField(4, 2));
+    Assert.assertEquals(ghost.getField(), maze.getField(4, 3));
+    Assert.assertEquals(pacman.getField(), maze.getField(1, 3));
   }
 
   @Test
@@ -52,13 +56,14 @@ public class GhostPacmanCollisionTest {
     //move to pacman
     pacman.move(CommonField.Direction.DOWN);
     pacman.move(CommonField.Direction.DOWN);
-    pacman.move(CommonField.Direction.DOWN);
     // collision
-    pacman.move(CommonField.Direction.LEFT);
+    pacman.move(CommonField.Direction.DOWN);
+
+    Assert.assertTrue(pacman.isCaughtByGhost());
+    pacman.ghostCollision();
     // ghost gets relocated
     Assert.assertEquals(1, maze.getGhosts().size());
-    Assert.assertEquals(ghost.getField(), maze.getField(4, 2));
-    // pacman gets relocated
+    Assert.assertEquals(ghost.getField(), maze.getField(4, 3));
     Assert.assertEquals(pacman.getField(), maze.getField(1, 3));
   }
 }
