@@ -80,10 +80,16 @@ public class ReplayTest {
     Assert.assertTrue(pacman.getField().contains(pacman));
     Assert.assertTrue(ghost.getField().contains(ghost));
 
+    this.replay.presentNextState();
+    Assert.assertEquals(this.maze.getField(1,3),pacman.getField());
+    Assert.assertEquals(this.maze.getField(1,1),ghost.getField());
+    Assert.assertTrue(pacman.getField().contains(pacman));
+    Assert.assertTrue(ghost.getField().contains(ghost));
+
     // Last state - show the same position
     this.replay.presentNextState();
-    Assert.assertEquals(this.maze.getField(2,3),pacman.getField());
-    Assert.assertEquals(this.maze.getField(2,1),ghost.getField());
+    Assert.assertEquals(this.maze.getField(1,3),pacman.getField());
+    Assert.assertEquals(this.maze.getField(1,1),ghost.getField());
     Assert.assertTrue(pacman.getField().contains(pacman));
     Assert.assertTrue(ghost.getField().contains(ghost));
   }
@@ -101,13 +107,19 @@ public class ReplayTest {
 
 
 
-    Assert.assertEquals(this.maze.getField(2,3),pacman.getField());
-    Assert.assertEquals(this.maze.getField(2,1),ghost.getField());
+    Assert.assertEquals(this.maze.getField(1,3),pacman.getField());
+    Assert.assertEquals(this.maze.getField(1,1),ghost.getField());
     Assert.assertTrue(pacman.getField().contains(pacman));
     Assert.assertTrue(ghost.getField().contains(ghost));
 
     // Last state - show the same position
     this.replay.presentNextState();
+    Assert.assertEquals(this.maze.getField(1,3),pacman.getField());
+    Assert.assertEquals(this.maze.getField(1,1),ghost.getField());
+    Assert.assertTrue(pacman.getField().contains(pacman));
+    Assert.assertTrue(ghost.getField().contains(ghost));
+
+    this.replay.presentPreviousState();
     Assert.assertEquals(this.maze.getField(2,3),pacman.getField());
     Assert.assertEquals(this.maze.getField(2,1),ghost.getField());
     Assert.assertTrue(pacman.getField().contains(pacman));
@@ -154,8 +166,8 @@ public class ReplayTest {
 
     this.replay.resume();
     this.replay.continueForward(0);
-    Assert.assertEquals(this.maze.getField(2,3),pacman.getField());
-    Assert.assertEquals(this.maze.getField(2,1),ghost.getField());
+    Assert.assertEquals(this.maze.getField(1,3),pacman.getField());
+    Assert.assertEquals(this.maze.getField(1,1),ghost.getField());
     Assert.assertTrue(pacman.getField().contains(pacman));
     Assert.assertTrue(ghost.getField().contains(ghost));
   }
@@ -170,8 +182,8 @@ public class ReplayTest {
     Assert.assertNotNull(pacman);
     Assert.assertNotNull(ghost);
 
-    Assert.assertEquals(this.maze.getField(2,3),pacman.getField());
-    Assert.assertEquals(this.maze.getField(2,1),ghost.getField());
+    Assert.assertEquals(this.maze.getField(1,3),pacman.getField());
+    Assert.assertEquals(this.maze.getField(1,1),ghost.getField());
 
     this.replay.resume();
     this.replay.continueBackward(0);

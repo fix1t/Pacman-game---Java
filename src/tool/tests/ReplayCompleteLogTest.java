@@ -1,8 +1,6 @@
 package src.tool.tests;
 
-import org.junit.After;
 import src.game.*;
-import src.tool.MazeReplay;
 import src.tool.common.CommonMaze;
 import src.tool.common.CommonMazeObject;
 import org.junit.Assert;
