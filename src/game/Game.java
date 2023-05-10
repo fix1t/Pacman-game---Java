@@ -3,6 +3,7 @@ package src.game;
 import src.game.resources.GameState;
 import src.game.resources.ObjectType;
 import src.tool.*;
+import src.tool.common.CommonField;
 import src.tool.common.CommonMaze;
 import src.tool.common.CommonMazeObject;
 
@@ -215,6 +216,11 @@ public class Game {
     if (this.recorder != null)
       this.recorder.captureState(this.allMazeObjects, true);
     PacmanObject pacman = this.maze.getPacman();
+
+    //Wait for user to start
+    while (pacman.getDirection() == CommonField.Direction.STOP) {
+      sleep(500);
+    }
 
     //Run game loop
     do {
