@@ -8,6 +8,7 @@ import java.util.*;
 
 
 public class PacmanObject implements CommonMazeObject {
+  private final List<CommonMazeObject> listOfBoosts;
   private PathField currentField;
   private List<CommonMazeObject> listOfKeys;
   private int livesRemaining;
@@ -16,10 +17,11 @@ public class PacmanObject implements CommonMazeObject {
   private CommonField goToField;
   private int boost = 0;
 
-  public PacmanObject(PathField field, List<CommonMazeObject> listOfKeys) {
+  public PacmanObject(PathField field, List<CommonMazeObject> listOfKeys, List<CommonMazeObject> listOfBoosts) {
     this.currentField = field;
     this.livesRemaining = 3;
     this.listOfKeys = listOfKeys;
+    this.listOfBoosts = listOfBoosts;
     this.direction = CommonField.Direction.STOP;
     this.victory = false;
     this.goToField = null;
@@ -107,8 +109,11 @@ public class PacmanObject implements CommonMazeObject {
         this.setVictory();
         // check if there is a boost in the field
       } else if (moveTo.getBoost() != null) {
-        // remove boost from field
-        moveTo.remove(moveTo.getBoost());
+        CommonMazeObject boost = moveTo.getBoost();
+        // remove boost from field and list of boosts
+        this.listOfBoosts.remove(boost);
+        boost.setField(null);
+        moveTo.remove(boost);
         // set boost
         this.boost = 15;
       }

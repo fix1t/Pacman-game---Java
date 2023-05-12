@@ -17,8 +17,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * The `Game` class represents a game of Pacman.
@@ -281,6 +279,7 @@ public class Game {
     this.allMazeObjects.addAll(this.maze.getGhosts());
     this.allMazeObjects.add(this.maze.getTarget());
     this.allMazeObjects.addAll(this.maze.getKeys());
+    this.allMazeObjects.addAll(this.maze.getBoosts());
     this.allMazeObjects.removeIf(Objects::isNull);
   }
 
@@ -354,7 +353,7 @@ public class Game {
     if (pacman.hasBoost()) {
       pacman.move();
       this.recorder.captureState(this.allMazeObjects, true);
-      if (pacman.isCaughtByGhost()) {
+      if (pacman.isCaughtByGhost() || pacman.isVictorious()) {
         sleep(1000);
         this.resetFlag = true;
         return;

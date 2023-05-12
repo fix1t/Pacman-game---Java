@@ -13,7 +13,8 @@ public class Maze implements CommonMaze {
     int rows;
     CommonField[][] fields;
   List<CommonMazeObject> listOfGhosts;
-  List<CommonMazeObject> listOfPickUpObjects;
+  List<CommonMazeObject> listOfKeys;
+  List<CommonMazeObject> listOfBoosts;
   PacmanObject pacman;
   TargetObject target;
   private Map<CommonMazeObject, PathField> initialObjectsLayout;
@@ -29,7 +30,7 @@ public class Maze implements CommonMaze {
       this.rows = row;
       this.fields = new CommonField[row][col];
       this.listOfGhosts = new ArrayList<>();
-      this.listOfPickUpObjects = new ArrayList<>();
+      this.listOfKeys = new ArrayList<>();
       this.pacman = null;
       this.target = null;
       this.initialObjectsLayout = null;
@@ -98,7 +99,12 @@ public class Maze implements CommonMaze {
    */
     @Override
     public  List<CommonMazeObject> getKeys() {
-      return new ArrayList<>(this.listOfPickUpObjects);
+      return new ArrayList<>(this.listOfKeys);
+    }
+
+    @Override
+    public List<CommonMazeObject> getBoosts() {
+      return new ArrayList<>(this.listOfBoosts);
     }
 
   /**
@@ -135,7 +141,8 @@ public class Maze implements CommonMaze {
     // clear all fields
     clearAllFields();
     // clear all lists and objects but pacman
-    this.listOfPickUpObjects.clear();
+    this.listOfKeys.clear();
+    this.listOfBoosts.clear();
     this.listOfGhosts.clear();
     this.target = null;
     // restore initial objects layout
@@ -146,7 +153,8 @@ public class Maze implements CommonMaze {
       // add objects to lists
       switch (object.getType()) {
         case GHOST -> this.listOfGhosts.add(object);
-        case KEY -> this.listOfPickUpObjects.add(object);
+        case KEY -> this.listOfKeys.add(object);
+        case BOOST -> this.listOfBoosts.add(object);
         case TARGET -> this.target = (TargetObject) object;
         case PACMAN -> this.pacman = (PacmanObject) object;
         default -> {
@@ -184,10 +192,10 @@ public class Maze implements CommonMaze {
   /**
    * Sets the list of keys in the Maze to the specified list.
    *
-   * @param listOfPickUpObjects  the list of keys to set in the Maze.
+   * @param listOfKeys  the list of keys to set in the Maze.
    */
-  public void setKeysList(List<CommonMazeObject> listOfPickUpObjects) {
-      this.listOfPickUpObjects = listOfPickUpObjects;
+  public void setListOfKeys(List<CommonMazeObject> listOfKeys) {
+      this.listOfKeys = listOfKeys;
   }
 
   /**
@@ -215,5 +223,9 @@ public class Maze implements CommonMaze {
    */
   public void setInitialObjectsLayout(Map<CommonMazeObject,PathField> initialObjectsLayout) {
     this.initialObjectsLayout = initialObjectsLayout;
+  }
+
+  public void setListOfBoosts(List<CommonMazeObject> listOfBoosts) {
+    this.listOfBoosts = listOfBoosts;
   }
 }
