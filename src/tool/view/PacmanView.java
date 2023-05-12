@@ -7,13 +7,13 @@ import src.tool.common.CommonMazeObject;
 import javax.swing.*;
 import java.awt.*;
 
-public class PacmanView implements src.tool.view.ComponentView {
+public class PacmanView implements ComponentView {
   private CommonMazeObject model;
   private src.tool.view.FieldView parent;
   Image[] images;
   static int imageIndex;
 
-  public PacmanView(src.tool.view.FieldView parent, CommonMazeObject m) {
+  public PacmanView(FieldView parent, CommonMazeObject m) {
     this.model = m;
     this.parent = parent;
     images = new Image[2];
