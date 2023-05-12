@@ -176,7 +176,7 @@ public class MazeReplay {
     bottomRowPanel.add(endButton);
     bottomRowPanel.add(playButton);
     bottomRowPanel.add(PlaybackDirection);
-    bottomRowPanel.add(Box.createHorizontalStrut(60)); // Add horizontal space/margin
+    bottomRowPanel.add(Box.createHorizontalStrut(20)); // Add horizontal space/margin
     bottomRowPanel.add(exitButton);
 
     // Add top and bottom row panels to button panel
