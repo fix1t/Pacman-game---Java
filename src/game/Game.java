@@ -236,7 +236,6 @@ public class Game {
       }
       else{
         pacman.ghostCollision();
-        this.resetFlag = false;
         if (pacman.isDead())
           this.gameResult = GameState.LOSE;
       }
@@ -244,6 +243,7 @@ public class Game {
   }
 
   private void playRound() {
+    this.resetFlag = false;
     PacmanObject pacman = this.maze.getPacman();
     do {
       this.moveAllMazeObjects();
