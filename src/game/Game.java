@@ -247,9 +247,11 @@ public class Game {
     PacmanObject pacman = this.maze.getPacman();
     do {
       this.moveAllMazeObjects();
+
       if (this.recorder != null)
         this.recorder.captureState(this.allMazeObjects, true);
-      sleep(this.tickLength);
+
+      sleep(this.tickLength/2);
     } while (!this.resetFlag && !pacman.isVictorious());
   }
 
@@ -348,6 +350,19 @@ public class Game {
    */
   public void moveAllMazeObjects() {
     PacmanObject pacman = this.maze.getPacman();
+    //Move pacman double speed if he has boost
+    if (pacman.hasBoost()) {
+      pacman.move();
+      this.recorder.captureState(this.allMazeObjects, true);
+      if (pacman.isCaughtByGhost()) {
+        sleep(1000);
+        this.resetFlag = true;
+        return;
+      }
+    }
+    sleep(this.tickLength/2);
+
+    //Move all other objects including pacman at normal speed
     for (CommonMazeObject mazeObject : this.allMazeObjects) {
       if (mazeObject.getType() == ObjectType.GHOST && this.pauseGhosts)
         continue;
