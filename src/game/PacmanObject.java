@@ -103,6 +103,12 @@ public class PacmanObject implements CommonMazeObject {
         moveTo.remove(moveTo.getTarget());
         System.out.println("YOU WIN!");
         this.setVictory();
+        // check if there is a boost in the field
+      } else if (moveTo.getBoost() != null) {
+        // remove boost from field
+        moveTo.remove(moveTo.getBoost());
+        // set boost
+        this.boost = 15;
       }
       // remove pacman from this field
       this.currentField.remove(this);
