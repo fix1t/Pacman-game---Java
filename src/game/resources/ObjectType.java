@@ -4,6 +4,7 @@ public enum ObjectType {
   PACMAN,
   GHOST,
   KEY,
+  BOOST,
   TARGET;
 
   @Override
@@ -13,6 +14,7 @@ public enum ObjectType {
       case GHOST -> "GHOST";
       case KEY -> "KEY";
       case TARGET -> "TARGET";
+      case BOOST -> "BOOST";
       default -> "UNKNOWN";
     };
   }
@@ -22,6 +24,7 @@ public enum ObjectType {
       case "GHOST" -> GHOST;
       case "KEY" -> KEY;
       case "TARGET" -> TARGET;
+      case "BOOST" -> BOOST;
       default -> null;
     };
   }
