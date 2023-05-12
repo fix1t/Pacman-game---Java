@@ -1,19 +1,29 @@
 package src.tool.view;
 
+import src.game.PacmanObject;
+import src.tool.common.CommonField;
 import src.tool.common.CommonMazeObject;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class PacmanView implements ComponentView {
+public class PacmanView implements src.tool.view.ComponentView {
   private CommonMazeObject model;
-  private FieldView parent;
-  Image image;
+  private src.tool.view.FieldView parent;
+  Image[] images;
+  static int imageIndex;
 
-  public PacmanView(FieldView parent, CommonMazeObject m) {
+  public PacmanView(src.tool.view.FieldView parent, CommonMazeObject m) {
     this.model = m;
     this.parent = parent;
-    image = new ImageIcon(getClass().getResource("../../../lib/Pacman.png")).getImage();
+    images = new Image[2];
+    images[0] = new ImageIcon(getClass().getResource("../../../lib/PacmanRight.png")).getImage();
+    images[1] = new ImageIcon(getClass().getResource("../../../lib/PacmanLeft.png")).getImage();
+    PacmanObject pacman = (PacmanObject) this.model;
+    if (pacman.getDirection() == CommonField.Direction.RIGHT)
+      imageIndex = 0;
+    else if (pacman.getDirection() == CommonField.Direction.LEFT)
+      imageIndex = 1;
   }
 
   public void paintComponent(Graphics g) {
@@ -23,8 +33,8 @@ public class PacmanView implements ComponentView {
     int fieldHeight = parent.getHeight();
 
     // Scale the image to fit the field size
-    double imageWidth = image.getWidth(null);
-    double imageHeight = image.getHeight(null);
+    double imageWidth = images[imageIndex].getWidth(null);
+    double imageHeight = images[imageIndex].getHeight(null);
     double scale = Math.min(fieldWidth / imageWidth, fieldHeight / imageHeight);
     int scaledWidth = (int) (imageWidth * scale);
     int scaledHeight = (int) (imageHeight * scale);
@@ -32,6 +42,6 @@ public class PacmanView implements ComponentView {
     // Draw the scaled image at the center of the field
     int x = (fieldWidth - scaledWidth) / 2;
     int y = (fieldHeight - scaledHeight) / 2;
-    g2.drawImage(image, x, y, scaledWidth, scaledHeight, null);
+    g2.drawImage(images[imageIndex], x, y, scaledWidth, scaledHeight, null);
   }
 }

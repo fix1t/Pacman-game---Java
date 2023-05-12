@@ -304,7 +304,7 @@ public class Game {
     this.recorder.stopRecording();
   }
   public void createFrame() {
-    this.frame = new JFrame("PAC-HAM");
+    this.frame = new JFrame("DUCKMAN");
     this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     this.frame.setSize(350, 400);
     this.frame.setPreferredSize(new Dimension(650, 700));
