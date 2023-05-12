@@ -30,10 +30,12 @@ public class GameReplay implements Runnable {
   // Add a lock and a condition
   private final ReentrantLock lock = new ReentrantLock();
   private final Condition condition = lock.newCondition();
+  private String playPauseButtonText = "Start";
 
   // Add a flag to control the loop
   private volatile boolean running = true;
   private volatile boolean paused = true;
+  private boolean runForward = true;
 
   public GameReplay() {
     this.gameRecorder = null;
@@ -58,13 +60,25 @@ public class GameReplay implements Runnable {
     this.maze = maze;
   }
 
+  public void setRunForward(boolean runForward) {
+    this.runForward = runForward;
+  }
 
+  public void setPlayPauseButtonText(String playPauseButtonText) {
+    this.playPauseButtonText = playPauseButtonText;
+  }
+
+  public String getPlayPauseButtonText() {
+    return playPauseButtonText;
+  }
 
   public void pause() {
+    this.setPlayPauseButtonText("Play");
     paused = true;
   }
 
   public void resume() {
+    this.setPlayPauseButtonText("Pause");
     lock.lock();
     try {
       paused = false;
@@ -289,7 +303,14 @@ public class GameReplay implements Runnable {
       } finally {
         lock.unlock();
       }
-      continueForward();
+      if (this.runForward)
+        continueForward();
+      else
+        continueBackward();
     }
+  }
+
+  public boolean getRunForward() {
+    return this.runForward;
   }
 }

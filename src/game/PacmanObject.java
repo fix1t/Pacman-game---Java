@@ -62,6 +62,8 @@ public class PacmanObject implements CommonMazeObject {
   }
 
   public void setGoToField(CommonField goToField) {
+    // set random direction to start moving when game resets
+    setDirection(CommonField.Direction.UP);
     this.goToField = goToField;
   }
 

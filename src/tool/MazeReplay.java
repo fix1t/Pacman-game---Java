@@ -54,6 +54,7 @@ public class MazeReplay {
     JButton nextButton = new JButton("Next (N)");
     JButton previousButton = new JButton("Previous (P)");
     JButton playButton = new JButton("Play");
+    JButton PlaybackDirection = new JButton(">");
     JButton exitButton = new JButton("Exit");
 
 
@@ -63,6 +64,7 @@ public class MazeReplay {
     nextButton.setFont(customFont);
     previousButton.setFont(customFont);
     playButton.setFont(customFont);
+    PlaybackDirection.setFont(customFont);
     exitButton.setFont(customFont);
 
     GameReplay mouseReplay = replay;
@@ -71,6 +73,8 @@ public class MazeReplay {
 
       @Override
       public void mouseClicked(MouseEvent e) {
+        mouseReplay.pause();
+        playButton.setText(mouseReplay.getPlayPauseButtonText());
         mouseReplay.ReplayGameFromStart();
       }
     });
@@ -78,6 +82,8 @@ public class MazeReplay {
     endButton.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
+        mouseReplay.pause();
+        playButton.setText(mouseReplay.getPlayPauseButtonText());
         mouseReplay.ReplayGameFromEnd();
       }
     });
@@ -85,6 +91,8 @@ public class MazeReplay {
     nextButton.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
+        mouseReplay.pause();
+        playButton.setText(mouseReplay.getPlayPauseButtonText());
         mouseReplay.presentNextState();
       }
     });
@@ -92,6 +100,8 @@ public class MazeReplay {
     previousButton.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
+        mouseReplay.pause();
+        playButton.setText(mouseReplay.getPlayPauseButtonText());
         mouseReplay.presentPreviousState();
       }
     });
@@ -101,13 +111,23 @@ public class MazeReplay {
       public void mouseClicked(MouseEvent e) {
         if (playButton.getText().equals("Play")) {
           // Handle Play button click
-          playButton.setText("Pause");
           mouseReplay.resume();
         } else {
           // Handle Pause button click
           mouseReplay.pause();
-          playButton.setText("Play");
         }
+        playButton.setText(mouseReplay.getPlayPauseButtonText());
+      }
+    });
+
+    PlaybackDirection.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        mouseReplay.pause();
+        playButton.setText(mouseReplay.getPlayPauseButtonText());
+        // Toggle between forward and backward
+        PlaybackDirection.setText(PlaybackDirection.getText().equals("<") ? ">" : "<");
+        mouseReplay.setRunForward(!mouseReplay.getRunForward());
       }
     });
 
@@ -155,6 +175,7 @@ public class MazeReplay {
     bottomRowPanel.add(startButton);
     bottomRowPanel.add(endButton);
     bottomRowPanel.add(playButton);
+    bottomRowPanel.add(PlaybackDirection);
     bottomRowPanel.add(Box.createHorizontalStrut(60)); // Add horizontal space/margin
     bottomRowPanel.add(exitButton);
 
