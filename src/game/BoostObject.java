@@ -4,18 +4,22 @@ import src.game.resources.ObjectType;
 import src.tool.common.CommonField;
 import src.tool.common.CommonMazeObject;
 
-public class TargetObject implements CommonMazeObject {
+public class BoostObject implements CommonMazeObject {
   PathField currentField;
-  public TargetObject(PathField pathField) {
+
+  public BoostObject(PathField pathField) {
     this.currentField = pathField;
   }
+
   @Override
   public boolean canMove(CommonField.Direction var1) {
     return false;
   }
 
   @Override
-  public boolean move() { return false; }
+  public boolean move() {
+    return false;
+  }
 
   @Override
   public boolean move(CommonField.Direction var1) {
@@ -23,7 +27,9 @@ public class TargetObject implements CommonMazeObject {
   }
 
   @Override
-  public boolean isPacman() { return false; }
+  public boolean isPacman() {
+    return false;
+  }
 
   @Override
   public CommonField getField() {
@@ -42,13 +48,9 @@ public class TargetObject implements CommonMazeObject {
 
   @Override
   public ObjectType getType() {
-    return ObjectType.TARGET;
+    return ObjectType.BOOST;
   }
 
   @Override
-  public void setDirection(CommonField.Direction l) {
-
-  }
+  public void setDirection(CommonField.Direction l) { }
 }
-
-

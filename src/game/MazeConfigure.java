@@ -20,7 +20,7 @@ public class MazeConfigure {
   CommonField[][] fields;
   Maze maze;
   List<CommonMazeObject> listOfGhosts;
-  List<CommonMazeObject> listOfKeys;
+  List<CommonMazeObject> listOfPickUpObjects;
   PacmanObject pacman;
   TargetObject target;
   boolean disableGhosts;
@@ -33,7 +33,7 @@ public class MazeConfigure {
     this.started = false;
     this.errorFlag = false;
     this.listOfGhosts = new ArrayList<>();
-    this.listOfKeys = new ArrayList<>();
+    this.listOfPickUpObjects = new ArrayList<>();
     this.pacman = null;
     this.target = null;
     this.initialObjectsLayout = new HashMap<>();
@@ -78,7 +78,7 @@ public class MazeConfigure {
       return false;
     } else {
       PathField pathField = createPathField(this.currentRow, i + 1);
-      this.pacman = new PacmanObject(pathField, this.listOfKeys);
+      this.pacman = new PacmanObject(pathField, this.listOfPickUpObjects);
       pathField.put(this.pacman);
       // put pacman into initialObjectsLayout
       this.initialObjectsLayout.put(this.pacman,pathField);
@@ -99,9 +99,18 @@ public class MazeConfigure {
     PathField pathField = createPathField(this.currentRow, i + 1);
     KeyObject key = new KeyObject(pathField);
     pathField.put(key);
-    this.listOfKeys.add(key);
+    this.listOfPickUpObjects.add(key);
     // put key into initialObjectsLayout
     this.initialObjectsLayout.put(key,pathField);
+  }
+
+  private void handleBoostCase(int i) {
+    PathField pathField = createPathField(this.currentRow, i + 1);
+    BoostObject boost = new BoostObject(pathField);
+    pathField.put(boost);
+    this.listOfPickUpObjects.add(boost);
+    // put boost into initialObjectsLayout
+    this.initialObjectsLayout.put(boost,pathField);
   }
 
   private boolean handleTargetCase(int i) {
@@ -151,6 +160,9 @@ public class MazeConfigure {
           break;
         case 'K':
           handleKeyCase(i);
+          break;
+        case 'B':
+          handleBoostCase(i);
           break;
         case 'T':
           // if target is already placed, return false = error
@@ -230,7 +242,7 @@ public class MazeConfigure {
     //set fields
     this.maze.setFields(fields);
     this.maze.setGhostList(listOfGhosts);
-    this.maze.setKeysList(listOfKeys);
+    this.maze.setKeysList(listOfPickUpObjects);
     this.maze.setPacman(this.pacman);
     this.maze.setTarget(this.target);
     this.maze.setInitialObjectsLayout(this.initialObjectsLayout);

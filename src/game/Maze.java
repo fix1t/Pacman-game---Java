@@ -13,7 +13,7 @@ public class Maze implements CommonMaze {
     int rows;
     CommonField[][] fields;
   List<CommonMazeObject> listOfGhosts;
-  List<CommonMazeObject> listOfKeys;
+  List<CommonMazeObject> listOfPickUpObjects;
   PacmanObject pacman;
   TargetObject target;
   private Map<CommonMazeObject, PathField> initialObjectsLayout;
@@ -29,7 +29,7 @@ public class Maze implements CommonMaze {
       this.rows = row;
       this.fields = new CommonField[row][col];
       this.listOfGhosts = new ArrayList<>();
-      this.listOfKeys = new ArrayList<>();
+      this.listOfPickUpObjects = new ArrayList<>();
       this.pacman = null;
       this.target = null;
       this.initialObjectsLayout = null;
@@ -98,7 +98,7 @@ public class Maze implements CommonMaze {
    */
     @Override
     public  List<CommonMazeObject> getKeys() {
-      return new ArrayList<>(this.listOfKeys);
+      return new ArrayList<>(this.listOfPickUpObjects);
     }
 
   /**
@@ -135,7 +135,7 @@ public class Maze implements CommonMaze {
     // clear all fields
     clearAllFields();
     // clear all lists and objects but pacman
-    this.listOfKeys.clear();
+    this.listOfPickUpObjects.clear();
     this.listOfGhosts.clear();
     this.target = null;
     // restore initial objects layout
@@ -146,7 +146,7 @@ public class Maze implements CommonMaze {
       // add objects to lists
       switch (object.getType()) {
         case GHOST -> this.listOfGhosts.add(object);
-        case KEY -> this.listOfKeys.add(object);
+        case KEY -> this.listOfPickUpObjects.add(object);
         case TARGET -> this.target = (TargetObject) object;
         case PACMAN -> this.pacman = (PacmanObject) object;
         default -> {
@@ -184,10 +184,10 @@ public class Maze implements CommonMaze {
   /**
    * Sets the list of keys in the Maze to the specified list.
    *
-   * @param listOfKeys  the list of keys to set in the Maze.
+   * @param listOfPickUpObjects  the list of keys to set in the Maze.
    */
-  public void setKeysList(List<CommonMazeObject> listOfKeys) {
-      this.listOfKeys = listOfKeys;
+  public void setKeysList(List<CommonMazeObject> listOfPickUpObjects) {
+      this.listOfPickUpObjects = listOfPickUpObjects;
   }
 
   /**
