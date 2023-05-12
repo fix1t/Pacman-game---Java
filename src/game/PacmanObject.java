@@ -14,6 +14,7 @@ public class PacmanObject implements CommonMazeObject {
   private CommonField.Direction direction;
   private boolean victory;
   private CommonField goToField;
+  private int boost = 0;
 
   public PacmanObject(PathField field, List<CommonMazeObject> listOfKeys) {
     this.currentField = field;
@@ -79,6 +80,10 @@ public class PacmanObject implements CommonMazeObject {
       if (!this.canMove(direction)) {
         return false;
       }
+      // check if pacman is boosted
+      if (this.boost > 0)
+        this.boost--;
+
       PathField moveTo = (PathField) this.currentField.nextField(direction);
       performMove(moveTo);
       return true;
@@ -165,5 +170,13 @@ public class PacmanObject implements CommonMazeObject {
 
   public boolean isDead() {
     return this.livesRemaining <= 0;
+  }
+
+  public boolean hasBoost() {
+    return this.boost > 0;
+  }
+
+  public void setBoost (int boostForXMoves) {
+    this.boost = boostForXMoves;
   }
 }
