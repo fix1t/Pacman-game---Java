@@ -17,6 +17,7 @@ public class PathField implements CommonField {
     private List<GhostObject> ghostOnField;
     private PacmanObject pacman;
     private KeyObject key;
+    private BoostObject boost;
     private TargetObject target;
     private CommonMaze maze;
     private final Set<Observer> observers = new HashSet<>();
@@ -43,6 +44,7 @@ public class PathField implements CommonField {
         this.pacman = null;
         this.ghostOnField.clear();
         this.key = null;
+        this.boost = null;
         this.target = null;
         this.notifyObservers();
     }
@@ -69,6 +71,9 @@ public class PathField implements CommonField {
       else if (object.getType() == ObjectType.TARGET){
         this.target = (TargetObject) object;
       }
+      else if (object.getType() == ObjectType.BOOST){
+        this.boost = (BoostObject) object;
+      }
       this.notifyObservers();
     }
 
@@ -77,39 +82,40 @@ public class PathField implements CommonField {
       objects.add(this.pacman);
       objects.add(this.key);
       objects.add(this.target);
+      objects.add(this.boost);
       objects.removeIf(item -> item == null);
       return objects.isEmpty();
     }
 
-    public boolean remove(CommonMazeObject object) {
+    public void remove(CommonMazeObject object) {
       if (object == null)
-        return false;
+        return;
       // object is pacman
       if (object.getType() == ObjectType.PACMAN) {
         this.pacman = null;
         this.notifyObservers();
-        return true;
       }
       // object is ghost
       else if (object.getType() == ObjectType.GHOST && this.ghostOnField.contains(object)){
         this.ghostOnField.remove(object);
         this.notifyObservers();
-        return true;
       }
       // object is key
       else if (object.getType() == ObjectType.KEY && this.key == object){
         this.key = null;
         this.notifyObservers();
-        return true;
       }
       // object is target
       else if (object.getType() == ObjectType.TARGET && this.target == object){
         this.target = null;
         this.notifyObservers();
-        return true;
+      }
+      // object is boost
+      else if (object.getType() == ObjectType.BOOST && this.boost == object){
+        this.boost = null;
+        this.notifyObservers();
       }
       // object not found
-      return false;
     }
 
   @Override
@@ -142,6 +148,8 @@ public class PathField implements CommonField {
       return this.ghostOnField.get(0);
     if (this.key != null)
       return this.key;
+    if (this.boost != null)
+      return this.boost;
     if (this.target != null)
       return this.target;
     return null;
@@ -154,6 +162,8 @@ public class PathField implements CommonField {
   public CommonMazeObject getKey() { return this.key; }
 
   public CommonMazeObject getTarget() { return this.target; }
+
+  public CommonMazeObject getBoost() { return this.boost; }
 
   public List<GhostObject> getGhosts() { return this.ghostOnField; }
 
