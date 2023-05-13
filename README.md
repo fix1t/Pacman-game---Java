@@ -4,14 +4,15 @@ Pacman Game is a school project for the IJA subject at FIT VUT.
 
 ## Installation
 
-The project was built using [Maven](https://maven.apache.org/).
+The project was built using [Ant](https://ant.apache.org/).
 
 To run the game, execute the following command:
 
 ```bash
-mvn clean package
-cd target/
-java -jar but-ija-pacman-1.0.jar
+ant clean build
+ant dist
+cd dist/
+java -jar Duckman.jar
 ```
 
 ## Authors
