@@ -9,15 +9,14 @@ The project was built using [Ant](https://ant.apache.org/).
 To run the game, execute the following command:
 
 ```bash
-ant clean build
-ant dist
+ant clean build dist
 cd dist/
-java -jar Duckman.jar
+java -jar DuckmanGame.jar
 ```
 
 ## Authors
 
-The Pacman Game was developed by a team of two individuals:
+The Pacman Game was developed by a team of talented individuals:
 
 - Gabriel Biel (xbielg00)
 - Jakub Mikyšek (xmikys03)
