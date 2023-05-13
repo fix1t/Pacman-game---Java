@@ -17,8 +17,8 @@ public class PacmanView implements ComponentView {
     this.model = m;
     this.parent = parent;
     images = new Image[2];
-    images[0] = new ImageIcon(getClass().getResource("../../../lib/PacmanRight.png")).getImage();
-    images[1] = new ImageIcon(getClass().getResource("../../../lib/PacmanLeft.png")).getImage();
+    images[0] = new ImageIcon(getClass().getClassLoader().getResource("lib/PacmanRight.png")).getImage();
+    images[1] = new ImageIcon(getClass().getClassLoader().getResource("lib/PacmanLeft.png")).getImage();
     PacmanObject pacman = (PacmanObject) this.model;
     if (pacman.getDirection() == CommonField.Direction.RIGHT)
       imageIndex = 0;

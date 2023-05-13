@@ -140,8 +140,8 @@ public class MazeReplay {
 
     // Add sound icon to bottom left corner
     final boolean[] soundOn = {sound.isPlaying()};
-    ImageIcon soundOnIcon = new ImageIcon(getClass().getResource("../../lib/iconSound.png"));
-    ImageIcon soundOffIcon = new ImageIcon(getClass().getResource("../../lib/iconNoSound.png"));
+    ImageIcon soundOnIcon = new ImageIcon(getClass().getClassLoader().getResource("lib/iconSound.png"));
+    ImageIcon soundOffIcon = new ImageIcon(getClass().getClassLoader().getResource("lib/iconNoSound.png"));
     JButton soundButton = new JButton(soundOn[0] ? soundOnIcon:soundOffIcon);  // put icon depending on playback status (on/off)
     // Add a mouse listener to the label
     soundButton.addMouseListener(new MouseAdapter() {

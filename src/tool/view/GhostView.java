@@ -17,10 +17,10 @@ public class GhostView implements ComponentView {
     this.parent = parent;
 
     images = new Image[4];
-    images[0] = new ImageIcon(getClass().getResource("../../../lib/GhostRed.png")).getImage();
-    images[1] = new ImageIcon(getClass().getResource("../../../lib/GhostPurple.png")).getImage();
-    images[2] = new ImageIcon(getClass().getResource("../../../lib/GhostBlue.png")).getImage();
-    images[3] = new ImageIcon(getClass().getResource("../../../lib/GhostOrange.png")).getImage();
+    images[0] = new ImageIcon(getClass().getClassLoader().getResource("lib/GhostRed.png")).getImage();
+    images[1] = new ImageIcon(getClass().getClassLoader().getResource("lib/GhostPurple.png")).getImage();
+    images[2] = new ImageIcon(getClass().getClassLoader().getResource("lib/GhostBlue.png")).getImage();
+    images[3] = new ImageIcon(getClass().getClassLoader().getResource("lib/GhostOrange.png")).getImage();
 
     GhostObject ghost = (GhostObject) this.model;
     this.imageIndex = ghost.getImageIndex();

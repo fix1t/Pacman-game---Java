@@ -13,7 +13,7 @@ public class TargetView implements ComponentView {
   public TargetView(FieldView parent, CommonMazeObject m) {
     this.model = m;
     this.parent = parent;
-    image = new ImageIcon(getClass().getResource("../../../lib/Target.png")).getImage();
+    image = new ImageIcon(getClass().getClassLoader().getResource("lib/Target.png")).getImage();
   }
 
   public void paintComponent(Graphics g) {

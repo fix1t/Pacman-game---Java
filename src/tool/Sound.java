@@ -21,7 +21,7 @@ public class Sound {
    * Fill {@code soundURL} array with sound file paths.
    */
   public Sound() {
-    soundURL[0] = getClass().getResource("../../lib/PacmanSoundtrack.wav");
+    soundURL[0] = getClass().getClassLoader().getResource("lib/PacmanSoundtrack.wav");
   }
 
   /**

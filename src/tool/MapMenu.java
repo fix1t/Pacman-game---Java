@@ -55,8 +55,8 @@ public class MapMenu {
     content.add(elementBody("Map 05", 5));
 
     final boolean[] soundOn = {sound.isPlaying()};
-    ImageIcon soundOnIcon = new ImageIcon(getClass().getResource("../../lib/iconSound.png"));
-    ImageIcon soundOffIcon = new ImageIcon(getClass().getResource("../../lib/iconNoSound.png"));
+    ImageIcon soundOnIcon = new ImageIcon(getClass().getClassLoader().getResource("lib/iconSound.png"));
+    ImageIcon soundOffIcon = new ImageIcon(getClass().getClassLoader().getResource("lib/iconNoSound.png"));
     soundButton = new JButton(soundOn[0] ? soundOnIcon : soundOffIcon);  // put icon depending on playback status (on/off)
     soundButton.setFocusable(false); // fix: ghost not moving by WASD
 
