@@ -45,6 +45,25 @@
     </copy>
   </target>
 
+  <!-- JavaDoc -->
+  <target name="doc" depends="compile">
+    <delete dir="${dist.dir}/javadoc" />
+    <mkdir dir="${dist.dir}/javadoc" />
+    <javadoc destdir="${dist.dir}/javadoc">
+      <fileset dir="${src.dir}">
+        <exclude name="tool/tests/**" />
+        <exclude name="tool/tests/maps/**" />
+        <exclude name="tool/tests/replays/**" />
+      </fileset>
+      <classpath>
+        <fileset dir="${lib.dir}">
+          <include name="*.jar" />
+        </fileset>
+        <pathelement path="${build.dir}" />
+      </classpath>
+    </javadoc>
+  </target>
+
   <target name="dist" depends="build">
     <jar destfile="${dist.dir}/PacmanGame.jar" basedir="${build.dir}">
       <fileset dir="${build.dir}">
