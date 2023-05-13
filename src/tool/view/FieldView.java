@@ -49,7 +49,9 @@ public class FieldView extends JPanel implements Observable.Observer {
 
   private void privUpdate() {
     if (this.model.canMove()) {
-      this.setBackground(Color.white);
+      // draw Path Field
+      Color pathBackground = new Color(53, 131, 209);
+      this.setBackground(pathBackground);
       if (!this.model.isEmpty()) {
         CommonMazeObject o = this.model.get();
         ComponentView v;
@@ -73,7 +75,7 @@ public class FieldView extends JPanel implements Observable.Observer {
         }
       });
     } else {
-      Color wallBackground = new Color(155, 93, 229);
+      Color wallBackground = new Color(166, 124, 82);;
       this.setBackground(wallBackground);
     }
     Color borderColor = new Color(35, 25, 66);

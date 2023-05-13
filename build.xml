@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Duckman" default="build">
+
+  <property name="src.dir" value="src" />
+  <property name="lib.dir" value="lib" />
+  <property name="build.dir" value="build" />
+  <property name="dist.dir" value="dist" />
+
+  <property name="java.version" value="17" />
+
+  <target name="init">
+    <mkdir dir="${build.dir}" />
+    <mkdir dir="${dist.dir}" />
+  </target>
+
+  <target name="clean">
+    <delete dir="${build.dir}" />
+    <delete dir="${dist.dir}" />
+  </target>
+
+  <target name="compile" depends="init">
+    <javac srcdir="${src.dir}" destdir="${build.dir}" source="17" target="17" includeantruntime="false">
+      <classpath>
+        <fileset dir="${lib.dir}">
+          <include name="*.jar" />
+        </fileset>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="build" depends="clean, compile">
+    <copy todir="${build.dir}">
+      <fileset dir="." includes="README.md, requirements.pdf" />
+    </copy>
+    <copy todir="${build.dir}/data">
+      <fileset dir="data" />
+    </copy>
+    <copy todir="${build.dir}/lib">
+      <fileset dir="lib" />
+    </copy>
+    <copy todir="${build.dir}/src">
+      <fileset dir="src">
+        <include name="**/*.java" />
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="dist" depends="build">
+    <jar destfile="${dist.dir}/PacmanGame.jar" basedir="${build.dir}">
+      <fileset dir="${build.dir}">
+        <include name="**/*.class" />
+      </fileset>
+      <manifest>
+        <attribute name="Main-Class" value="src.game.Game" />
+      </manifest>
+    </jar>
+  </target>
+
+</project>

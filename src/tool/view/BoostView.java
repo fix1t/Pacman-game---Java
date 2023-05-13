@@ -13,7 +13,7 @@ public class BoostView implements ComponentView {
   public BoostView(FieldView parent, CommonMazeObject m) {
     this.model = m;
     this.parent = parent;
-    image = new ImageIcon(getClass().getResource("../../../lib/Target.png")).getImage();
+    image = new ImageIcon(getClass().getResource("../../../lib/Boost.png")).getImage();
   }
 
   public void paintComponent(Graphics g) {
