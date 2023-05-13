@@ -171,13 +171,14 @@ public class Game {
     if (this.recorder != null)
       this.recorder.recordMaze(pathToMaze);
     //load maze
-    try (InputStream inputStream = Files.newInputStream(pathToMaze)) {
-      this.maze = this.createMaze(inputStream);
-    } catch (IOException e) {
-      e.printStackTrace();
-      System.out.println("Error opening file.");
-      return null;
-    }
+    this.maze = this.createMaze(getClass().getClassLoader().getResourceAsStream("data/maze0"));
+//    try (InputStream inputStream = Files.newInputStream(pathToMaze)) {
+//      this.maze = this.createMaze(inputStream);
+//    } catch (IOException e) {
+//      e.printStackTrace();
+//      System.out.println("Error opening file.");
+//      return null;
+//    }
     //check if loaded
     if (this.maze == null) {
       System.out.println("Error while loading maze");

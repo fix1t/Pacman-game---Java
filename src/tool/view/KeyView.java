@@ -14,7 +14,7 @@ public class KeyView implements ComponentView {
   public KeyView(FieldView parent, CommonMazeObject m) {
     this.model = m;
     this.parent = parent;
-    image = new ImageIcon(getClass().getResource("../../../lib/key.png")).getImage();
+    image = new ImageIcon(getClass().getClassLoader().getResource("lib/key.png")).getImage();
   }
 
   public void paintComponent(Graphics g) {
