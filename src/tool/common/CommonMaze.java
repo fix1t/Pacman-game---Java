@@ -3,6 +3,7 @@ package src.tool.common;
 import src.game.PacmanObject;
 import src.game.PathField;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ public interface CommonMaze {
   List<CommonMazeObject> getGhosts();
 
   List<CommonMazeObject> getKeys();
+  List<CommonMazeObject> getBoosts();
 
   CommonMazeObject getTarget();
 

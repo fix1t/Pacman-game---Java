@@ -14,6 +14,7 @@ public class Maze implements CommonMaze {
     CommonField[][] fields;
   List<CommonMazeObject> listOfGhosts;
   List<CommonMazeObject> listOfKeys;
+  List<CommonMazeObject> listOfBoosts;
   PacmanObject pacman;
   TargetObject target;
   private Map<CommonMazeObject, PathField> initialObjectsLayout;
@@ -101,6 +102,11 @@ public class Maze implements CommonMaze {
       return new ArrayList<>(this.listOfKeys);
     }
 
+    @Override
+    public List<CommonMazeObject> getBoosts() {
+      return new ArrayList<>(this.listOfBoosts);
+    }
+
   /**
    * Returns the target object in the Maze.
    *
@@ -136,6 +142,7 @@ public class Maze implements CommonMaze {
     clearAllFields();
     // clear all lists and objects but pacman
     this.listOfKeys.clear();
+    this.listOfBoosts.clear();
     this.listOfGhosts.clear();
     this.target = null;
     // restore initial objects layout
@@ -147,6 +154,7 @@ public class Maze implements CommonMaze {
       switch (object.getType()) {
         case GHOST -> this.listOfGhosts.add(object);
         case KEY -> this.listOfKeys.add(object);
+        case BOOST -> this.listOfBoosts.add(object);
         case TARGET -> this.target = (TargetObject) object;
         case PACMAN -> this.pacman = (PacmanObject) object;
         default -> {
@@ -186,7 +194,7 @@ public class Maze implements CommonMaze {
    *
    * @param listOfKeys  the list of keys to set in the Maze.
    */
-  public void setKeysList(List<CommonMazeObject> listOfKeys) {
+  public void setListOfKeys(List<CommonMazeObject> listOfKeys) {
       this.listOfKeys = listOfKeys;
   }
 
@@ -215,5 +223,9 @@ public class Maze implements CommonMaze {
    */
   public void setInitialObjectsLayout(Map<CommonMazeObject,PathField> initialObjectsLayout) {
     this.initialObjectsLayout = initialObjectsLayout;
+  }
+
+  public void setListOfBoosts(List<CommonMazeObject> listOfBoosts) {
+    this.listOfBoosts = listOfBoosts;
   }
 }

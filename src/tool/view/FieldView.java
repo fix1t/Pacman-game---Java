@@ -57,6 +57,7 @@ public class FieldView extends JPanel implements Observable.Observer {
         ComponentView v;
         switch (o.getType()) {
           case TARGET -> v = new TargetView(this, o);
+          case BOOST -> v = new BoostView(this, o);
           case KEY -> v = new KeyView(this, o);
           case PACMAN -> v = new PacmanView(this, o);
           case GHOST -> v = new GhostView(this, o);

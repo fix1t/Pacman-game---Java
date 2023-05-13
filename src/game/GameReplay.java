@@ -138,6 +138,7 @@ public class GameReplay implements Runnable {
         int ghostIndex = 0;
         int keyIndex = 0;
         int currentStep = 0;
+        int boostIndex = 0;
         // read line by line
         while ((line = br.readLine()) != null) {
           Matcher matcher = pattern.matcher(line);
@@ -150,6 +151,7 @@ public class GameReplay implements Runnable {
               currentStep = step;
               ghostIndex = 0;
               keyIndex = 0;
+              boostIndex = 0;
             }
             // [OBJ]
             String objectInString = matcher.group(2);
@@ -167,6 +169,10 @@ public class GameReplay implements Runnable {
               case KEY:
                 mazeObject = maze.getKeys().get(keyIndex);
                 keyIndex++;
+                break;
+              case BOOST:
+                mazeObject = maze.getBoosts().get(boostIndex);
+                boostIndex++;
                 break;
               case TARGET:
                 mazeObject = maze.getTarget();

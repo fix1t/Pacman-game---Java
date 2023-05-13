@@ -8,17 +8,20 @@ import java.util.*;
 
 
 public class PacmanObject implements CommonMazeObject {
+  private final List<CommonMazeObject> listOfBoosts;
   private PathField currentField;
   private List<CommonMazeObject> listOfKeys;
   private int livesRemaining;
   private CommonField.Direction direction;
   private boolean victory;
   private CommonField goToField;
+  private int boost = 0;
 
-  public PacmanObject(PathField field, List<CommonMazeObject> listOfKeys) {
+  public PacmanObject(PathField field, List<CommonMazeObject> listOfKeys, List<CommonMazeObject> listOfBoosts) {
     this.currentField = field;
     this.livesRemaining = 3;
     this.listOfKeys = listOfKeys;
+    this.listOfBoosts = listOfBoosts;
     this.direction = CommonField.Direction.STOP;
     this.victory = false;
     this.goToField = null;
@@ -81,6 +84,10 @@ public class PacmanObject implements CommonMazeObject {
       if (!this.canMove(direction)) {
         return false;
       }
+      // check if pacman is boosted
+      if (this.boost > 0)
+        this.boost--;
+
       PathField moveTo = (PathField) this.currentField.nextField(direction);
       performMove(moveTo);
       return true;
@@ -100,6 +107,15 @@ public class PacmanObject implements CommonMazeObject {
         moveTo.remove(moveTo.getTarget());
         System.out.println("YOU WIN!");
         this.setVictory();
+        // check if there is a boost in the field
+      } else if (moveTo.getBoost() != null) {
+        CommonMazeObject boost = moveTo.getBoost();
+        // remove boost from field and list of boosts
+        this.listOfBoosts.remove(boost);
+        boost.setField(null);
+        moveTo.remove(boost);
+        // set boost
+        this.boost = 15;
       }
       // remove pacman from this field
       this.currentField.remove(this);
@@ -167,5 +183,13 @@ public class PacmanObject implements CommonMazeObject {
 
   public boolean isDead() {
     return this.livesRemaining <= 0;
+  }
+
+  public boolean hasBoost() {
+    return this.boost > 0;
+  }
+
+  public void setBoost (int boostForXMoves) {
+    this.boost = boostForXMoves;
   }
 }
