@@ -12,12 +12,25 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ The FieldView class represents the view for a maze field.
+ It extends JPanel and implements the Observable.Observer interface.
+ @author Jakub Mikyšek
+ @Co-author Gabriel Biel
+ */
 public class FieldView extends JPanel implements Observable.Observer {
   private final CommonField model;
   private final List<ComponentView> objects;
   private int changedModel = 0;
   private final CommonMaze maze;
 
+  /**
+
+   Constructs a FieldView object with the specified CommonField and CommonMaze.
+   @param model the CommonField object representing the field
+   @param maze the CommonMaze object containing the field
+   */
   public FieldView(CommonField model, CommonMaze maze) {
     this.model = model;
     this.maze = maze;
@@ -26,6 +39,11 @@ public class FieldView extends JPanel implements Observable.Observer {
     model.addObserver(this);
   }
 
+  /**
+
+   Paints the field component on the graphics context.
+   @param g the Graphics object on which to paint
+   */
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
     PacmanView pacman = null;
@@ -47,6 +65,10 @@ public class FieldView extends JPanel implements Observable.Observer {
     }
   }
 
+  /**
+
+   Updates the field view based on the model.
+   */
   private void privUpdate() {
     if (this.model.canMove()) {
       // draw Path Field
@@ -82,19 +104,38 @@ public class FieldView extends JPanel implements Observable.Observer {
     this.setBorder(BorderFactory.createLineBorder(borderColor));
   }
 
+  /**
+
+   Updates the view based on changes in the observable model.
+   @param field the Observable field object
+   */
   public final void update(Observable field) {
     ++this.changedModel;
     this.privUpdate();
   }
 
+  /**
+
+   Returns the number of updates made to the view.
+   @return the number of updates
+   */
   public int numberUpdates() {
     return this.changedModel;
   }
 
+  /**
+
+   Clears the update counter.
+   */
   public void clearChanged() {
     this.changedModel = 0;
   }
 
+  /**
+
+   Returns the CommonField object associated with the view.
+   @return the CommonField object
+   */
   public CommonField getField() {
     return this.model;
   }

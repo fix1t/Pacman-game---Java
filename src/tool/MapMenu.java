@@ -10,6 +10,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * The MapMenu class represents a menu for selecting a map in a game.
+ * It provides visual elements and functionality for map selection.
+ * @author Jakub Mikyšek
+ */
 public class MapMenu {
   private JFrame frame;
   private Sound sound;
@@ -19,12 +24,22 @@ public class MapMenu {
 
   int mapIndex = 0;
 
+  /**
+   * Constructs a MapMenu object with the specified frame and sound.
+   *
+   * @param frame the JFrame object to display the menu on
+   * @param sound the Sound object for playing background music
+   */
   public MapMenu( JFrame frame, Sound sound) {
     this.frame = frame;
     this.sound = sound;
     addFont();
   }
 
+  /**
+   * Opens the map menu.
+   * This method should be invoked to display the menu on the frame.
+   */
   public void open() {
     try {
       SwingUtilities.invokeAndWait(this::initializeInterface);
@@ -32,8 +47,10 @@ public class MapMenu {
       Logger.getLogger(MapMenu.class.getName()).log(Level.SEVERE, (String) null, var2);
     }
   }
+
   /**
-   * Visualize Menu
+   * Initializes the menu interface by creating and configuring the visual elements.
+   * This method is called internally by the open() method.
    */
   public void initializeInterface() {
     JPanel content = new JPanel();

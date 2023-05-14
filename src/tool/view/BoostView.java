@@ -5,17 +5,32 @@ import src.tool.common.CommonMazeObject;
 import javax.swing.*;
 import java.awt.*;
 
+
+/**
+ The BoostView class represents the view for a boost object in a maze field.
+ It implements the ComponentView interface.
+ @author Jakub Mikyšek
+ */
 public class BoostView implements ComponentView {
   private CommonMazeObject model;
   private final FieldView parent;
   Image image;
 
+  /**
+   Constructs a BoostView object with the specified parent FieldView and CommonMazeObject.
+   @param parent the FieldView object that contains this BoostView
+   @param m the CommonMazeObject representing the boost object
+   */
   public BoostView(FieldView parent, CommonMazeObject m) {
     this.model = m;
     this.parent = parent;
     image = new ImageIcon(getClass().getClassLoader().getResource("lib/Boost.png")).getImage();
   }
 
+  /**
+   Paints the boost component on the graphics context.
+   @param g the Graphics object on which to paint
+   */
   public void paintComponent(Graphics g) {
     Graphics2D g2 = (Graphics2D) g;
     // Get the dimensions of the parent field

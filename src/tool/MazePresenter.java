@@ -16,12 +16,23 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 
+/**
+ * The MazePresenter class is responsible for presenting the maze and handling user input in a Pacman game.
+ * @author Jakub Mikyšek
+ */
 public class MazePresenter {
   private final CommonMaze maze;
   JFrame frame;
   Sound sound;
   Font customFont;
 
+  /**
+   * Constructs a MazePresenter object with the given maze, frame, and sound.
+   *
+   * @param maze   The CommonMaze object representing the game maze.
+   * @param frame  The JFrame object representing the game window.
+   * @param sound  The Sound object for playing sound effects.
+   */
   public MazePresenter(CommonMaze maze, JFrame frame, Sound sound) {
     this.maze = maze;
     this.frame = frame;
@@ -30,6 +41,9 @@ public class MazePresenter {
     addFont();
   }
 
+  /**
+   * Opens and initializes the game interface.
+   */
   public void open() {
     try {
       SwingUtilities.invokeAndWait(this::initializeInterface);

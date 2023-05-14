@@ -12,6 +12,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * The MazeMenu class represents a menu interface for a maze game.
+ * @author Jakub Mikyšek
+ */
 public class MazeMenu {
   private JFrame frame;
   private Sound sound;
@@ -30,6 +34,13 @@ public class MazeMenu {
    */
   List<JButton> menuElements = new ArrayList<>();
 
+  /**
+   * Constructs a MazeMenu object.
+   *
+   * @param frame      the JFrame to display the menu
+   * @param sound      the Sound object for audio playback
+   * @param gameStatus the current game state
+   */
   public MazeMenu(JFrame frame, Sound sound, GameState gameStatus) {
     this.frame = frame;
     this.sound = sound;
@@ -38,6 +49,9 @@ public class MazeMenu {
     addFont();
   }
 
+  /**
+   * Opens the menu and initializes the menu interface.
+   */
   public void open() {
     try {
       SwingUtilities.invokeAndWait(this::initializeInterface);

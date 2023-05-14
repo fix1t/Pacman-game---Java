@@ -13,6 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Maze Tester
+ * @author Unknown
+ */
 public class MazeTester {
   private final CommonMaze maze;
   private final List<FieldView> fields;

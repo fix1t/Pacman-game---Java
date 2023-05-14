@@ -6,12 +6,24 @@ import src.tool.common.CommonMazeObject;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+
+ The GhostView class represents the view for a ghost object in the maze field.
+ It implements the ComponentView interface.
+ @author Jakub Mikyšek
+ */
 public class GhostView implements ComponentView {
   private final CommonMazeObject model;
   private final FieldView parent;
   private Image[] images;
   private int imageIndex;
 
+  /**
+
+   Constructs a GhostView object with the specified parent field and maze object.
+   @param parent the FieldView parent of the ghost
+   @param m the CommonMazeObject representing the ghost
+   */
   public GhostView(FieldView parent, CommonMazeObject m) {
     this.model = m;
     this.parent = parent;
@@ -26,6 +38,11 @@ public class GhostView implements ComponentView {
     this.imageIndex = ghost.getImageIndex();
   }
 
+  /**
+
+   Paints the ghost component on the graphics context.
+   @param g the Graphics object to paint on
+   */
   public void paintComponent(Graphics g) {
     Graphics2D g2 = (Graphics2D) g;
     // Get the dimensions of the parent field
