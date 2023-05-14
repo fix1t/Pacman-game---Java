@@ -8,6 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Represents a ghost object in the game.
+ * The ghost object is the object that the player has to avoid in order to win the game.
+ * @author Gabriel Biel
+ */
 public class GhostObject implements CommonMazeObject {
   PathField currentField;
   private CommonField.Direction direction;

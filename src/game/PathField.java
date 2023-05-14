@@ -13,6 +13,10 @@ import java.util.Set;
 
 /**
  * Represents a field in the maze that can contain objects.
+ * The field is part of the playing field of the game.
+ * The field can contain a Pacman, a Ghost, a Key, a Boost or a Target.
+ * @author Gabriel Biel
+ * @author Jakub Mikysek
  */
 public class PathField implements CommonField {
   private final Coordinate coordinate;

@@ -4,6 +4,11 @@ import src.game.resources.ObjectType;
 import src.tool.common.CommonField;
 import src.tool.common.CommonMazeObject;
 
+/**
+ * Represents a target object in the game.
+ * The target object is the object that the player has to reach in order to win the game.
+ * @author Gabriel Biel
+ */
 public class TargetObject implements CommonMazeObject {
   PathField currentField;
 

@@ -4,6 +4,11 @@ import src.game.resources.ObjectType;
 import src.tool.common.CommonField;
 import src.tool.common.CommonMazeObject;
 
+/**
+ * Represents a key object in the game.
+ * The key object is the object that the player has to collect in order to win the game.
+ * @author Gabriel Biel
+ */
 public class KeyObject implements CommonMazeObject {
   private PathField currentField;
 

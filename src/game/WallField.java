@@ -8,6 +8,12 @@ import src.tool.common.CommonMazeObject;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Represents a field in the maze that cannot contain objects.
+ * The field is part of the playing field of the game.
+ * @author Gabriel Biel
+ * @author Jakub Mikysek
+ */
 public class WallField implements CommonField {
   private final Coordinate coordinate;
   private final Set<Observer> observers = new HashSet();

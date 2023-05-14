@@ -10,6 +10,8 @@ import java.util.Map;
 
 /**
  * Represents a Pacman maze.
+ * The maze is the playing field of the game.
+ * @author Gabriel Biel
  */
 public class Maze implements CommonMaze {
     int cols;

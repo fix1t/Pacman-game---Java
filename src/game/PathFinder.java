@@ -6,6 +6,13 @@ import java.util.HashSet;
 import java.util.PriorityQueue;
 import java.util.Set;
 
+/**
+ * A class that finds the shortest path between two fields in a maze.
+ * The algorithm used is the A* algorithm.
+ * The heuristic used is the Manhattan distance.
+ * The algorithm is based on the pseudocode found on Wikipedia:
+ * https://en.wikipedia.org/wiki/A*_search_algorithm#Pseudocode
+ */
 class PathFinder {
   // Helper class to represent a node in the A* algorithm
   static class Node {

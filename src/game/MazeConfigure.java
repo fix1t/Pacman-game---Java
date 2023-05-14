@@ -12,6 +12,7 @@ import java.util.Map;
 
 /**
  * Represents the configuration for creating a Pacman maze.
+ * @author Gabriel Biel
  */
 public class MazeConfigure {
   private static final int BORDER = 2;

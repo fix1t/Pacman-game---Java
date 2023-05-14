@@ -13,6 +13,8 @@ import java.util.Map;
 
 /**
  * Represents the recorder for a Pacman game.
+ * Records the states of each maze object at each move.
+ * @author Gabriel Biel
  */
 public class GameRecorder {
   protected Map<CommonMazeObject, List<CommonField>> stateMap;
