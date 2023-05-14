@@ -5,26 +5,36 @@ import src.tool.common.CommonField;
 import src.tool.common.CommonMazeObject;
 
 public class KeyObject implements CommonMazeObject {
-  PathField currentField;
+  private PathField currentField;
+
+  /**
+   * Constructor for KeyObject.
+   *
+   * @param pathField the initial field of the key
+   */
   public KeyObject(PathField pathField) {
     this.currentField = pathField;
   }
 
   @Override
-  public boolean canMove(CommonField.Direction var1) {
+  public boolean canMove(CommonField.Direction direction) {
     return false;
   }
 
   @Override
-  public boolean move() { return false; }
-
-  @Override
-  public boolean move(CommonField.Direction var1) {
+  public boolean move() {
     return false;
   }
 
   @Override
-  public boolean isPacman() { return false; }
+  public boolean move(CommonField.Direction direction) {
+    return false;
+  }
+
+  @Override
+  public boolean isPacman() {
+    return false;
+  }
 
   @Override
   public CommonField getField() {
@@ -47,8 +57,7 @@ public class KeyObject implements CommonMazeObject {
   }
 
   @Override
-  public void setDirection(CommonField.Direction l) {
-
+  public void setDirection(CommonField.Direction direction) {
+    // Empty implementation
   }
-
 }

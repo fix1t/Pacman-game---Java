@@ -11,13 +11,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Represents the recorder for a Pacman game.
+ */
 public class GameRecorder {
-  /**
-   * Captures the game state for each maze object.
-   */
-  public Map<CommonMazeObject, List<CommonField>> stateMap;
-  PrintWriter writer;
-  int moveCount;
+  protected Map<CommonMazeObject, List<CommonField>> stateMap;
+  private PrintWriter writer;
+  private int moveCount;
 
   /**
    * Creates a new game recorder.
@@ -33,10 +33,18 @@ public class GameRecorder {
     }
   }
 
+  /**
+   * Stops the recording and closes the writer.
+   */
   public void stopRecording() {
     this.writer.close();
   }
 
+  /**
+   * Captures the state of each maze object.
+   *
+   * @param allMazeObjects the list of all maze objects
+   */
   public void captureState(List<CommonMazeObject> allMazeObjects) {
     for (CommonMazeObject mazeObject : allMazeObjects) {
       if (!this.stateMap.containsKey(mazeObject)) {
@@ -48,6 +56,12 @@ public class GameRecorder {
     }
   }
 
+  /**
+   * Captures the state of each maze object and optionally writes it to the file.
+   *
+   * @param allMazeObjects the list of all maze objects
+   * @param writeToFile    flag indicating whether to write to the file
+   */
   public void captureState(List<CommonMazeObject> allMazeObjects, boolean writeToFile) {
     if (!writeToFile) {
       this.captureState(allMazeObjects);
@@ -62,8 +76,8 @@ public class GameRecorder {
         continue;
       }
       // [ORD]: [moveCount] [OBJ]: [mazeObjectType] [i] [ON]: ([x],[y])
-      String message = "ORD: " + (this.moveCount) + " OBJ: " + mazeObjectType + " " + i
-        +  " ON: (" + field.getCoordinate().getX() + "," + field.getCoordinate().getY() + ")";
+      String message = "ORD: " + (this.moveCount) + " OBJ: " + mazeObjectType + " " + i +
+        " ON: (" + field.getCoordinate().getX() + "," + field.getCoordinate().getY() + ")";
       this.writer.println(message);
     }
     this.moveCount++;
@@ -71,8 +85,7 @@ public class GameRecorder {
 
   /**
    * Creates a game log file.
-   * For each maze object, print its type and all fields it has been on
-   * Start -> End ordered.
+   * For each maze object, print its type and all fields it has been on in order.
    */
   public void createGameLog() {
     for (Map.Entry<CommonMazeObject, List<CommonField>> entry : stateMap.entrySet()) {
@@ -89,6 +102,11 @@ public class GameRecorder {
     }
   }
 
+  /**
+   * Records the maze from the specified path and writes it to the file.
+   *
+   * @param pathToMaze the path to the maze file
+   */
   public void recordMaze(Path pathToMaze) {
     try (InputStream inputStream = Files.newInputStream(pathToMaze)) {
       // Read the maze from the input stream and write it to the file
@@ -102,4 +120,3 @@ public class GameRecorder {
     }
   }
 }
-

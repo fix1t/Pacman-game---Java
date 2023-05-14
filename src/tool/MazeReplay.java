@@ -75,7 +75,7 @@ public class MazeReplay {
       public void mouseClicked(MouseEvent e) {
         mouseReplay.pause();
         playButton.setText(mouseReplay.getPlayPauseButtonText());
-        mouseReplay.ReplayGameFromStart();
+        mouseReplay.replayGameFromStart();
       }
     });
 
@@ -84,7 +84,7 @@ public class MazeReplay {
       public void mouseClicked(MouseEvent e) {
         mouseReplay.pause();
         playButton.setText(mouseReplay.getPlayPauseButtonText());
-        mouseReplay.ReplayGameFromEnd();
+        mouseReplay.replayGameFromEnd();
       }
     });
 

@@ -146,7 +146,7 @@ public class Game {
     //load game
     Path pathToReplay = Path.of("game.log");
     replay.loadGameFromFile(pathToReplay);
-    replay.ReplayGameFromStart();
+    replay.replayGameFromStart();
 
     //create replay presenter
     MazeReplay replayPresenter = this.createReplayPresenter(replay);
@@ -301,9 +301,16 @@ public class Game {
     sound.stop();
   }
 
+  /**
+   * Finishes recording the game.
+   */
   public void finishRecording() {
     this.recorder.stopRecording();
   }
+
+  /**
+   * Creates frame for the game.
+   */
   public void createFrame() {
     this.frame = new JFrame("DUCKMAN");
     this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -311,6 +318,10 @@ public class Game {
     this.frame.setPreferredSize(new Dimension(650, 700));
   }
 
+  /**
+   * Selects the maze file to use for the game. The maze file is selected based on the index.
+   * @param index  the index of the maze file to use.
+   */
   public void setMazeFile(int index) {
     if (index < 0 || index > 5) {
       System.out.println("Invalid maze index");
@@ -327,6 +338,9 @@ public class Game {
     this.frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
   }
 
+  /**
+   * Creates a `GamePresenter` object for the game.
+   */
   public void startRecording() {
     recorder = new GameRecorder();
   }
@@ -345,7 +359,7 @@ public class Game {
   }
 
   /**
-   * Moves all `CommonMazeObject` instances in the maze.
+   * Moves all `CommonMazeObject` instances in the maze. If pacman has boost, he moves twice as fast.
    */
   public void moveAllMazeObjects() {
     PacmanObject pacman = this.maze.getPacman();

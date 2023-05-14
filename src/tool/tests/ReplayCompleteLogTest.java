@@ -70,7 +70,7 @@ public class ReplayCompleteLogTest {
     Assert.assertNotNull(this.keys);
     Assert.assertNotNull(this.target);
 
-    replay.ReplayGameFromStart();
+    replay.replayGameFromStart();
     replay.continueForward(0);
     Assert.assertTrue(this.maze.getField(3, 1).contains(this.keys.get(0)));
 //    Assert.assertFalse(this.maze.getField(3, 3).contains(this.keys.get(1)));
