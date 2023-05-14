@@ -196,7 +196,6 @@ public class MazeReplay {
     frame.addKeyListener(new KeyListener() {
       @Override
       public void keyTyped(KeyEvent e) {
-        PacmanObject pacman = maze.getPacman();
         switch (e.getKeyChar()) {
           case 'M', 'm' -> { soundOn[0] = !soundOn[0];
             // Update the music state and the icon of the sound button based on the sound state
