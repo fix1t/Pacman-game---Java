@@ -4,18 +4,15 @@
   <property name="src.dir" value="src" />
   <property name="lib.dir" value="lib" />
   <property name="build.dir" value="build" />
-  <property name="dist.dir" value="dist" />
 
   <property name="java.version" value="17" />
 
   <target name="init">
     <mkdir dir="${build.dir}" />
-    <mkdir dir="${dist.dir}" />
   </target>
 
   <target name="clean">
     <delete dir="${build.dir}" />
-    <delete dir="${dist.dir}" />
   </target>
 
   <target name="compile" depends="init">

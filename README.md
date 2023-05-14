@@ -10,8 +10,7 @@ To run the game, execute the following command:
 
 ```bash
 ant clean build dist
-cd dist/
-java -jar DuckmanGame.jar
+[sudo] java -jar DuckmanGame.jar
 ```
 
 ## Authors
