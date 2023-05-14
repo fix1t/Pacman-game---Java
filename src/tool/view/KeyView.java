@@ -5,18 +5,35 @@ import src.tool.common.CommonMazeObject;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+
+ The KeyView class represents the view for a key object in the maze field.
+ It implements the ComponentView interface.
+ @author Jakub Mikyšek
+ */
 public class KeyView implements ComponentView {
   private CommonMazeObject model;
   private final FieldView parent;
 
   Image image;
 
+  /**
+
+   Constructs a KeyView object with the specified parent field and maze object.
+   @param parent the FieldView parent of the key
+   @param m the CommonMazeObject representing the key
+   */
   public KeyView(FieldView parent, CommonMazeObject m) {
     this.model = m;
     this.parent = parent;
     image = new ImageIcon(getClass().getClassLoader().getResource("lib/key.png")).getImage();
   }
 
+  /**
+
+   Paints the key component on the graphics context.
+   @param g the Graphics object to paint on
+   */
   public void paintComponent(Graphics g) {
     Graphics2D g2 = (Graphics2D) g;
 

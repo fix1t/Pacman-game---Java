@@ -16,6 +16,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * The MazeReplay class represents a graphical interface for replaying a game in a maze.
+ * @author Jakub Mikyšek
+ */
 public class MazeReplay {
   private final CommonMaze maze;
   JFrame frame;
@@ -24,6 +28,14 @@ public class MazeReplay {
   GameReplay replay;
   private boolean finished;
 
+  /**
+   * Constructs a MazeReplay object with the given maze, frame, sound, and game replay.
+   *
+   * @param maze   the maze to replay
+   * @param frame  the JFrame to display the replay interface
+   * @param sound  the sound player for background music
+   * @param replay the game replay instance
+   */
   public MazeReplay(CommonMaze maze, JFrame frame, Sound sound, GameReplay replay) {
     this.maze = maze;
     this.frame = frame;
@@ -36,6 +48,9 @@ public class MazeReplay {
     pacman.unsetGoToField();
   }
 
+  /**
+   * Opens the replay interface.
+   */
   public void open() {
     try {
       SwingUtilities.invokeAndWait(this::initializeInterface);
@@ -46,7 +61,7 @@ public class MazeReplay {
   }
 
   /**
-   * Visualize Maze
+   * Initializes the replay interface.
    */
   private void initializeInterface() {
     JButton startButton = new JButton("Start");

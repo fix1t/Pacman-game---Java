@@ -7,12 +7,24 @@ import src.tool.common.CommonMazeObject;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+
+ The PacmanView class represents the view for a Pacman object in the maze field.
+ It implements the ComponentView interface.
+ @author Jakub Mikyšek
+ */
 public class PacmanView implements ComponentView {
   private CommonMazeObject model;
   private src.tool.view.FieldView parent;
   Image[] images;
   static int imageIndex;
 
+  /**
+
+   Constructs a PacmanView object with the specified parent field and maze object.
+   @param parent the FieldView parent of Pacman
+   @param m the CommonMazeObject representing Pacman
+   */
   public PacmanView(FieldView parent, CommonMazeObject m) {
     this.model = m;
     this.parent = parent;
@@ -26,6 +38,11 @@ public class PacmanView implements ComponentView {
       imageIndex = 1;
   }
 
+  /**
+
+   Paints the Pacman component on the graphics context.
+   @param g the Graphics object to paint on
+   */
   public void paintComponent(Graphics g) {
     Graphics2D g2 = (Graphics2D) g;
     // Get the dimensions of the parent field
