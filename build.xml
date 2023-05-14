@@ -44,9 +44,9 @@
 
   <!-- JavaDoc -->
   <target name="doc" depends="compile">
-    <delete dir="${dist.dir}/javadoc" />
-    <mkdir dir="${dist.dir}/javadoc" />
-    <javadoc destdir="${dist.dir}/javadoc">
+    <delete dir="javadoc" />
+    <mkdir dir="javadoc" />
+    <javadoc destdir="javadoc">
       <fileset dir="${src.dir}">
         <exclude name="tool/tests/**" />
         <exclude name="tool/tests/maps/**" />
