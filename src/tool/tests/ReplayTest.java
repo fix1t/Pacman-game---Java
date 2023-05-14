@@ -44,7 +44,7 @@ public class ReplayTest {
 
   @Test
   public void GetRightPositionFromStart() {
-    this.replay.ReplayGameFromStart();
+    this.replay.replayGameFromStart();
     this.maze = this.replay.getMaze();
 
     PacmanObject pacman = this.maze.getPacman();
@@ -96,7 +96,7 @@ public class ReplayTest {
 
   @Test
   public void GetRightPositionFromEnd() {
-    this.replay.ReplayGameFromEnd();
+    this.replay.replayGameFromEnd();
     this.maze = this.replay.getMaze();
 
     PacmanObject pacman = this.maze.getPacman();
@@ -153,7 +153,7 @@ public class ReplayTest {
 
   @Test
   public void GetRightPositionFromStart_Continuous() {
-    this.replay.ReplayGameFromStart();
+    this.replay.replayGameFromStart();
     this.maze = this.replay.getMaze();
 
     PacmanObject pacman = this.maze.getPacman();
@@ -174,7 +174,7 @@ public class ReplayTest {
 
   @Test
   public void GetRightPositionFromEnd_Continuous() {
-    this.replay.ReplayGameFromEnd();
+    this.replay.replayGameFromEnd();
     this.maze = this.replay.getMaze();
 
     PacmanObject pacman = this.maze.getPacman();

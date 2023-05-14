@@ -21,6 +21,9 @@ import java.util.regex.Pattern;
 
 import static src.game.Game.sleep;
 
+/**
+ * Represents a Pacman game replay.
+ */
 public class GameReplay implements Runnable {
   int currentState;
   int totalStates;
@@ -37,6 +40,9 @@ public class GameReplay implements Runnable {
   private volatile boolean paused = true;
   private boolean runForward = true;
 
+  /**
+   * Creates a new game replay.
+   */
   public GameReplay() {
     this.gameRecorder = null;
     this.stateMap = new HashMap<>();
@@ -45,6 +51,11 @@ public class GameReplay implements Runnable {
     this.maze = null;
   }
 
+  /**
+   * Creates a new game replay with the specified game recorder.
+   *
+   * @param gameRecorder the game recorder to load the states from
+   */
   public GameReplay(GameRecorder gameRecorder) {
     this.gameRecorder = gameRecorder;
     this.stateMap = gameRecorder.stateMap;
@@ -52,31 +63,62 @@ public class GameReplay implements Runnable {
     this.totalStates = stateMap.values().stream().mapToInt(List::size).max().orElse(0);
   }
 
+  /**
+   * Gets the maze associated with the game replay.
+   *
+   * @return the maze
+   */
   public CommonMaze getMaze() {
     return maze;
   }
 
+  /**
+   * Sets the maze for the game replay.
+   *
+   * @param maze the maze to set
+   */
   public void setMaze(CommonMaze maze) {
     this.maze = maze;
   }
 
+  /**
+   * Sets the direction of the game replay.
+   *
+   * @param runForward true to run the replay forward, false to run it backward
+   */
   public void setRunForward(boolean runForward) {
     this.runForward = runForward;
   }
 
+  /**
+   * Sets the text for the play/pause button.
+   *
+   * @param playPauseButtonText the text to set
+   */
   public void setPlayPauseButtonText(String playPauseButtonText) {
     this.playPauseButtonText = playPauseButtonText;
   }
 
+  /**
+   * Gets the text of the play/pause button.
+   *
+   * @return the play/pause button text
+   */
   public String getPlayPauseButtonText() {
     return playPauseButtonText;
   }
 
+  /**
+   * Pauses the game replay.
+   */
   public void pause() {
     this.setPlayPauseButtonText("Play");
     paused = true;
   }
 
+  /**
+   * Resumes the game replay.
+   */
   public void resume() {
     this.setPlayPauseButtonText("Pause");
     lock.lock();
@@ -88,19 +130,35 @@ public class GameReplay implements Runnable {
     }
   }
 
+  /**
+   * Stops the game replay.
+   */
   public void stop() {
     running = false;
   }
-  public void ReplayGameFromStart() {
+
+  /**
+   * Replays the game from the start.
+   */
+  public void replayGameFromStart() {
     currentState = 0;
     presentState(currentState);
   }
 
-  public void ReplayGameFromEnd() {
+  /**
+   * Replays the game from the end.
+   */
+  public void replayGameFromEnd() {
     currentState = totalStates - 1;
     presentState(currentState);
   }
 
+  /**
+   * Loads the game states from a file.
+   *
+   * @param pathToMaze the path to the game file
+   * @return true if the loading was successful, false otherwise
+   */
   public boolean loadGameFromFile(Path pathToMaze) {
     boolean success = false;
 
@@ -208,6 +266,12 @@ public class GameReplay implements Runnable {
       }
   }
 
+  /**
+   * Loads the maze from a file.
+   *
+   * @param inputStream the input stream to read from
+   * @return true if the loading was successful, false otherwise
+   */
   public boolean loadMazeFromFile(InputStream inputStream){
       MazeConfigure mazeConfigure = new MazeConfigure();
       this.maze = mazeConfigure.loadMaze(inputStream);
@@ -221,6 +285,12 @@ public class GameReplay implements Runnable {
 
   }
 
+  /**
+   * Loads the game states from a game recorder.
+   *
+   * @param gameRecorder the game recorder
+   * @return true if the loading was successful, false otherwise
+   */
   public boolean loadGameFromRecorder(GameRecorder gameRecorder) {
     this.gameRecorder = gameRecorder;
     this.stateMap = gameRecorder.stateMap;
@@ -228,6 +298,11 @@ public class GameReplay implements Runnable {
     return true;
   }
 
+  /**
+   * Presents the state of the game.
+   *
+   * @param state the state to present
+   */
   public void presentState(int state) {
     if (state < 0 || state >= totalStates) {
       System.out.println("Invalid state.");
@@ -253,6 +328,9 @@ public class GameReplay implements Runnable {
     return objectsLayout;
   }
 
+  /**
+   * Presents the next state of the game.
+   */
   public void presentNextState() {
     if (currentState + 1 < totalStates) {
       currentState++;
@@ -262,6 +340,9 @@ public class GameReplay implements Runnable {
     }
   }
 
+  /**
+   * Presents the previous state of the game.
+   */
   public void presentPreviousState() {
     if (currentState - 1 >= 0) {
       currentState--;
@@ -271,12 +352,20 @@ public class GameReplay implements Runnable {
     }
   }
 
+  /**
+   * Continues the replay forward.
+   */
   public void continueForward() {
     this.continueForward(500);
   }
 
 
-    public void continueForward(int gameSpeed) {
+  /**
+   * Continues the replay forward.
+   *
+   * @param gameSpeed the speed of the replay
+   */
+  public void continueForward(int gameSpeed) {
     while(!this.paused && currentState < totalStates && currentState >= 0) {
       currentState++;
       presentState(currentState);
@@ -284,10 +373,18 @@ public class GameReplay implements Runnable {
     }
   }
 
+  /**
+   * Continues the replay backward.
+   */
   public void continueBackward() {
     this.continueBackward(400);
   }
 
+  /**
+   * Continues the replay backward.
+   *
+   * @param gameSpeed the speed of the replay
+   */
   public void continueBackward(int gameSpeed) {
     while(!this.paused && currentState <= totalStates && currentState > 0) {
       currentState--;
@@ -316,6 +413,9 @@ public class GameReplay implements Runnable {
     }
   }
 
+  /**
+   * Returns if the replay is running forward or backward.
+   */
   public boolean getRunForward() {
     return this.runForward;
   }

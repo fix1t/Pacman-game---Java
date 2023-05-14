@@ -43,11 +43,24 @@ class PathFinder {
     }
   }
 
-  // A method to calculate the Manhattan distance between two fields
+  /**
+   * Calculates the Manhattan distance between two fields.
+   *
+   * @param a the first field.
+   * @param b the second field.
+   * @return the Manhattan distance between the two fields.
+  */
   private static int manhattanDistance(CommonField a, CommonField b) {
     return Math.abs(a.getCoordinate().getX() - b.getCoordinate().getX()) + Math.abs(a.getCoordinate().getY() - b.getCoordinate().getY());
   }
 
+  /**
+   * Finds the shortest path direction from the start field to the destination field using the A* algorithm.
+   *
+   * @param startField      the start field.
+   * @param destinationField the destination field.
+   * @return the direction of the shortest path from the start to the destination.
+   */
   public CommonField.Direction findShortestPathDirection(CommonField startField, CommonField destinationField) {
     // Initialize data structures for the A* algorithm
     PriorityQueue<Node> openList = new PriorityQueue<>((a, b) -> {
