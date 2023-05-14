@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * The `Game` class represents a game of Pacman.
+ * Represents the game itself.
  * It contains the game loop and the main game logic.
  * It also contains the main method for starting the game.
  * @author Gabriel Biel
