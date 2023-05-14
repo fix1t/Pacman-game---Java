@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Represents the configuration for creating a Pacman maze.
+ */
 public class MazeConfigure {
   private static final int BORDER = 2;
   boolean started;
@@ -42,15 +45,30 @@ public class MazeConfigure {
     this.disableGhosts = false;
   }
 
+
+  /**
+   * Constructs a new MazeConfigure object.
+   */
   public MazeConfigure() {
     this.initiateClass();
   }
 
+  /**
+   * Constructs a new MazeConfigure object with the option to disable ghosts.
+   *
+   * @param disableGhosts true to disable ghosts, false otherwise
+   */
   public MazeConfigure(boolean disableGhosts) {
     this.initiateClass();
     this.disableGhosts = disableGhosts;
   }
 
+  /**
+   * Starts reading the maze by specifying the number of rows and columns.
+   *
+   * @param rows the number of rows in the maze
+   * @param cols the number of columns in the maze
+   */
   public void startReading(int rows, int cols) {
     this.rows = rows + BORDER;
     this.cols = cols + BORDER;
@@ -128,6 +146,12 @@ public class MazeConfigure {
     }
   }
 
+  /**
+   * Processes a line of the maze.
+   *
+   * @param line the line to be processed
+   * @return true if the line is processed successfully, false otherwise
+   */
   public boolean processLine(String line) {
     if (!this.started || this.cols - BORDER != line.length()) {
       return false;
@@ -180,13 +204,23 @@ public class MazeConfigure {
     return true;
   }
 
-
+  /**
+   * Stops reading the maze.
+   *
+   * @return true if the maze was successfully read, false otherwise
+   */
   public boolean stopReading() {
     // if maze is not started or errorFlag is true, return false
     // if stopped reading before all rows/more rows were read, return false
     return currentRow == this.rows  - BORDER && this.started && !this.errorFlag;
   }
 
+  /**
+   * Loads the maze from an input stream.
+   *
+   * @param inputStream the input stream containing the maze data
+   * @return the loaded maze, or null if an error occurred
+   */
   public CommonMaze loadMaze(InputStream inputStream) {
     try {
       BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
@@ -223,6 +257,9 @@ public class MazeConfigure {
     }
   }
 
+  /**
+   * Adds border wall to the maze.
+   */
   public void addBorder(){
     for (int i = 0; i < this.rows; i++) {
       for (int j = 0; j < this.cols; j++) {
@@ -235,6 +272,11 @@ public class MazeConfigure {
     }
   }
 
+  /**
+   * Creates the maze object based on the configuration.
+   *
+   * @return the created maze object, or null if an error occurred
+   */
   public CommonMaze createMaze() {
     if (this.errorFlag)
       return null;
