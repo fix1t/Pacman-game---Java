@@ -13,6 +13,14 @@ ant clean build dist
 [sudo] java -jar DuckmanGame.jar
 ```
 
+## Documentation
+
+The documentation is generated using [JavaDoc](https://www.oracle.com/technetwork/java/javase/documentation/index-jsp-135444.html).
+
+```bash
+ant doc
+```
+
 ## Authors
 
 The Pacman Game was developed by a team of talented individuals:
