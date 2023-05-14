@@ -13,6 +13,7 @@
 
   <target name="clean">
     <delete dir="${build.dir}" />
+    <delete file="DuckmanGame.jar" />
   </target>
 
   <target name="compile" depends="init">
@@ -62,7 +63,7 @@
   </target>
 
   <target name="dist" depends="build">
-    <jar destfile="PacmanGame.jar" basedir="${build.dir}">
+    <jar destfile="DuckmanGame.jar" basedir="${build.dir}">
       <fileset dir="${build.dir}">
         <include name="**/*.class" />
       </fileset>
