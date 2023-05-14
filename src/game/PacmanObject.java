@@ -6,6 +6,10 @@ import src.tool.common.CommonMazeObject;
 
 import java.util.*;
 
+/**
+ * Represents Pacman in the game.
+ * @author Gabriel Biel
+ */
 public class PacmanObject implements CommonMazeObject {
   private final List<CommonMazeObject> listOfBoosts;
   private PathField currentField;

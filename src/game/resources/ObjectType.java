@@ -2,6 +2,7 @@ package src.game.resources;
 
 /**
  * Represents the types of objects in the Pacman game.
+ * @author Gabriel Biel
  */
 public enum ObjectType {
   PACMAN,

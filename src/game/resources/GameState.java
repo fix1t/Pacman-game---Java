@@ -2,6 +2,7 @@ package src.game.resources;
 
 /**
  * Represents the state of the Pacman game.
+ * @author Gabriel Biel
  */
 public enum GameState {
   WIN,

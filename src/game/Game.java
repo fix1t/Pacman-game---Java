@@ -20,6 +20,9 @@ import java.util.Objects;
 
 /**
  * The `Game` class represents a game of Pacman.
+ * It contains the game loop and the main game logic.
+ * It also contains the main method for starting the game.
+ * @author Gabriel Biel
  */
 public class Game {
   CommonMaze maze;
@@ -129,6 +132,11 @@ public class Game {
     presenter.open();
   }
 
+  /**
+   * Creates a Replay presenter GUI for replaying the specified game.
+   * @param replay Replay object to be replayed.
+   * @return the replay presenter.
+   */
   public MazeReplay createReplayPresenter(GameReplay replay) {
     this.createFrame();
     System.out.println("Replaying the game...");

@@ -4,6 +4,7 @@ import java.util.Objects;
 
 /**
  * Represents a coordinate in a two-dimensional space.
+ * @author Gabriel Biel
  */
 public class Coordinate {
   private int x;

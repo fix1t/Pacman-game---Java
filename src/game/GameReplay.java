@@ -23,34 +23,55 @@ import static src.game.Game.sleep;
 
 /**
  * Represents a Pacman game replay.
+ * Replays the states of each maze object at each move.
+ * @author Gabriel Biel
  */
 public class GameReplay implements Runnable {
+
+  /**
+   * Represents a list of pairs.
+   *
+   * @param <A> the type of the first element in the pair
+   * @param <B> the type of the second element in the pair
+   */
   public class PairList<A, B> {
+    /**
+     * The list of pairs.
+     */
     private List<Pair<A, B>> pairList;
 
+    /**
+     * Creates a new PairList instance.
+     */
     public PairList() {
       pairList = new ArrayList<>();
     }
 
-
-
+    /**
+     * Gets the size of the pair list.
+     *
+     * @return the size of the pair list
+     */
     public int listSize() {
       return pairList.size();
     }
 
+    /**
+     * Adds a pair to the list.
+     *
+     * @param first  the first element of the pair
+     * @param second the second element of the pair
+     */
     public void addPair(A first, B second) {
       pairList.add(new Pair<>(first, second));
     }
 
-    public boolean contains(A first, B second) {
-      for (Pair<A, B> pair : pairList) {
-        if (pair.first.equals(first) && pair.second.equals(second)) {
-          return true;
-        }
-      }
-      return false;
-    }
-
+    /**
+     * Checks if the list contains a specific first element.
+     *
+     * @param first the first element of the pair
+     * @return true if the list contains the first element, false otherwise
+     */
     public boolean contains(A first) {
       for (Pair<A, B> pair : pairList) {
         if (pair.first.equals(first)) {
@@ -60,6 +81,12 @@ public class GameReplay implements Runnable {
       return false;
     }
 
+    /**
+     * Gets the second element of the pair based on the first element.
+     *
+     * @param first the first element of the pair
+     * @return the second element of the pair, or null if not found
+     */
     public B getSecond(A first) {
       for (Pair<A, B> pair : pairList) {
         if (pair.first.equals(first)) {
@@ -69,28 +96,26 @@ public class GameReplay implements Runnable {
       return null;
     }
 
+    /**
+     * Represents a pair of elements.
+     *
+     * @param <A> the type of the first element
+     * @param <B> the type of the second element
+     */
     public class Pair<A, B> {
       public final A first;
       public final B second;
 
+      /**
+       * Creates a new Pair instance.
+       *
+       * @param first  the first element of the pair
+       * @param second the second element of the pair
+       */
       public Pair(A first, B second) {
         this.first = first;
         this.second = second;
       }
-    }
-  }
-
-  public class Pair<A, B> {
-    public final A step;
-    public final B field;
-
-    public Pair(A step, B field) {
-      this.step = step;
-      this.field = field;
-    }
-
-    public boolean contains(A element) {
-      return this.step.equals(element);
     }
   }
   int currentState;
@@ -98,12 +123,9 @@ public class GameReplay implements Runnable {
   GameRecorder gameRecorder;
   CommonMaze maze;
   Map<CommonMazeObject, PairList<Integer,CommonField>> stateMap;
-  // Add a lock and a condition
   private final ReentrantLock lock = new ReentrantLock();
   private final Condition condition = lock.newCondition();
   private String playPauseButtonText = "Start";
-
-  // Add a flag to control the loop
   private volatile boolean running = true;
   private volatile boolean paused = true;
   private boolean runForward = true;
@@ -405,7 +427,6 @@ public class GameReplay implements Runnable {
   public void continueForward() {
     this.continueForward(500);
   }
-
 
   /**
    * Continues the replay forward.
