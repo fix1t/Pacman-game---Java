@@ -25,11 +25,79 @@ import static src.game.Game.sleep;
  * Represents a Pacman game replay.
  */
 public class GameReplay implements Runnable {
+  public class PairList<A, B> {
+    private List<Pair<A, B>> pairList;
+
+    public PairList() {
+      pairList = new ArrayList<>();
+    }
+
+
+
+    public int listSize() {
+      return pairList.size();
+    }
+
+    public void addPair(A first, B second) {
+      pairList.add(new Pair<>(first, second));
+    }
+
+    public boolean contains(A first, B second) {
+      for (Pair<A, B> pair : pairList) {
+        if (pair.first.equals(first) && pair.second.equals(second)) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    public boolean contains(A first) {
+      for (Pair<A, B> pair : pairList) {
+        if (pair.first.equals(first)) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    public B getSecond(A first) {
+      for (Pair<A, B> pair : pairList) {
+        if (pair.first.equals(first)) {
+          return pair.second;
+        }
+      }
+      return null;
+    }
+
+    public class Pair<A, B> {
+      public final A first;
+      public final B second;
+
+      public Pair(A first, B second) {
+        this.first = first;
+        this.second = second;
+      }
+    }
+  }
+
+  public class Pair<A, B> {
+    public final A step;
+    public final B field;
+
+    public Pair(A step, B field) {
+      this.step = step;
+      this.field = field;
+    }
+
+    public boolean contains(A element) {
+      return this.step.equals(element);
+    }
+  }
   int currentState;
   int totalStates;
   GameRecorder gameRecorder;
   CommonMaze maze;
-  Map<CommonMazeObject, List<CommonField>> stateMap;
+  Map<CommonMazeObject, PairList<Integer,CommonField>> stateMap;
   // Add a lock and a condition
   private final ReentrantLock lock = new ReentrantLock();
   private final Condition condition = lock.newCondition();
@@ -49,18 +117,6 @@ public class GameReplay implements Runnable {
     this.currentState = 0;
     this.totalStates = 0;
     this.maze = null;
-  }
-
-  /**
-   * Creates a new game replay with the specified game recorder.
-   *
-   * @param gameRecorder the game recorder to load the states from
-   */
-  public GameReplay(GameRecorder gameRecorder) {
-    this.gameRecorder = gameRecorder;
-    this.stateMap = gameRecorder.stateMap;
-    this.currentState = 0;
-    this.totalStates = stateMap.values().stream().mapToInt(List::size).max().orElse(0);
   }
 
   /**
@@ -247,18 +303,19 @@ public class GameReplay implements Runnable {
 
             // add to map
             if (!this.stateMap.containsKey(mazeObject)) {
-              this.stateMap.put(mazeObject, new ArrayList<>());
+              this.stateMap.put(mazeObject, new PairList<>());
             }
 
-            List<CommonField> fieldsList = this.stateMap.get(mazeObject);
-            fieldsList.add(field);
+            PairList<Integer,CommonField> fieldsList = this.stateMap.get(mazeObject);
+            fieldsList.addPair(step, field);
           }
           else {
             System.out.println("Skipping line: " + line);
             //return false;
           }
         }
-        this.totalStates = this.stateMap.values().stream().mapToInt(List::size).max().orElse(0);
+        // set total states
+        this.totalStates = this.stateMap.values().stream().mapToInt(PairList::listSize).max().orElse(0);
         return true;
       } catch (IOException e) {
         e.printStackTrace();
@@ -286,19 +343,6 @@ public class GameReplay implements Runnable {
   }
 
   /**
-   * Loads the game states from a game recorder.
-   *
-   * @param gameRecorder the game recorder
-   * @return true if the loading was successful, false otherwise
-   */
-  public boolean loadGameFromRecorder(GameRecorder gameRecorder) {
-    this.gameRecorder = gameRecorder;
-    this.stateMap = gameRecorder.stateMap;
-    this.totalStates = stateMap.values().stream().mapToInt(List::size).max().orElse(0);
-    return true;
-  }
-
-  /**
    * Presents the state of the game.
    *
    * @param state the state to present
@@ -315,18 +359,21 @@ public class GameReplay implements Runnable {
   private Map<CommonMazeObject, PathField> createObjectsLayout(int state) {
     Map<CommonMazeObject, PathField> objectsLayout = new HashMap<>();
     // iterate over all objects
-    for (Map.Entry<CommonMazeObject, List<CommonField>> entry : stateMap.entrySet()) {
+    for (Map.Entry<CommonMazeObject, PairList<Integer, CommonField>> entry : stateMap.entrySet()) {
       CommonMazeObject mazeObject = entry.getKey();
-      List<CommonField> fields = entry.getValue();
+      PairList<Integer, CommonField> stepsAndFields = entry.getValue();
       // if state is out of range, skip - this object is not present in this state
-      if (state >= fields.size()) {
+
+      if (!stepsAndFields.contains(state)) {
         continue;
       }
-      PathField field = (PathField) fields.get(state);
-      objectsLayout.put(mazeObject,field);
+      // get field for this state
+      PathField field = (PathField) stepsAndFields.getSecond(state);
+      objectsLayout.put(mazeObject, field);
     }
     return objectsLayout;
   }
+
 
   /**
    * Presents the next state of the game.
